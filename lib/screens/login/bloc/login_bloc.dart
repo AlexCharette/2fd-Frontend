@@ -2,8 +2,9 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter_login/authentication_repository.dart';
-import 'package:flutter_login/login/login.dart';
+import 'package:flutter_login/repos/authentication_repository.dart';
+import 'package:flutter_login/screens/login/login.dart';
+import 'package:flutter_login/repos/models/models.dart';
 import 'package:formz/formz.dart';
 import 'package:meta/meta.dart';
 

@@ -1,11 +1,11 @@
-import 'package:flutter_login/authentication_repository.dart';
+import 'package:flutter_login/repos/authentication_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_login/authentication/authentication.dart';
-import 'package:flutter_login/home/home.dart';
-import 'package:flutter_login/login/login.dart';
-import 'package:flutter_login/splash/splash.dart';
-import 'package:flutter_login/user_repository.dart';
+import 'package:flutter_login/screens/home/home.dart';
+import 'package:flutter_login/screens/login/login.dart';
+import 'package:flutter_login/screens/splash/splash.dart';
+import 'package:flutter_login/repos/user_repository.dart';
 
 class App extends StatelessWidget {
   const App({

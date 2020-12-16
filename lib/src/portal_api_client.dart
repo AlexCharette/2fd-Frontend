@@ -1,4 +1,4 @@
-import 'package:flutter_login/src/models/user.dart';
+import 'package:flutter_login/repos/models/user.dart';
 import 'package:http/http.dart' as http;
 import 'package:meta/meta.dart';
 
