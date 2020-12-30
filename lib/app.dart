@@ -1,15 +1,13 @@
 import 'dart:async';
 
-import 'package:flutter_login/repos/authentication_repository.dart';
+import 'package:regimental_app/authentication/authentication.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_login/authentication/authentication.dart';
-import 'package:flutter_login/screens/home/home.dart';
-import 'package:flutter_login/screens/login/login.dart';
-import 'package:flutter_login/screens/splash/splash.dart';
-import 'package:flutter_login/repos/user_repository.dart';
-import 'package:intl/intl.dart';
+import 'package:regimental_app/repos/authentication_repository.dart';
+import 'package:regimental_app/repos/user_repository.dart';
+import 'package:regimental_app/screens/home/view/home_page.dart';
+import 'package:regimental_app/screens/login/view/login_page.dart';
+import 'package:regimental_app/screens/splash/view/splash_page.dart';
 
 class App extends StatelessWidget {
   const App({

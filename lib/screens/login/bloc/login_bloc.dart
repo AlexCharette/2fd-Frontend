@@ -2,11 +2,12 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter_login/repos/authentication_repository.dart';
-import 'package:flutter_login/screens/login/login.dart';
-import 'package:flutter_login/repos/models/models.dart';
+
 import 'package:formz/formz.dart';
 import 'package:meta/meta.dart';
+import 'package:regimental_app/repos/authentication_repository.dart';
+import 'package:regimental_app/repos/models/password.dart';
+import 'package:regimental_app/repos/models/username.dart';
 
 part 'login_event.dart';
 part 'login_state.dart';
