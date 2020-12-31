@@ -5,7 +5,7 @@ import 'package:vem_repository/vem_repository.dart';
 import 'entities/entities.dart';
 
 class FirebaseVemRepository implements VemRepository {
-  final vemCollection = Firestore.instance.collection('vem');
+  final vemCollection = Firestore.instance.collection('vems');
 
   @override
   Future<void> addNewVem(Vem vem) {

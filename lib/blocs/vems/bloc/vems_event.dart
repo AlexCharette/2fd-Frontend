@@ -44,3 +44,13 @@ class DeleteVem extends VemsEvent {
   @override
   String toString() => 'DeleteVem { vem: $vem }';
 }
+
+class VemsUpdated extends VemsEvent {
+  final List<Vem> vems;
+
+  const VemsUpdated(this.vems);
+
+  @override
+  List<Object> get props => [vems];
+}
+
