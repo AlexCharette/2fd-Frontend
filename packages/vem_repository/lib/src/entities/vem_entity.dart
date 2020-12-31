@@ -78,15 +78,15 @@ class VemEntity extends Equatable {
 
   static VemEntity fromSnapshot(DocumentSnapshot snap) {
     return VemEntity(
-      snap.documentID,
-      snap.data['name'],
-      snap.data['startDate'],
-      snap.data['endDate'],
-      snap.data['lockDate'],
-      snap.data['responseType'],
-      snap.data['description'],
-      snap.data['minParticipants'],
-      snap.data['maxParticipants'],
+      snap.id,
+      snap.get('name'),
+      snap.get('startDate'),
+      snap.get('endDate'),
+      snap.get('lockDate'),
+      snap.get('responseType'),
+      snap.get('description'),
+      snap.get('minParticipants'),
+      snap.get('maxParticipants'),
     );
   }
 

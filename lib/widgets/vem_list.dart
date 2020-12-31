@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
@@ -22,16 +23,18 @@ class VemList extends StatelessWidget {
                 vem: vem,
                 onTap: () async {
                   // TODO
-                  // view vem if permitted by account type
+                  // if user type is permitted
                   // go to vem details screen
                 },
                 onLongPress: () async {
                   // TODO
-                  // respond to vem if permitted by date
-                  // open vem response widget
+                  if (Timestamp.now().compareTo(vem.lockDate) <= 0) {
+                    // open vem response widget
+                  } else {
+                    // open response change request widget
+                  }
                 },
               );
-              // return vem item
             },
           );
         } else {

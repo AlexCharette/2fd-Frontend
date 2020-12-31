@@ -1,43 +1,83 @@
+import 'package:bloc/bloc.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:regimental_app/blocs/blocs.dart';
+import 'package:vem_repository/vem_repository.dart';
 
 class VemResponder extends StatelessWidget {
-  final String vemId;
-  final String vemName;
+  final Vem vem;
 
   VemResponder({
     Key key,
-    @required this.vemId,
-    @required this.vemName,
+    @required this.vem,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Center(
-      key: Key('__vem_responder_$vemId'),
+      key: Key('__vem_responder_${vem.id}'),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           Hero(
-            tag: '${vemId}__heroTag',
+            tag: '${vem.id}__heroTag',
             child: Container(
               width: MediaQuery.of(context).size.width,
               child: Text(
-                'Respond to $vemName',
+                'Respond to ${vem.name}',
               ),
             ),
           ),
-          const RaisedButton(
-            // onPressed: () {}  update / create vemResponse
+          RaisedButton(
+            onPressed: () {
+              BlocProvider.of<VemsBloc>(context).add(
+                AddVemResponse(
+                  vem.id,
+                  VemResponse(
+                    FirebaseFirestore.instance
+                        .collection('users')
+                        .doc(FirebaseAuth.instance.currentUser?.uid ?? ''),
+                    'yes',
+                  ),
+                ),
+              );
+            },
             child: Text('Confirm my attendance'), // TODO
           ),
-          const RaisedButton(
-            // onPressed: () {}, update / create vemResponse
+          RaisedButton(
+            onPressed: () {
+              BlocProvider.of<VemsBloc>(context).add(
+                AddVemResponse(
+                  vem.id,
+                  VemResponse(
+                    FirebaseFirestore.instance
+                        .collection('users')
+                        .doc(FirebaseAuth.instance.currentUser?.uid ?? ''),
+                    'seen',
+                  ),
+                ),
+              );
+            },
             child: Text('I\'m not ready to answer yet'), // TODO
           ),
-          const RaisedButton(
-            // onPressed: () {}, update / create vemResponse
-            child: Text('Confirm my absence'),
+          RaisedButton(
+            onPressed: () {
+              BlocProvider.of<VemsBloc>(context).add(
+                AddVemResponse(
+                  vem.id,
+                  VemResponse(
+                    FirebaseFirestore.instance
+                        .collection('users')
+                        .doc(FirebaseAuth.instance.currentUser?.uid ?? ''),
+                    'no',
+                  ),
+                ),
+              );
+            },
+            child: Text('Confirm my absence'), // TODO
           ),
         ],
       ),

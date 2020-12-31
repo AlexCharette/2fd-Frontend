@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
+// import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:regimental_app/screens/home/home.dart';
 import 'package:regimental_app/screens/login/login.dart';
 import 'package:regimental_app/screens/splash/splash.dart';

@@ -2,8 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:meta/meta.dart';
 import '../entities/entities.dart';
 
-enum ResponseTypes { Battery, Detachment, Other }
-
 @immutable
 class Vem {
   final String id;
@@ -11,22 +9,23 @@ class Vem {
   final Timestamp startDate;
   final Timestamp endDate;
   final Timestamp lockDate;
-  final ResponseTypes responseType;
+  final String responseType;
   final String description;
   final int minParticipants;
   final int maxParticipants;
 
-  Vem(this.name,
-      {String description,
-      String responseType,
-      Timestamp startDate,
-      Timestamp endDate,
-      Timestamp lockDate,
-      int minParticipants = 0,
-      int maxParticipants = 999,
-      String id})
-      : this.description = description ?? '',
-        this.responseType = getResponseTypeFromString(responseType),
+  Vem(
+    this.name, {
+    String description,
+    String responseType,
+    Timestamp startDate,
+    Timestamp endDate,
+    Timestamp lockDate,
+    int minParticipants = 0,
+    int maxParticipants = 999,
+    String id,
+  })  : this.description = description ?? '',
+        this.responseType = responseType, // TODO validate
         this.startDate = startDate ?? getDefaultStartDate(),
         this.endDate = endDate ?? getDefaultEndDate(),
         this.lockDate = lockDate ?? getDefaultLockDate(),
@@ -34,16 +33,17 @@ class Vem {
         this.maxParticipants = maxParticipants,
         this.id = id;
 
-  Vem copyWith(
-      {String id,
-      String name,
-      String description,
-      String responseType,
-      Timestamp startDate,
-      Timestamp endDate,
-      Timestamp lockDate,
-      int minParticipants,
-      int maxParticipants}) {
+  Vem copyWith({
+    String id,
+    String name,
+    String description,
+    String responseType,
+    Timestamp startDate,
+    Timestamp endDate,
+    Timestamp lockDate,
+    int minParticipants,
+    int maxParticipants,
+  }) {
     return Vem(
       name ?? this.name,
       description: description ?? this.description,
@@ -53,6 +53,7 @@ class Vem {
       lockDate: lockDate ?? this.lockDate,
       minParticipants: minParticipants ?? this.minParticipants,
       maxParticipants: maxParticipants ?? this.maxParticipants,
+      id: id ?? this.id,
     );
   }
 
@@ -88,6 +89,7 @@ class Vem {
       responseType: entity.responseType,
       minParticipants: entity.minParticipants,
       maxParticipants: entity.maxParticipants,
+      id: entity.id,
     );
   }
 
@@ -114,16 +116,5 @@ class Vem {
     DateTime lockDate = now.add(new Duration(days: 3));
     return Timestamp.fromDate(
         DateTime(lockDate.year, lockDate.month, lockDate.day, 23, 59));
-  }
-
-  static ResponseTypes getResponseTypeFromString(String str) {
-    switch (str.toLowerCase()) {
-      case 'battery':
-        return ResponseTypes.Battery;
-      case 'detachment':
-        return ResponseTypes.Detachment;
-      default:
-        return ResponseTypes.Other;
-    }
   }
 }

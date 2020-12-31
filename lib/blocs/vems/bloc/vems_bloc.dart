@@ -27,6 +27,8 @@ class VemsBloc extends Bloc<VemsEvent, VemsState> {
       yield* _mapUpdateVemToState(event);
     } else if (event is DeleteVem) {
       yield* _mapDeleteVemToState(event);
+    } else if (event is AddVemResponse) {
+      yield* _mapAddVemResponseToState(event);
     }
   }
 
@@ -46,6 +48,10 @@ class VemsBloc extends Bloc<VemsEvent, VemsState> {
 
   Stream<VemsState> _mapDeleteVemToState(DeleteVem event) async* {
     _vemRepository.deleteVem(event.vem);
+  }
+
+  Stream<VemsState> _mapAddVemResponseToState(AddVemResponse event) async* {
+    _vemRepository.addVemResponse(event.vemId, event.vemResponse);
   }
 
   @override

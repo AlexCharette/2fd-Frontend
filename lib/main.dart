@@ -8,7 +8,7 @@ import 'package:regimental_app/blocs/blocs.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Bloc.observer = SimpleBlocObserver();
-  await Firebase.initalizeApp();
+  await Firebase.initializeApp();
   runApp(App(
     authenticationRepository: AuthenticationRepository(),
     userRepository: UserRepository(),

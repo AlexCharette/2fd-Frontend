@@ -54,3 +54,16 @@ class VemsUpdated extends VemsEvent {
   List<Object> get props => [vems];
 }
 
+class AddVemResponse extends VemsEvent {
+  final String vemId;
+  final VemResponse vemResponse;
+
+  const AddVemResponse(this.vemId, this.vemResponse);
+
+  @override
+  List<Object> get props => [vemResponse];
+
+  @override
+  String toString() =>
+      'AddVemResponse { vemId: $vemId, vemResponse: $vemResponse }';
+}
