@@ -7,10 +7,16 @@ class AppSizes {
 
 class AppColors {
   // TODO
-  static const red = Color(0xDE1018);
   static const blue = Color(0x002984);
+  static const blueFaded = Color(0x3D608A);
+  static const charcoal = Color(0x454545);
+  static const red = Color(0xDE1018);
   static const white = Color(0xFFFFFF);
-  static const charcoal = Color(0x33373D);
+  static const buttonGreen = Color(0x45B94E);
+  static const buttonRed = Color(0xBF4437);
+  static const buttonBlue = Color(0x378DBF);
+  static const buttonOrange = Color(0xBF8637);
+  static const buttonCobalt = Color(0x3750BF);
 }
 
 // TODO alter defaults put in place currently
