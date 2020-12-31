@@ -21,7 +21,7 @@ class User extends Equatable {
 
 
   /// Empty user which represents an unauthenticated user.
-  static const empty = User(email: '', id: '', name: null);
+  static const empty = User(email: '', id: '', name: '');
 
   @override
   List<Object> get props => [email, id, name];

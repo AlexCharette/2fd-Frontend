@@ -21,19 +21,23 @@ class LoginForm extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Container(
+            height: 250,
+            constraints: BoxConstraints(
+              minHeight: 250
+            ),
             decoration: BoxDecoration(
               color: const Color(0xffc7c94b6),
               image: DecorationImage(
                 colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.3), BlendMode.dstATop),
-                image: NetworkImage(
-                    'https://i.insider.com/5bc74da7ea92b129cc45d639?width=1136&format=jpeg'
+                image: AssetImage(
+                    'images/GunDet.JPG'
                 ),
                 fit: BoxFit.fill
               )
             ),
             child: Center(
               child: Padding(
-                padding: const EdgeInsets.symmetric(vertical:20),
+                padding: const EdgeInsets.symmetric(vertical:65),
                 child: Column(
                  children: <Widget>[
                    Text(
@@ -79,17 +83,21 @@ class _UsernameInput extends StatelessWidget {
     return BlocBuilder<LoginBloc, LoginState>(
       buildWhen: (previous, current) => previous.username != current.username,
       builder: (context, state) {
-        return TextField(
-          key: const Key('loginForm_usernameInput_textField'),
-          onChanged: (username) =>
-              context.read<LoginBloc>().add(LoginUsernameChanged(username)),
-          decoration: InputDecoration(
-            hintText: 'Adresse Courriel',
-            hintStyle: TextStyle(
-                fontSize: 16,
-                letterSpacing: 1.5
+        return Container(
+          width: 300,
+          child: TextField(
+            key: const Key('loginForm_usernameInput_textField'),
+            onChanged: (username) =>
+                context.read<LoginBloc>().add(LoginUsernameChanged(username)),
+            decoration: InputDecoration(
+              hintText: 'Adresse Courriel',
+              hintStyle: TextStyle(
+                  fontSize: 16,
+                  letterSpacing: 1.5,
+              ),
+              border: const OutlineInputBorder(),
+              errorText: state.username.invalid ? 'Adresse Courriel invalide' : null,
             ),
-            errorText: state.username.invalid ? 'Adresse Courriel invalide' : null,
           ),
         );
       },
@@ -103,18 +111,22 @@ class _PasswordInput extends StatelessWidget {
     return BlocBuilder<LoginBloc, LoginState>(
       buildWhen: (previous, current) => previous.password != current.password,
       builder: (context, state) {
-        return TextField(
-          key: const Key('loginForm_passwordInput_textField'),
-          onChanged: (password) =>
-              context.read<LoginBloc>().add(LoginPasswordChanged(password)),
-          obscureText: true,
-          decoration: InputDecoration(
-            hintText: 'Mot de Passe',
-            hintStyle: TextStyle(
-              fontSize: 16,
-              letterSpacing: 1.5
+        return Container(
+          width: 300,
+          child: TextField(
+            key: const Key('loginForm_passwordInput_textField'),
+            onChanged: (password) =>
+                context.read<LoginBloc>().add(LoginPasswordChanged(password)),
+            obscureText: true,
+            decoration: InputDecoration(
+              hintText: 'Mot de Passe',
+              hintStyle: TextStyle(
+                fontSize: 16,
+                letterSpacing: 1.5
+              ),
+              border: const OutlineInputBorder(),
+              errorText: state.password.invalid ? 'Mot de pass invalide' : null,
             ),
-            errorText: state.password.invalid ? 'Mot de pass invalide' : null,
           ),
         );
       },
@@ -128,18 +140,18 @@ class _ForgotPasswordButton extends StatelessWidget {
     return ElevatedButton(
       key: const Key('loginForm_forgotPassword_textButton'),
       style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.all<Color>(Colors.grey[300]),
+        backgroundColor: MaterialStateProperty.all<Color>(Colors.grey[200]),
         shape: MaterialStateProperty.all<OutlinedBorder>(RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(6),
-          side: BorderSide(color: Colors.orange)
-        ))
+          borderRadius: BorderRadius.circular(6)
+        )),
+        side: MaterialStateProperty.all(BorderSide(color: Colors.orange[700],width: 1.8))
 
       ),
-      child: const Text(
+      child: Text(
         'J\'ai oublié mon mot de passe',
         style: TextStyle(
           fontSize: 12,
-          color: Colors.orange
+          color: Colors.orange[700]
         ),
       ),
       onPressed: (){
