@@ -1,11 +1,11 @@
 name: user_repository
-description: Dart package for managing the user domain.
-version: 1.0.0
 
-environment: 
-  sdk: ">=2.1.0 <3.0.0"
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.6.0 <3.0.0"
 
 dependencies:
-  equatable: ^1.2.0
-  meta: ^1.1.8
-  uuid: ^2.1.0
+  flutter:
+    sdk: flutter
+  firebase_auth: ^0.18.0+1
