@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:formz/formz.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:regimental_app/screens/login/bloc/login_bloc.dart';
+import 'package:regimental_app/authentication/authentication.dart';
+import 'package:formz/formz.dart';
 import 'package:regimental_app/screens/requestOneTimeCode/request_one_time_code.dart';
 
 class LoginForm extends StatelessWidget {
@@ -20,25 +20,25 @@ class LoginForm extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Container(
-            height: 250,
-            constraints: BoxConstraints(
-              minHeight: 250
-            ),
-            decoration: BoxDecoration(
-              color: const Color(0xffc7c94b6),
-              image: DecorationImage(
-                colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.3), BlendMode.dstATop),
-                image: AssetImage(
-                    'images/GunDet.JPG'
-                ),
-                fit: BoxFit.fill
-              )
-            ),
-            child: Center(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical:65),
+          Flexible(
+            flex: 1,
+            child: Container(
+              constraints: BoxConstraints(
+                maxHeight: 250,
+              ),
+              decoration: BoxDecoration(
+                color: const Color(0xffc7c94b6),
+                image: DecorationImage(
+                  colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.3), BlendMode.dstATop),
+                  image: AssetImage(
+                      'images/GunDet.JPG'
+                  ),
+                  fit: BoxFit.cover
+                )
+              ),
+              child: Center(
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                  children: <Widget>[
                    Text(
                      '2RAC',
@@ -61,16 +61,23 @@ class LoginForm extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(height: 50,),
-          _UsernameInput(),
-          SizedBox(height: 12.0,),
-          _PasswordInput(),
-          SizedBox(height: 5,),
-          _ForgotPasswordButton(),
-          Expanded(child: Align(alignment: Alignment.bottomCenter,child: Padding(
-            padding: const EdgeInsets.only(bottom:20.0),
-            child: _LoginButton(),
-          )))
+          Flexible(
+            flex: 2,
+              child: Column(
+              children: <Widget>[
+                SizedBox(height: 50,),
+                _UsernameInput(),
+                SizedBox(height: 12.0,),
+                _PasswordInput(),
+                SizedBox(height: 5,),
+                _ForgotPasswordButton(),
+                Flexible(child: Align(alignment: Alignment.bottomCenter,child: Padding(
+                  padding: const EdgeInsets.only(bottom:10.0),
+                  child: _LoginButton(),
+                )))
+            ],
+          )
+          ),
         ],
       ),
     );
