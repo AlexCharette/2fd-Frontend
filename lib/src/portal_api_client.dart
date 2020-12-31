@@ -1,6 +1,6 @@
+import 'package:authentication_repository/authentication_repository.dart';
 import 'package:http/http.dart' as http;
 import 'package:meta/meta.dart';
-import 'package:regimental_app/repos/models/user.dart';
 
 class PortalApiClient {
   static const baseUrl = "";

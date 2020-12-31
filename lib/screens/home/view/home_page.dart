@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:regimental_app/authentication/bloc/authentication_bloc.dart';
+import 'package:regimental_app/authentication/authentication.dart';
 
 class HomePage extends StatelessWidget {
   static Route route() {

@@ -1,13 +1,11 @@
 import 'dart:async';
 
+import 'package:authentication_repository/authentication_repository.dart';
+import 'package:regimental_app/authentication/authentication.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-
 import 'package:formz/formz.dart';
 import 'package:meta/meta.dart';
-import 'package:regimental_app/repos/authentication_repository.dart';
-import 'package:regimental_app/repos/models/password.dart';
-import 'package:regimental_app/repos/models/username.dart';
 
 part 'login_event.dart';
 part 'login_state.dart';
@@ -62,7 +60,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     if (state.status.isValidated) {
       yield state.copyWith(status: FormzStatus.submissionInProgress);
       try {
-        await _authenticationRepository.logIn(
+        await _authenticationRepository.logInWithEmailAndPassword(
           username: state.username.value,
           password: state.password.value,
         );

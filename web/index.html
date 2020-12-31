@@ -41,5 +41,29 @@
     }
   </script>
   <script src="main.dart.js" type="application/javascript"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.20.0/firebase-auth.js"></script>
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-app.js"></script>
+
+  <!-- TODO: Add SDKs for Firebase products that you want to use
+       https://firebase.google.com/docs/web/setup#available-libraries -->
+  <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-analytics.js"></script>
+
+  <script>
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  var firebaseConfig = {
+    apiKey: "AIzaSyDNhBmP06EFObFIzI-fr0Bkdfuo2zPsqZw",
+    authDomain: "second-fd-app.firebaseapp.com",
+    projectId: "second-fd-app",
+    storageBucket: "second-fd-app.appspot.com",
+    messagingSenderId: "139843623962",
+    appId: "1:139843623962:web:613d53cfe5d14121f605a3",
+    measurementId: "G-WM108MFQ5R"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  firebase.analytics();
+</script>
 </body>
 </html>

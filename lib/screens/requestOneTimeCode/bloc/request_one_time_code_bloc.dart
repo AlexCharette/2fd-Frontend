@@ -2,8 +2,8 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
-import 'package:regimental_app/repos/authentication_repository.dart';
-import 'package:regimental_app/repos/models/models.dart';
+import 'package:regimental_app/authentication/authentication.dart';
+import 'package:authentication_repository/authentication_repository.dart';
 
 part 'request_one_time_code_event.dart';
 part 'request_one_time_code_state.dart';

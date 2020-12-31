@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:regimental_app/repos/authentication_repository.dart';
 import 'package:regimental_app/screens/login/bloc/login_bloc.dart';
+import 'package:authentication_repository/authentication_repository.dart';
 
 import 'login_form.dart';
 
