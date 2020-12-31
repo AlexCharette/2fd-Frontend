@@ -37,9 +37,9 @@ dependencies:
   path_provider: ^1.6.5
   streaming_shared_preferences: ^1.0.1
   vem_repository:
-    path: vem_repository
+    path: packages/vem_repository
   user_repository:
-    path: user_repository
+    path: packages/user_repository
 
 dev_dependencies:
   flutter_test:

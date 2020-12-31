@@ -619,7 +619,7 @@ packages:
   user_repository:
     dependency: "direct main"
     description:
-      path: user_repository
+      path: "packages/user_repository"
       relative: true
     source: path
     version: "1.0.0+1"
@@ -633,7 +633,7 @@ packages:
   vem_repository:
     dependency: "direct main"
     description:
-      path: vem_repository
+      path: "packages/vem_repository"
       relative: true
     source: path
     version: "1.0.0+1"
