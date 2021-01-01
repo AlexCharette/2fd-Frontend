@@ -37,12 +37,15 @@ dependencies:
   meta: ^1.1.6
   path_provider: ^1.6.5
   streaming_shared_preferences: ^1.0.1
+  provider: ^4.3.2+3
   vem_repository:
     path: packages/vem_repository
   user_repository:
     path: packages/user_repository
   authentication_repository:
     path: packages/authentication_repository
+  local_storage_theme_manager_repository:
+    path: packages/local_storage_theme_manager_repository
 
 dev_dependencies:
   flutter_test:

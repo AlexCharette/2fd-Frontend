@@ -1,0 +1,3 @@
+library local_storage_theme_manager_repository;
+
+export 'src/local_storage_theme_manager_repository.dart';

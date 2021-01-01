@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:regimental_app/blocs/LogIn/bloc/login_bloc.dart';
+import 'package:regimental_app/config/theme.dart';
 
 class LoginForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    ThemeData theme = Theme.of(context);
     return BlocListener<LoginBloc, LoginState>(
       listener: (context, state) {
         if (state.status.isSubmissionFailure) {
@@ -42,15 +44,17 @@ class LoginForm extends StatelessWidget {
                     Text(
                       '2RAC',
                       style: TextStyle(
-                          color : Colors.white,
+                          fontFamily: 'CastIron',
+                          color : AppColors.white,
                           letterSpacing: 2.0,
-                          fontSize: 70
+                          fontSize: 70,
                       ),
                     ),
                     Text(
                       'PORTAIL RÉGIMENTAIRE',
                       style: TextStyle(
-                          color : Colors.white,
+                          fontFamily: 'CastIron',
+                          color : AppColors.white,
                           letterSpacing: 2.0,
                           fontSize:  25
                       ),
@@ -146,18 +150,19 @@ class _ForgotPasswordButton extends StatelessWidget {
     return ElevatedButton(
       key: const Key('loginForm_forgotPassword_textButton'),
       style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all<Color>(Colors.grey[200]),
+          backgroundColor: MaterialStateProperty.all<Color>(AppColors.charcoal),
           shape: MaterialStateProperty.all<OutlinedBorder>(RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(6)
           )),
-          side: MaterialStateProperty.all(BorderSide(color: Colors.orange[700],width: 1.8))
+          side: MaterialStateProperty.all(BorderSide(color: AppColors.buttonOrange,width: 1.8))
 
       ),
       child: Text(
         'J\'ai oublié mon mot de passe',
         style: TextStyle(
+            letterSpacing: 0.5,
             fontSize: 12,
-            color: Colors.orange[700]
+            color: AppColors.buttonOrange
         ),
       ),
       onPressed: (){
@@ -169,6 +174,7 @@ class _ForgotPasswordButton extends StatelessWidget {
 class _LoginButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    ThemeData theme = Theme.of(context);
     return BlocBuilder<LoginBloc, LoginState>(
       buildWhen: (previous, current) => previous.status != current.status,
       builder: (context, state) {
@@ -177,17 +183,17 @@ class _LoginButton extends StatelessWidget {
             : ElevatedButton(
           key: const Key('loginForm_continue_raisedButton'),
           style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all<Color>(Colors.green[500]),
+              backgroundColor: MaterialStateProperty.all<Color>(AppColors.buttonGreen),
               minimumSize: MaterialStateProperty.all<Size>(Size(150,60)),
               shape: MaterialStateProperty.all<OutlinedBorder>(RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)))
           ),
-          child: const Text(
+          child: Text(
             'SOUMETTRE',
             style: TextStyle(
-                color : Colors.white,
-                fontSize: 20,
-                letterSpacing: 1.5
-            ),
+              color : Colors.white,
+              fontSize: 20,
+              letterSpacing: 1.5
+          ),
           ),
           onPressed: state.status.isValidated
               ? () {
