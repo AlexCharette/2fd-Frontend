@@ -1,7 +1,9 @@
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
 import 'package:regimental_app/blocs/authentication/bloc/authentication_bloc.dart';
+import 'package:regimental_app/config/theme.dart';
 import 'package:regimental_app/screens/home/view/home_page.dart';
 import 'package:regimental_app/screens/login/view/login_page.dart';
 import 'package:regimental_app/screens/splash/view/splash_page.dart';
@@ -41,32 +43,36 @@ class _AppViewState extends State<AppView> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      navigatorKey: _navigatorKey,
-      builder: (context, child) {
-        return BlocListener<AuthenticationBloc, AuthenticationState>(
-          listener: (context, state) {
-            switch (state.status) {
-              case AuthenticationStatus.authenticated:
-                _navigator.pushAndRemoveUntil<void>(
-                  HomePage.route(),
-                      (route) => false,
-                );
-                break;
-              case AuthenticationStatus.unauthenticated:
-                _navigator.pushAndRemoveUntil<void>(
-                  LoginPage.route(),
-                      (route) => false,
-                );
-                break;
-              default:
-                break;
-            }
-          },
-          child: child,
-        );
-      },
-      onGenerateRoute: (_) => SplashPage.route(),
-    );
+    return Consumer<ThemeNotifier>(
+        builder: (context, theme, _) {
+          return MaterialApp(
+            theme: theme.getTheme(),
+            navigatorKey: _navigatorKey,
+            builder: (context, child) {
+              return BlocListener<AuthenticationBloc, AuthenticationState>(
+                listener: (context, state) {
+                  switch (state.status) {
+                    case AuthenticationStatus.authenticated:
+                      _navigator.pushAndRemoveUntil<void>(
+                        HomePage.route(),
+                            (route) => false,
+                      );
+                      break;
+                    case AuthenticationStatus.unauthenticated:
+                      _navigator.pushAndRemoveUntil<void>(
+                        LoginPage.route(),
+                            (route) => false,
+                      );
+                      break;
+                    default:
+                      break;
+                  }
+                },
+                child: child,
+              );
+            },
+            onGenerateRoute: (_) => SplashPage.route(),
+          );
+        });
   }
 }

@@ -1,0 +1,11 @@
+name: local_storage_theme_manager_repository
+description: Dart package which stores localy the prefered theme
+version: 1.0.0
+
+environment:
+  sdk: ">=2.7.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  shared_preferences: ^0.5.12+4
