@@ -1,24 +1,19 @@
-import 'dart:async';
-
+import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-// import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:regimental_app/screens/home/home.dart';
-import 'package:regimental_app/screens/login/login.dart';
-import 'package:regimental_app/screens/splash/splash.dart';
-import 'package:intl/intl.dart';
+import 'package:regimental_app/blocs/authentication/bloc/authentication_bloc.dart';
+import 'package:regimental_app/screens/home/view/home_page.dart';
+import 'package:regimental_app/screens/login/view/login_page.dart';
+import 'package:regimental_app/screens/splash/view/splash_page.dart';
 
 class App extends StatelessWidget {
   const App({
     Key key,
     @required this.authenticationRepository,
-    @required this.userRepository,
   })  : assert(authenticationRepository != null),
-        assert(userRepository != null),
         super(key: key);
 
   final AuthenticationRepository authenticationRepository;
-  final UserRepository userRepository;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +22,6 @@ class App extends StatelessWidget {
       child: BlocProvider(
         create: (_) => AuthenticationBloc(
           authenticationRepository: authenticationRepository,
-          userRepository: userRepository,
         ),
         child: AppView(),
       ),
@@ -56,13 +50,13 @@ class _AppViewState extends State<AppView> {
               case AuthenticationStatus.authenticated:
                 _navigator.pushAndRemoveUntil<void>(
                   HomePage.route(),
-                  (route) => false,
+                      (route) => false,
                 );
                 break;
               case AuthenticationStatus.unauthenticated:
                 _navigator.pushAndRemoveUntil<void>(
                   LoginPage.route(),
-                  (route) => false,
+                      (route) => false,
                 );
                 break;
               default:

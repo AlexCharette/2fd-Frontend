@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:formz/formz.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_login/screens/login/login.dart';
+import 'package:formz/formz.dart';
+import 'package:regimental_app/blocs/LogIn/bloc/login_bloc.dart';
 
 class LoginForm extends StatelessWidget {
   @override
@@ -16,18 +16,68 @@ class LoginForm extends StatelessWidget {
             );
         }
       },
-      child: Align(
-        alignment: const Alignment(0, -1 / 3),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            _UsernameInput(),
-            const Padding(padding: EdgeInsets.all(12)),
-            _PasswordInput(),
-            const Padding(padding: EdgeInsets.all(12)),
-            _LoginButton(),
-          ],
-        ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Flexible(
+            flex: 1,
+            child: Container(
+              constraints: BoxConstraints(
+                maxHeight: 250,
+              ),
+              decoration: BoxDecoration(
+                  color: const Color(0xffc7c94b6),
+                  image: DecorationImage(
+                      colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.3), BlendMode.dstATop),
+                      image: AssetImage(
+                          'assets/images/GunDet.jpg'
+                      ),
+                      fit: BoxFit.cover
+                  )
+              ),
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      '2RAC',
+                      style: TextStyle(
+                          color : Colors.white,
+                          letterSpacing: 2.0,
+                          fontSize: 70
+                      ),
+                    ),
+                    Text(
+                      'PORTAIL RÉGIMENTAIRE',
+                      style: TextStyle(
+                          color : Colors.white,
+                          letterSpacing: 2.0,
+                          fontSize:  25
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ),
+          ),
+          Flexible(
+              flex: 2,
+              child: Column(
+                children: <Widget>[
+                  SizedBox(height: 50,),
+                  _UsernameInput(),
+                  SizedBox(height: 12.0,),
+                  _PasswordInput(),
+                  SizedBox(height: 5,),
+                  _ForgotPasswordButton(),
+                  Flexible(child: Align(alignment: Alignment.bottomCenter,child: Padding(
+                    padding: const EdgeInsets.only(bottom:10.0),
+                    child: _LoginButton(),
+                  )))
+                ],
+              )
+          ),
+        ],
       ),
     );
   }
@@ -39,13 +89,21 @@ class _UsernameInput extends StatelessWidget {
     return BlocBuilder<LoginBloc, LoginState>(
       buildWhen: (previous, current) => previous.username != current.username,
       builder: (context, state) {
-        return TextField(
-          key: const Key('loginForm_usernameInput_textField'),
-          onChanged: (username) =>
-              context.read<LoginBloc>().add(LoginUsernameChanged(username)),
-          decoration: InputDecoration(
-            labelText: 'username',
-            errorText: state.username.invalid ? 'invalid username' : null,
+        return Container(
+          width: 300,
+          child: TextField(
+            key: const Key('loginForm_usernameInput_textField'),
+            onChanged: (username) =>
+                context.read<LoginBloc>().add(LoginUsernameChanged(username)),
+            decoration: InputDecoration(
+              hintText: 'Adresse Courriel',
+              hintStyle: TextStyle(
+                fontSize: 16,
+                letterSpacing: 1.5,
+              ),
+              border: const OutlineInputBorder(),
+              errorText: state.username.invalid ? 'Adresse Courriel invalide' : null,
+            ),
           ),
         );
       },
@@ -59,16 +117,50 @@ class _PasswordInput extends StatelessWidget {
     return BlocBuilder<LoginBloc, LoginState>(
       buildWhen: (previous, current) => previous.password != current.password,
       builder: (context, state) {
-        return TextField(
-          key: const Key('loginForm_passwordInput_textField'),
-          onChanged: (password) =>
-              context.read<LoginBloc>().add(LoginPasswordChanged(password)),
-          obscureText: true,
-          decoration: InputDecoration(
-            labelText: 'password',
-            errorText: state.password.invalid ? 'invalid password' : null,
+        return Container(
+          width: 300,
+          child: TextField(
+            key: const Key('loginForm_passwordInput_textField'),
+            onChanged: (password) =>
+                context.read<LoginBloc>().add(LoginPasswordChanged(password)),
+            obscureText: true,
+            decoration: InputDecoration(
+              hintText: 'Mot de Passe',
+              hintStyle: TextStyle(
+                  fontSize: 16,
+                  letterSpacing: 1.5
+              ),
+              border: const OutlineInputBorder(),
+              errorText: state.password.invalid ? 'Mot de pass invalide' : null,
+            ),
           ),
         );
+      },
+    );
+  }
+}
+
+class _ForgotPasswordButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      key: const Key('loginForm_forgotPassword_textButton'),
+      style: ButtonStyle(
+          backgroundColor: MaterialStateProperty.all<Color>(Colors.grey[200]),
+          shape: MaterialStateProperty.all<OutlinedBorder>(RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(6)
+          )),
+          side: MaterialStateProperty.all(BorderSide(color: Colors.orange[700],width: 1.8))
+
+      ),
+      child: Text(
+        'J\'ai oublié mon mot de passe',
+        style: TextStyle(
+            fontSize: 12,
+            color: Colors.orange[700]
+        ),
+      ),
+      onPressed: (){
       },
     );
   }
@@ -82,15 +174,27 @@ class _LoginButton extends StatelessWidget {
       builder: (context, state) {
         return state.status.isSubmissionInProgress
             ? const CircularProgressIndicator()
-            : RaisedButton(
-                key: const Key('loginForm_continue_raisedButton'),
-                child: const Text('Login'),
-                onPressed: state.status.isValidated
-                    ? () {
-                        context.read<LoginBloc>().add(const LoginSubmitted());
-                      }
-                    : null,
-              );
+            : ElevatedButton(
+          key: const Key('loginForm_continue_raisedButton'),
+          style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all<Color>(Colors.green[500]),
+              minimumSize: MaterialStateProperty.all<Size>(Size(150,60)),
+              shape: MaterialStateProperty.all<OutlinedBorder>(RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)))
+          ),
+          child: const Text(
+            'SOUMETTRE',
+            style: TextStyle(
+                color : Colors.white,
+                fontSize: 20,
+                letterSpacing: 1.5
+            ),
+          ),
+          onPressed: state.status.isValidated
+              ? () {
+            context.read<LoginBloc>().add(const LoginSubmitted());
+          }
+              : null,
+        );
       },
     );
   }

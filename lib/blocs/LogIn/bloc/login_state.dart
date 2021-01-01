@@ -1,3 +1,4 @@
+
 part of 'login_bloc.dart';
 
 class LoginState extends Equatable {
@@ -11,11 +12,7 @@ class LoginState extends Equatable {
   final Username username;
   final Password password;
 
-  LoginState copyWith({
-    FormzStatus status,
-    Username username,
-    Password password,
-  }) {
+  LoginState copyWith({FormzStatus status, Username username, Password password,}) {
     return LoginState(
       status: status ?? this.status,
       username: username ?? this.username,
