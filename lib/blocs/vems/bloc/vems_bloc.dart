@@ -27,8 +27,16 @@ class VemsBloc extends Bloc<VemsEvent, VemsState> {
       yield* _mapUpdateVemToState(event);
     } else if (event is DeleteVem) {
       yield* _mapDeleteVemToState(event);
+    } else if (event is VemsUpdated) {
+      yield* _mapVemsUpdatedToState(event);
+    } else if (event is LoadVemResponses) {
+      yield* _mapLoadVemResponsesToState();
     } else if (event is AddVemResponse) {
       yield* _mapAddVemResponseToState(event);
+    } else if (event is UpdateVemResponse) {
+      yield* _mapUpdateVemResponseToState(event);
+    } else if (event is VemResponsesUpdated) {
+      yield* _mapVemResponsesUpdatedToState(event);
     }
   }
 
@@ -50,8 +58,31 @@ class VemsBloc extends Bloc<VemsEvent, VemsState> {
     _vemRepository.deleteVem(event.vem);
   }
 
+  Stream<VemsState> _mapVemsUpdatedToState(VemsUpdated event) async* {
+    yield VemsLoaded(event.vems);
+  }
+
+  // VEM Responses
+
+  Stream<VemsState> _mapLoadVemResponsesToState() async* {
+    _vemsSubscription?.cancel();
+    _vemsSubscription = _vemRepository
+        .vemResponses()
+        .listen((vemResponses) => add(VemResponsesUpdated(vemResponses)));
+  }
+
   Stream<VemsState> _mapAddVemResponseToState(AddVemResponse event) async* {
     _vemRepository.addVemResponse(event.vemId, event.vemResponse);
+  }
+
+  Stream<VemsState> _mapUpdateVemResponseToState(
+      UpdateVemResponse event) async* {
+    _vemRepository.updateVemResponse(event.vemId, event.updatedVemResponse);
+  }
+
+  Stream<VemsState> _mapVemResponsesUpdatedToState(
+      VemResponsesUpdated event) async* {
+    yield VemResponsesLoaded(event.vemResponses);
   }
 
   @override

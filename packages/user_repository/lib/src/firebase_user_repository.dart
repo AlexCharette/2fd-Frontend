@@ -21,4 +21,9 @@ class FirebaseUserRepository implements UserRepository {
   Future<String> getUserId() async {
     return _firebaseAuth.currentUser.uid;
   }
+
+  @override
+  Future<User> getUserData() async {
+    return User;
+  }
 }

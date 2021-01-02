@@ -22,3 +22,19 @@ class VemsLoaded extends VemsState {
 }
 
 class VemsNotLoaded extends VemsState {}
+
+class VemResponsesLoading extends VemsState {}
+
+class VemResponsesLoaded extends VemsState {
+  final List<VemResponse> vemResponses;
+
+  const VemResponsesLoaded([this.vemResponses = const []]);
+
+  @override
+  List<Object> get props => [vemResponses];
+
+  @override
+  String toString() => 'VemResponsesLoaded { vemResponses: $vemResponses }';
+}
+
+class VemResponsesNotLoaded extends VemsState {}

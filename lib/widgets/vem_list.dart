@@ -23,16 +23,28 @@ class VemList extends StatelessWidget {
                 vem: vem,
                 onTap: () async {
                   // TODO
-                  // if user type is permitted
                   // go to vem details screen
                 },
                 onLongPress: () async {
                   // TODO
+                  // if it isn't full
+                  final vemResponses = state.
+                  // If the lock date has not passed
                   if (Timestamp.now().compareTo(vem.lockDate) <= 0) {
                     // open vem response widget
+                    Overlay.of(context).insert(OverlayEntry(builder: (context) {
+                      final size = MediaQuery.of(context).size;
+                      return VemResponder(vem: vem);
+                    }));
                   } else {
                     // open response change request widget
                   }
+                  // else popup saying it's full
+                  final snackBar = SnackBar(
+                    content: Text(
+                        'Maximum attendance for this VEM has been reached.'),
+                  );
+                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
                 },
               );
             },

@@ -13,4 +13,6 @@ abstract class VemRepository {
   Future<void> addVemResponse(String vemId, VemResponse response);
 
   Future<void> updateVemResponse(String vemId, VemResponse response);
+
+  Stream<List<VemResponse>> vemResponses();
 }

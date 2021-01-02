@@ -6,6 +6,8 @@ import 'entities/entities.dart';
 
 class FirebaseVemRepository implements VemRepository {
   final vemCollection = FirebaseFirestore.instance.collection('vems');
+  final vemResponseCollection =
+      FirebaseFirestore.instance.collectionGroup('responses');
 
   @override
   Future<void> addNewVem(Vem vem) {
@@ -46,5 +48,15 @@ class FirebaseVemRepository implements VemRepository {
         .collection('responses')
         .doc(response.id)
         .update(response.toEntity().toDocument());
+  }
+
+  @override
+  Stream<List<VemResponse>> vemResponses() {
+    return vemResponseCollection.snapshots().map((snapshot) {
+      return snapshot.docs
+          .map((doc) =>
+              VemResponse.fromEntity(VemResponseEntity.fromSnapshot(doc)))
+          .toList();
+    });
   }
 }
