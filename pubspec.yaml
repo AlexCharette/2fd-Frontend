@@ -40,6 +40,8 @@ dependencies:
   provider: ^4.3.2+3
   vem_repository:
     path: packages/vem_repository
+  vem_response_repository:
+    path: packages/vem_response_repository
   user_repository:
     path: packages/user_repository
   authentication_repository:

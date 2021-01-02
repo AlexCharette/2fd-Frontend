@@ -707,6 +707,13 @@ packages:
       relative: true
     source: path
     version: "1.0.0+1"
+  vem_response_repository:
+    dependency: "direct main"
+    description:
+      path: "packages/vem_response_repository"
+      relative: true
+    source: path
+    version: "1.0.0+1"
   vm_service:
     dependency: transitive
     description:
