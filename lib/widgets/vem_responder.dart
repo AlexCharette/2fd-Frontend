@@ -17,10 +17,10 @@ class VemResponder extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  VemResponderState createState() => VemResponderState();
+  _VemResponderState createState() => _VemResponderState();
 }
 
-class VemResponderState extends State<VemResponder> {
+class _VemResponderState extends State<VemResponder> {
   bool isVisible = true;
 
   void hideWidget() {
