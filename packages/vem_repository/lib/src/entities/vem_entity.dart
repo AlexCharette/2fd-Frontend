@@ -23,20 +23,6 @@ class VemEntity extends Equatable {
       this.minParticipants,
       this.maxParticipants);
 
-  Map<String, Object> toJson() {
-    return {
-      "name": name,
-      "startDate": startDate,
-      "endDate": endDate,
-      "lockDate": lockDate,
-      "responseType": responseType,
-      "description": description,
-      "minParticipants": minParticipants,
-      "maxParticipants": maxParticipants,
-      "id": id,
-    };
-  }
-
   @override
   List<Object> get props => [
         name,
@@ -60,6 +46,20 @@ class VemEntity extends Equatable {
         maxParticipants: $maxParticipants, id: $id
       }
     """;
+  }
+
+  Map<String, Object> toJson() {
+    return {
+      "name": name,
+      "startDate": startDate,
+      "endDate": endDate,
+      "lockDate": lockDate,
+      "responseType": responseType,
+      "description": description,
+      "minParticipants": minParticipants,
+      "maxParticipants": maxParticipants,
+      "id": id,
+    };
   }
 
   static VemEntity fromJson(Map<String, Object> json) {

@@ -1,13 +1,17 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'dart:async';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:user_repository/user_repository.dart';
 
-import '../user_repository.dart';
+// import '../user_repository.dart';
+import 'entities/entities.dart';
 
 class FirebaseUserRepository implements UserRepository {
-  final FirebaseAuth _firebaseAuth;
+  final auth.FirebaseAuth _firebaseAuth;
 
-  FirebaseUserRepository({FirebaseAuth firebaseAuth})
-      : _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance;
+  FirebaseUserRepository({auth.FirebaseAuth firebaseAuth})
+      : _firebaseAuth = firebaseAuth ?? auth.FirebaseAuth.instance;
 
   Future<bool> isAuthenticated() async {
     final currentUser = _firebaseAuth.currentUser;
@@ -23,7 +27,21 @@ class FirebaseUserRepository implements UserRepository {
   }
 
   @override
-  Future<User> getUserData() async {
-    return User;
+  Future<User> getUserData(String uid) async {
+    return FirebaseFirestore.instance
+        .collection('users')
+        .doc(uid)
+        .snapshots()
+        .map((snapshot) {
+      UserEntity userEntity = UserEntity.fromSnapshot(snapshot);
+      switch (userEntity.accountType) {
+        case 'normal':
+          return NormalMember.fromEntity(userEntity);
+        case 'command':
+          return CommandMember.fromEntity(userEntity);
+        case 'detCommand':
+          return DetCommandMember.fromEntity(userEntity);
+      }
+    });
   }
 }
