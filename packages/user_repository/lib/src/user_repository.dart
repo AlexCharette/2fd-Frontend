@@ -6,7 +6,11 @@ abstract class UserRepository {
 
   Future<void> authenticate();
 
+  Future<void> updateUser(User user);
+
   Future<String> getUserId();
 
-  Stream<User> getUserData(String uid);
+  Stream<User> currentUser();
+
+  Stream<List<User>> users();
 }

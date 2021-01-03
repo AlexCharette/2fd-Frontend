@@ -7,4 +7,18 @@ abstract class UsersState extends Equatable {
   List<Object> get props => [];
 }
 
-class UserLoading extends UsersState {}
+class UsersLoading extends UsersState {}
+
+class UsersLoaded extends UsersState {
+  final List<User> users;
+
+  const UsersLoaded([this.users = const []]);
+
+  @override
+  List<Object> get props => [users];
+
+  @override
+  String toString() => 'VemsLoaded { vems: $users }';
+}
+
+class UsersNotLoaded extends UsersState {}

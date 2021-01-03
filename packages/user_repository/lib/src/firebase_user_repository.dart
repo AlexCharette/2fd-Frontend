@@ -8,29 +8,37 @@ import 'package:user_repository/user_repository.dart';
 import 'entities/entities.dart';
 
 class FirebaseUserRepository implements UserRepository {
+  final userCollection = FirebaseFirestore.instance.collection('users');
   final auth.FirebaseAuth _firebaseAuth;
 
   FirebaseUserRepository({auth.FirebaseAuth firebaseAuth})
       : _firebaseAuth = firebaseAuth ?? auth.FirebaseAuth.instance;
 
+  @override
   Future<bool> isAuthenticated() async {
     final currentUser = _firebaseAuth.currentUser;
     return currentUser != null;
   }
 
+  @override
   Future<void> authenticate() {
     return _firebaseAuth.signInAnonymously();
   }
 
+  @override
+  Future<void> updateUser(User update) {
+    return userCollection.doc(update.id).update(update.toEntity().toDocument());
+  }
+
+  @override
   Future<String> getUserId() async {
     return _firebaseAuth.currentUser.uid;
   }
 
   @override
-  Stream<User> getUserData(String uid) {
-    return FirebaseFirestore.instance
-        .collection('users')
-        .doc(uid)
+  Stream<User> currentUser() {
+    return userCollection
+        .doc(_firebaseAuth.currentUser.uid)
         .snapshots()
         .map((snapshot) {
       UserEntity userEntity = UserEntity.fromSnapshot(snapshot);
@@ -42,8 +50,26 @@ class FirebaseUserRepository implements UserRepository {
         case 'detCommand':
           return DetCommandMember.fromEntity(userEntity);
         default:
-          throw "Invalid account type: ${userEntity.accountType}";
+          throw 'Invalid account type: ${userEntity.accountType}';
       }
+    });
+  }
+
+  @override
+  Stream<List<User>> users() {
+    return userCollection.snapshots().map((snapshot) {
+      return snapshot.docs.map((doc) {
+        switch (doc.get('accountType')) {
+          case 'normal':
+            return NormalMember.fromEntity(UserEntity.fromSnapshot(doc));
+          case 'detCommand':
+            return DetCommandMember.fromEntity(UserEntity.fromSnapshot(doc));
+          case 'command':
+            return CommandMember.fromEntity(UserEntity.fromSnapshot(doc));
+          default:
+            throw 'Invalid account type: ${doc.get('accountType')}';
+        }
+      }).toList();
     });
   }
 }
