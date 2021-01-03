@@ -8,5 +8,5 @@ abstract class UserRepository {
 
   Future<String> getUserId();
 
-  Future<User> getUserData(String uid);
+  Stream<User> getUserData(String uid);
 }

@@ -27,7 +27,7 @@ class FirebaseUserRepository implements UserRepository {
   }
 
   @override
-  Future<User> getUserData(String uid) async {
+  Stream<User> getUserData(String uid) {
     return FirebaseFirestore.instance
         .collection('users')
         .doc(uid)
@@ -41,6 +41,8 @@ class FirebaseUserRepository implements UserRepository {
           return CommandMember.fromEntity(userEntity);
         case 'detCommand':
           return DetCommandMember.fromEntity(userEntity);
+        default:
+          throw "Invalid account type: ${userEntity.accountType}";
       }
     });
   }

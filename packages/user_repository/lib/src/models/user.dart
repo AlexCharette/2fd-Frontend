@@ -3,7 +3,7 @@ import 'package:meta/meta.dart';
 import '../entities/entities.dart';
 
 @immutable
-class User {
+abstract class User {
   final String id;
   final String email;
   final String phoneNumber;
@@ -32,17 +32,7 @@ class User {
     int lastThree,
     String rank,
     String status,
-  }) {
-    return User(
-      email ?? this.email,
-      lastName ?? this.lastName,
-      lastThree ?? this.lastThree,
-      rank ?? this.rank,
-      phoneNumber: phoneNumber ?? this.phoneNumber,
-      status: status ?? this.status,
-      id: id ?? this.id,
-    );
-  }
+  });
 
   @override
   int get hashCode =>
@@ -60,16 +50,4 @@ class User {
       other is User && runtimeType == other.runtimeType;
 
   UserEntity toEntity();
-
-  static User fromEntity(UserEntity entity) {
-    return User(
-      entity.email,
-      entity.lastName,
-      entity.lastThree,
-      entity.rank,
-      phoneNumber: entity.phoneNumber,
-      status: entity.status,
-      id: entity.id,
-    );
-  }
 }
