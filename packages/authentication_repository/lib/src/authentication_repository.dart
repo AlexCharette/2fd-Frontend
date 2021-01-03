@@ -7,6 +7,7 @@ import 'models/models.dart';
 
 class LogInWithEmailAndPasswordFailure implements Exception{}
 class LogOutFailure implements Exception{}
+class ResetPasswordFailure implements Exception{}
 
 class AuthenticationRepository {
   final firebase_auth.FirebaseAuth _firebaseAuth;
@@ -36,5 +37,13 @@ class AuthenticationRepository {
       throw LogOutFailure();
     }
   }
-  void requestOneTimeCode({@required String username}) async{}
+  Future<void> resetPassword({@required String username}) async{
+    try{
+      print("trying to reset password");
+      await _firebaseAuth.sendPasswordResetEmail(email: username);
+      print("message sent");
+    }catch(e){
+      throw ResetPasswordFailure();
+    }
+  }
 }

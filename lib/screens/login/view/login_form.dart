@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:regimental_app/blocs/LogIn/bloc/login_bloc.dart';
 import 'package:regimental_app/config/theme.dart';
+import 'package:regimental_app/screens/reset_password/reset_password.dart';
 
 class LoginForm extends StatelessWidget {
   @override
@@ -147,6 +148,7 @@ class _PasswordInput extends StatelessWidget {
 class _ForgotPasswordButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    NavigatorState _navigator = Navigator.of(context);
     return ElevatedButton(
       key: const Key('loginForm_forgotPassword_textButton'),
       style: ButtonStyle(
@@ -166,6 +168,7 @@ class _ForgotPasswordButton extends StatelessWidget {
         ),
       ),
       onPressed: (){
+        Navigator.push(context, ResetPasswordPage.route());
       },
     );
   }
