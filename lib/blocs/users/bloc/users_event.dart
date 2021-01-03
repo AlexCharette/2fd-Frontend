@@ -7,7 +7,7 @@ class UsersEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class LoadUsers extends UsersEvent {}
+class LoadUser extends UsersEvent {}
 
 class UpdateUser extends UsersEvent {
   final User updatedUser;

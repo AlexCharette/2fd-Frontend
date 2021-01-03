@@ -74,8 +74,17 @@ class Vem {
       other is Vem && runtimeType == other.runtimeType;
 
   VemEntity toEntity() {
-    return VemEntity(id, name, startDate, endDate, lockDate,
-        responseType.toString(), description, minParticipants, maxParticipants);
+    return VemEntity(
+      id,
+      name,
+      startDate,
+      endDate,
+      lockDate,
+      description,
+      minParticipants,
+      maxParticipants,
+      responseType: responseType,
+    );
   }
 
   static Vem fromEntity(VemEntity entity) {
