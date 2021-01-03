@@ -94,3 +94,19 @@ class _AppViewState extends State<AppView> {
     });
   }
 }
+
+// TODO !!!!
+/* This code is for the add-edit screen so I don't forget it
+* Place in routes when ready
+* return AddEditVemScreen(
+  onSave: (name, startDate, endDate, lockDate, responseType, 
+    description, minParticipants, maxParticipiants,
+  ) {
+    BlocProvider.of<VemsBloc>(context).add(
+      AddVem(Vem(__params__)),
+    );
+  },
+  isEditing: false,
+  vem: __some_vem__,
+)
+*/
