@@ -141,17 +141,37 @@ class _AddEditVemScreenState extends State<AddEditVemScreen> {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        tooltip: isEditing ? 'Save changes' : 'Publish VEM',
-        child: Icon(isEditing ? Icons.check : Icons.add),
-        onPressed: () {
-          if (_formKey.currentState.validate()) {
-            _formKey.currentState.save();
-            widget.onSave(_name, _startDate, _endDate, _lockDate, _responseType,
-                _description, _minParticipants, _maxParticipants);
-            Navigator.pop(context);
-          }
-        },
+      floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          FloatingActionButton(
+            tooltip: 'Erase changes',
+            child: Icon(Icons.close),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+          FloatingActionButton(
+            tooltip: isEditing ? 'Save changes' : 'Publish VEM',
+            child: Icon(isEditing ? Icons.check : Icons.add),
+            onPressed: () {
+              if (_formKey.currentState.validate()) {
+                _formKey.currentState.save();
+                widget.onSave(
+                  _name,
+                  _startDate,
+                  _endDate,
+                  _lockDate,
+                  _responseType,
+                  _description,
+                  _minParticipants,
+                  _maxParticipants,
+                );
+                Navigator.pop(context);
+              }
+            },
+          ),
+        ],
       ),
     );
   }
