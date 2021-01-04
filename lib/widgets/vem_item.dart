@@ -17,6 +17,10 @@ class VemItem extends StatelessWidget {
     @required this.vemResponses,
   }) : super(key: key);
 
+  bool _isFull() {
+    return (vemResponses.length == vem.maxParticipants);
+  }
+
   @override
   Widget build(BuildContext context) {
     return ListTile(
@@ -36,7 +40,10 @@ class VemItem extends StatelessWidget {
       subtitle: vem.startDate != null
           ? Text('Date: ${vem.startDate} - ${vem.endDate}')
           : null,
-      // TODO trailing: const Icon,
+      trailing: Icon(_isFull()
+          ? Icons.check_circle_sharp
+          : Icons.check_circle_outline_sharp),
+      // TODO trailing: const VemAttendanceIcon,
     );
   }
 }

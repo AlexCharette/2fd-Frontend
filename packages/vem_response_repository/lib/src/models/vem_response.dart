@@ -27,7 +27,7 @@ class VemResponse {
       other is VemResponse && runtimeType == other.runtimeType;
 
   VemResponseEntity toEntity() {
-    return VemResponseEntity(id, member, answer);
+    return VemResponseEntity(id, member, answer: answer);
   }
 
   static VemResponse fromEntity(VemResponseEntity entity) {

@@ -21,7 +21,7 @@ enum ResponseTypes {
 }
 
 class AddEditVemScreen extends StatefulWidget {
-  Vem vem;
+  final Vem vem;
   OnSave onSave;
   bool isEditing;
 
