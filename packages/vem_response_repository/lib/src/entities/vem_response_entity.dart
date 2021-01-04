@@ -6,11 +6,9 @@ class VemResponseEntity extends Equatable {
   final DocumentReference member;
   final String answer;
 
-  const VemResponseEntity(
-    this.id,
-    this.member,
-    this.answer,
-  );
+  const VemResponseEntity(this.id, this.member, {String answer = 'seen'})
+      : assert(answer == 'yes' || answer == 'no' || answer == 'seen'),
+        this.answer = answer;
 
   Map<String, Object> toJson() {
     return {
@@ -32,7 +30,7 @@ class VemResponseEntity extends Equatable {
     return VemResponseEntity(
       json["id"] as String,
       json["member"] as DocumentReference,
-      json["answer"] as String,
+      answer: json["answer"] as String,
     );
   }
 
@@ -40,7 +38,7 @@ class VemResponseEntity extends Equatable {
     return VemResponseEntity(
       snap.id,
       snap.get('member'),
-      snap.get('answer'),
+      answer: snap.get('answer'),
     );
   }
 
