@@ -10,7 +10,7 @@ class NormalMember extends User {
     int lastThree,
     String rank, {
     String phoneNumber = '',
-    String status = 'active',
+    MemberStatus status = MemberStatus.Active,
     String id,
   }) : super(
           email,
@@ -29,7 +29,7 @@ class NormalMember extends User {
     String lastName,
     int lastThree,
     String rank,
-    String status,
+    MemberStatus status,
   }) {
     return NormalMember(
       email ?? this.email,
@@ -66,7 +66,7 @@ class NormalMember extends User {
       lastThree,
       rank,
       status,
-      accountType: 'normal',
+      accountType: AccountType.normal,
     );
   }
 

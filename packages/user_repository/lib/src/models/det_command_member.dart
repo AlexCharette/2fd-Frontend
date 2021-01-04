@@ -10,7 +10,7 @@ class DetCommandMember extends User {
     int lastThree,
     String rank, {
     String phoneNumber = '',
-    String status = 'active',
+    MemberStatus status = MemberStatus.Active,
     String id,
   }) : super(
           email,
@@ -29,7 +29,7 @@ class DetCommandMember extends User {
     String lastName,
     int lastThree,
     String rank,
-    String status,
+    MemberStatus status,
   }) {
     return DetCommandMember(
       email ?? this.email,
@@ -66,7 +66,7 @@ class DetCommandMember extends User {
       lastThree,
       rank,
       status,
-      accountType: 'detCommand',
+      accountType: AccountType.detCommand,
     );
   }
 
