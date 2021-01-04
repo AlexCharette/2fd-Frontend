@@ -13,28 +13,29 @@ class HomePage extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(title: Text('hello')),
         body: Center(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              Builder(
-                builder: (context) {
-                  final userId = context.select(
-                    (AuthenticationBloc bloc) => bloc.state.user.id,
-                  );
-                  return Text('UserID: $userId');
-                },
-              ),
-              VemList(),
-              RaisedButton(
-                child: const Text('Logout'),
-                onPressed: () {
-                  context
-                      .read<AuthenticationBloc>()
-                      .add(AuthenticationLogoutRequested());
-                },
-              ),
-            ],
-          ),
+          child: VemList(),
+          // child: Column(
+          //   mainAxisSize: MainAxisSize.min,
+          //   children: <Widget>[
+          //     Builder(
+          //       builder: (context) {
+          //         final userId = context.select(
+          //           (AuthenticationBloc bloc) => bloc.state.user.id,
+          //         );
+          //         return Text('UserID: $userId');
+          //       },
+          //     ),
+
+          //     RaisedButton(
+          //       child: const Text('Logout'),
+          //       onPressed: () {
+          //         context
+          //             .read<AuthenticationBloc>()
+          //             .add(AuthenticationLogoutRequested());
+          //       },
+          //     ),
+          //   ],
+          // ),
         ));
   }
 }
