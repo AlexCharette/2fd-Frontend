@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:regimental_app/blocs/authentication/bloc/authentication_bloc.dart';
+import 'package:regimental_app/widgets/widgets.dart';
 
 class HomePage extends StatelessWidget {
   static Route route() {
@@ -23,6 +24,7 @@ class HomePage extends StatelessWidget {
                   return Text('UserID: $userId');
                 },
               ),
+              VemList(),
               RaisedButton(
                 child: const Text('Logout'),
                 onPressed: () {
