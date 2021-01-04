@@ -36,7 +36,7 @@ class VemItem extends StatelessWidget {
       subtitle: vem.startDate != null
           ? Text('Date: ${vem.startDate} - ${vem.endDate}')
           : null,
-      // TODO trailing: const Icon,
+      // TODO trailing: const VemAttendanceIcon,
     );
   }
 }

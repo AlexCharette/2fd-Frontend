@@ -14,22 +14,20 @@ class AppColors {
   static const buttonOrange = Colors.orange; //Color(0xBF8637);
   static const buttonCobalt = Colors.grey; //Color(0x3750BF);
 }
-class ThemeNotifier with ChangeNotifier{
+
+class ThemeNotifier with ChangeNotifier {
   //###########################Light Theme########################
   final lightTheme = ThemeData(
     primaryColor: AppColors.white,
     accentColor: AppColors.blue,
     appBarTheme: AppBarTheme(
-      iconTheme: IconThemeData(color: AppColors.red),
-      textTheme: TextTheme(
-        caption: TextStyle(color: AppColors.charcoal, fontSize: 18)
-      )
-    ),
+        iconTheme: IconThemeData(color: AppColors.red),
+        textTheme: TextTheme(
+            caption: TextStyle(color: AppColors.charcoal, fontSize: 18))),
     textTheme: TextTheme(
       headline5: TextStyle(fontSize: 48, color: AppColors.white),
-      button: TextStyle(letterSpacing: 2.0)
-
-    )
+      button: TextStyle(letterSpacing: 2.0),
+    ),
   );
 
   //TODO: Add other themes such as a dark theme
@@ -37,11 +35,11 @@ class ThemeNotifier with ChangeNotifier{
   ThemeData _themeData;
   ThemeData getTheme() => _themeData;
 
-  ThemeNotifier(){
+  ThemeNotifier() {
     StorageManager.readData('themeMode').then((value) {
       print('value read from storage: ${value.toString()}');
       var themeMode = value ?? 'light';
-      switch(themeMode){
+      switch (themeMode) {
         case 'light':
           {
             _themeData = lightTheme;
@@ -56,7 +54,7 @@ class ThemeNotifier with ChangeNotifier{
       notifyListeners();
     });
   }
-   //Method to change to a light theme
+  //Method to change to a light theme
   void setLightMode() async {
     _themeData = lightTheme;
     StorageManager.saveData('themeMode', 'light');
@@ -65,7 +63,6 @@ class ThemeNotifier with ChangeNotifier{
 
   //TODO: implement method to change to wtv other themes that are added
 }
-
 
 // class AppSizes {
 //   // TODO
