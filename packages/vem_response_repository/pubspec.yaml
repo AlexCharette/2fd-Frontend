@@ -1,0 +1,14 @@
+name: vem_response_repository
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.6.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cloud_firestore: ^0.14.4
+  equatable: ^1.0.0
+  firebase_core: ^0.5.3
+  rxdart: ^0.23.0

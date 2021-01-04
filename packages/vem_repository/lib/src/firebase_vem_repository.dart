@@ -32,31 +32,4 @@ class FirebaseVemRepository implements VemRepository {
   Future<void> updateVem(Vem update) {
     return vemCollection.doc(update.id).update(update.toEntity().toDocument());
   }
-
-  @override
-  Future<void> addVemResponse(String vemId, VemResponse response) {
-    return vemCollection
-        .doc(vemId)
-        .collection('responses')
-        .add(response.toEntity().toDocument());
-  }
-
-  @override
-  Future<void> updateVemResponse(String vemId, VemResponse response) {
-    return vemCollection
-        .doc(vemId)
-        .collection('responses')
-        .doc(response.id)
-        .update(response.toEntity().toDocument());
-  }
-
-  @override
-  Stream<List<VemResponse>> vemResponses() {
-    return vemResponseCollection.snapshots().map((snapshot) {
-      return snapshot.docs
-          .map((doc) =>
-              VemResponse.fromEntity(VemResponseEntity.fromSnapshot(doc)))
-          .toList();
-    });
-  }
 }

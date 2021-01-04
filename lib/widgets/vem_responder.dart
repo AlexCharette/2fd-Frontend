@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:regimental_app/blocs/blocs.dart';
 import 'package:vem_repository/vem_repository.dart';
+import 'package:vem_response_repository/vem_response_repository.dart';
 
 class VemResponder extends StatefulWidget {
   final Vem vem;
@@ -16,10 +17,10 @@ class VemResponder extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  VemResponderState createState() => VemResponderState();
+  _VemResponderState createState() => _VemResponderState();
 }
 
-class VemResponderState extends State<VemResponder> {
+class _VemResponderState extends State<VemResponder> {
   bool isVisible = true;
 
   void hideWidget() {
@@ -49,7 +50,7 @@ class VemResponderState extends State<VemResponder> {
             ),
             RaisedButton(
               onPressed: () {
-                BlocProvider.of<VemsBloc>(context).add(
+                BlocProvider.of<VemResponsesBloc>(context).add(
                   AddVemResponse(
                     widget.vem.id,
                     VemResponse(
@@ -66,7 +67,7 @@ class VemResponderState extends State<VemResponder> {
             ),
             RaisedButton(
               onPressed: () {
-                BlocProvider.of<VemsBloc>(context).add(
+                BlocProvider.of<VemResponsesBloc>(context).add(
                   AddVemResponse(
                     widget.vem.id,
                     VemResponse(
@@ -83,7 +84,7 @@ class VemResponderState extends State<VemResponder> {
             ),
             RaisedButton(
               onPressed: () {
-                BlocProvider.of<VemsBloc>(context).add(
+                BlocProvider.of<VemResponsesBloc>(context).add(
                   AddVemResponse(
                     widget.vem.id,
                     VemResponse(

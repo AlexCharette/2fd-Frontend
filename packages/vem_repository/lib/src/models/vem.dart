@@ -15,9 +15,9 @@ class Vem {
   final int maxParticipants;
 
   Vem(
-    this.name, {
+    this.name,
+    this.responseType, {
     String description,
-    String responseType,
     Timestamp startDate,
     Timestamp endDate,
     Timestamp lockDate,
@@ -25,7 +25,6 @@ class Vem {
     int maxParticipants = 999,
     String id,
   })  : this.description = description ?? '',
-        this.responseType = responseType, // TODO validate
         this.startDate = startDate ?? getDefaultStartDate(),
         this.endDate = endDate ?? getDefaultEndDate(),
         this.lockDate = lockDate ?? getDefaultLockDate(),
@@ -46,8 +45,8 @@ class Vem {
   }) {
     return Vem(
       name ?? this.name,
+      responseType ?? this.responseType,
       description: description ?? this.description,
-      responseType: responseType ?? this.responseType,
       startDate: startDate ?? this.startDate,
       endDate: endDate ?? this.endDate,
       lockDate: lockDate ?? this.lockDate,
@@ -75,18 +74,27 @@ class Vem {
       other is Vem && runtimeType == other.runtimeType;
 
   VemEntity toEntity() {
-    return VemEntity(id, name, startDate, endDate, lockDate,
-        responseType.toString(), description, minParticipants, maxParticipants);
+    return VemEntity(
+      id,
+      name,
+      startDate,
+      endDate,
+      lockDate,
+      description,
+      minParticipants,
+      maxParticipants,
+      responseType: responseType,
+    );
   }
 
   static Vem fromEntity(VemEntity entity) {
     return Vem(
       entity.name,
+      entity.responseType,
       description: entity.description,
       startDate: entity.startDate,
       endDate: entity.endDate,
       lockDate: entity.lockDate,
-      responseType: entity.responseType,
       minParticipants: entity.minParticipants,
       maxParticipants: entity.maxParticipants,
       id: entity.id,

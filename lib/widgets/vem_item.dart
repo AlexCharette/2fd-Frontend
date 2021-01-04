@@ -1,17 +1,20 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:vem_repository/vem_repository.dart';
+import 'package:vem_response_repository/vem_response_repository.dart';
 
 class VemItem extends StatelessWidget {
   final GestureTapCallback onTap;
   final GestureLongPressCallback onLongPress;
   final Vem vem;
+  final List<VemResponse> vemResponses;
 
   VemItem({
     Key key,
     @required this.onTap,
     @required this.onLongPress,
     @required this.vem,
+    @required this.vemResponses,
   }) : super(key: key);
 
   @override

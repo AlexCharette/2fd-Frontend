@@ -9,14 +9,24 @@ class UsersEvent extends Equatable {
 
 class LoadUsers extends UsersEvent {}
 
-class UpdateUser extends UsersEvent {
+class UpdateCurrentUser extends UsersEvent {
   final User updatedUser;
 
-  const UpdateUser(this.updatedUser);
+  const UpdateCurrentUser(this.updatedUser);
 
   @override
   List<Object> get props => [updatedUser];
 
   @override
-  String toString() => 'UpdateUser { updatedUser: $updatedUser }';
+  String toString() => 'UpdateCurrentUser { updatedUser: $updatedUser }';
 }
+
+class UsersUpdated extends UsersEvent {
+  final List<User> users;
+
+  const UsersUpdated(this.users);
+
+  @override
+  List<Object> get props => [users];
+}
+

@@ -18,24 +18,12 @@ class VemEntity extends Equatable {
       this.startDate,
       this.endDate,
       this.lockDate,
-      this.responseType,
       this.description,
       this.minParticipants,
-      this.maxParticipants);
-
-  Map<String, Object> toJson() {
-    return {
-      "name": name,
-      "startDate": startDate,
-      "endDate": endDate,
-      "lockDate": lockDate,
-      "responseType": responseType,
-      "description": description,
-      "minParticipants": minParticipants,
-      "maxParticipants": maxParticipants,
-      "id": id,
-    };
-  }
+      this.maxParticipants,
+      {String responseType})
+      : assert(responseType == 'battery' || responseType == 'other'),
+        this.responseType = responseType;
 
   @override
   List<Object> get props => [
@@ -62,6 +50,20 @@ class VemEntity extends Equatable {
     """;
   }
 
+  Map<String, Object> toJson() {
+    return {
+      "name": name,
+      "startDate": startDate,
+      "endDate": endDate,
+      "lockDate": lockDate,
+      "responseType": responseType,
+      "description": description,
+      "minParticipants": minParticipants,
+      "maxParticipants": maxParticipants,
+      "id": id,
+    };
+  }
+
   static VemEntity fromJson(Map<String, Object> json) {
     return VemEntity(
       json["id"] as String,
@@ -69,10 +71,10 @@ class VemEntity extends Equatable {
       json["startDate"] as Timestamp,
       json["endDate"] as Timestamp,
       json["lockDate"] as Timestamp,
-      json["responseType"] as String,
       json["description"] as String,
       json["minParticipants"] as int,
       json["maxParticipants"] as int,
+      responseType: json["responseType"] as String,
     );
   }
 
@@ -83,10 +85,10 @@ class VemEntity extends Equatable {
       snap.get('startDate'),
       snap.get('endDate'),
       snap.get('lockDate'),
-      snap.get('responseType'),
       snap.get('description'),
       snap.get('minParticipants'),
       snap.get('maxParticipants'),
+      responseType: snap.get('responseType'),
     );
   }
 
