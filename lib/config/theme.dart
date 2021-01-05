@@ -3,16 +3,16 @@ import 'package:local_storage_theme_manager_repository/local_storage_theme_manag
 
 class AppColors {
   // TODO: change the hex of the colors
-  static const blue = Colors.blue; //Color(0x002984);
-  static const blueFaded = Colors.lightBlueAccent; //Color(0x3D608A);
-  static const charcoal = Colors.black12; //Color(0x454545);
-  static const red = Colors.red; //Color(0xDE1018);
-  static const white = Colors.white; //Color(0xFFFFFF);
-  static const buttonGreen = Colors.green; //Color(0x45B94E);
-  static const buttonRed = Colors.redAccent; //Color(0xBF4437);
-  static const buttonBlue = Colors.blue; //Color(0x378DBF);
-  static const buttonOrange = Colors.orange; //Color(0xBF8637);
-  static const buttonCobalt = Colors.grey; //Color(0x3750BF);
+  static const blue = Color(0xFF002984);
+  static const blueFaded = Color(0xFF3D608A);
+  static const charcoal = Color(0xFF454545);
+  static const red = Color(0xFFDE1018);
+  static const white = Color(0xFFFFFFFF);
+  static const buttonGreen = Color(0xFF45B94E);
+  static const buttonRed = Color(0xFFBF4437);
+  static const buttonBlue = Color(0xFF378DBF);
+  static const buttonOrange = Color(0xFFBF8637);
+  static const buttonCobalt = Color(0xFF3750BF);
 }
 
 class ThemeNotifier with ChangeNotifier {

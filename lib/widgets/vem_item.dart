@@ -47,7 +47,8 @@ class VemItem extends StatelessWidget {
             ],
           )
           : null,
-      trailing: Icon(_isFull()
+      trailing: Icon(
+          _isFull()
           ? Icons.check_circle_sharp
           : Icons.check_circle_outline_sharp),
       // TODO trailing: const VemAttendanceIcon,

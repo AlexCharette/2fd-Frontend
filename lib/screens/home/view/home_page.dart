@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:regimental_app/blocs/authentication/bloc/authentication_bloc.dart';
 import 'package:regimental_app/widgets/custom_app_bar.dart';
+import 'package:regimental_app/widgets/custom_bottom_app_bar.dart';
 import 'package:regimental_app/widgets/widgets.dart';
 
 class HomePage extends StatelessWidget {
@@ -13,6 +14,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: CustomAppBar(appBarTitle: 'VEMS',),
+        bottomNavigationBar: CustomBottomAppBar(selectedIndex: 0,),
         extendBodyBehindAppBar: true,
         body: Center(
           child: Container(
@@ -20,7 +22,7 @@ class HomePage extends StatelessWidget {
               gradient: LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
-                colors: [Colors.blue, Colors.red]
+                colors: [Colors.red, Colors.blue]
               ),
                 image: DecorationImage(
                     colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.3), BlendMode.dstATop),
@@ -32,28 +34,17 @@ class HomePage extends StatelessWidget {
             ),
               child: VemList()
           ),
-          // child: Column(
-          //   mainAxisSize: MainAxisSize.min,
-          //   children: <Widget>[
-          //     Builder(
-          //       builder: (context) {
-          //         final userId = context.select(
-          //           (AuthenticationBloc bloc) => bloc.state.user.id,
-          //         );
-          //         return Text('UserID: $userId');
-          //       },
-          //     ),
-
-          //     RaisedButton(
-          //       child: const Text('Logout'),
-          //       onPressed: () {
-          //         context
-          //             .read<AuthenticationBloc>()
-          //             .add(AuthenticationLogoutRequested());
-          //       },
-          //     ),
-          //   ],
-          // ),
-        ));
+        ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(
+          Icons.add,
+          color: Theme.of(context).primaryColor,
+          size: 40,
+        ),
+        onPressed: (){
+          //TODO: display other floating action buttons
+        },
+      ),
+    );
   }
 }
