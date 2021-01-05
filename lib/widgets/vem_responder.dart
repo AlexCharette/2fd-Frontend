@@ -29,10 +29,34 @@ class VemResponder extends StatefulWidget {
 class _VemResponderState extends State<VemResponder> {
   bool isVisible = true;
 
-  void hideWidget() {
+  void _hideWidget() {
     setState(() {
       isVisible = false;
     });
+  }
+
+  void _submitResponse(String answer) {
+    BlocProvider.of<VemResponsesBloc>(context).add(
+      widget.currentResponse != null
+          ? UpdateVemResponse(
+              widget.vem.id,
+              VemResponse(
+                FirebaseFirestore.instance
+                    .collection('users')
+                    .doc(FirebaseAuth.instance.currentUser?.uid ?? ''),
+                answer,
+              ),
+            )
+          : AddVemResponse(
+              widget.vem.id,
+              VemResponse(
+                FirebaseFirestore.instance
+                    .collection('users')
+                    .doc(FirebaseAuth.instance.currentUser?.uid ?? ''),
+                answer,
+              ),
+            ),
+    );
   }
 
   @override
@@ -55,27 +79,23 @@ class _VemResponderState extends State<VemResponder> {
               ),
             ),
             RaisedButton(
-              onPressed: () {
-                BlocProvider.of<VemResponsesBloc>(context).add(
-                  AddVemResponse(
-                    widget.vem.id,
-                    VemResponse(
-                      FirebaseFirestore.instance
-                          .collection('users')
-                          .doc(FirebaseAuth.instance.currentUser?.uid ?? ''),
-                      'yes',
-                    ),
-                  ),
-                );
-                hideWidget();
-              },
+              onPressed: (widget.currentResponse != null &&
+                      widget.currentResponse.answer != 'yes')
+                  ? () {
+                      _submitResponse('yes');
+                      _hideWidget();
+                    }
+                  : null,
               child: Text('Confirm my attendance'), // TODO
             ),
             RaisedButton(
-              onPressed: () {
-                widget.onTap();
-                hideWidget();
-              },
+              onPressed: (widget.currentResponse != null &&
+                      widget.currentResponse.answer != 'no')
+                  ? () {
+                      _submitResponse('no');
+                      _hideWidget();
+                    }
+                  : null,
             ),
           ],
         ),
