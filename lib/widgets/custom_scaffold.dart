@@ -19,15 +19,11 @@ class CustomScaffold extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(appBarTitle: appBarTitle,),
-       endDrawer: Drawer(
-         child: Container(
-           decoration: BoxDecoration(
-               gradient: LinearGradient(
-                   begin: Alignment.topLeft,
-                   end: Alignment.bottomRight,
-                   colors: [Colors.red, Colors.blue]
-               ),
-           ),
+       endDrawer: Theme(
+         data: Theme.of(context).copyWith(
+           canvasColor: Colors.white38
+         ),
+         child: Drawer(
            child: ListView(
              children: [
                //TODO: adjust to the real routes for now they all route to home
@@ -35,19 +31,23 @@ class CustomScaffold extends StatelessWidget {
                  leading: TextButton(
                    child: Text(
                      'EN',
-                     style: Theme.of(context).textTheme.headline4,
+                     style: Theme.of(context).textTheme.headline5,
                    ),
                    onPressed: (){
                      print('english');
                    },
                  ),
                  trailing: IconButton(
-                     icon: Icon(Icons.close),
+                     icon: Icon(Icons.close,
+                     color: Theme.of(context).primaryColor,
+                     size: 40,
+                     ),
                      onPressed: (){
                        Navigator.pop(context);
                      },
                  ),
                ),
+               //TODO: set the appropriate routes
                ListTile(
                  trailing: Text('VEMS', style: Theme.of(context).textTheme.headline4,),
                  onTap: () => Navigator.of(context).pushAndRemoveUntil(HomePage.route(), (route) => false),
