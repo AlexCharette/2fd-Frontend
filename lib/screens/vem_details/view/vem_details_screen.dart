@@ -85,19 +85,19 @@ class _VemDetailsScreenState extends State<VemDetailsScreen> {
                       maxParticipiants,
                     ) {
                       BlocProvider.of<VemsBloc>(context).add(
-                        AddVem(Vem(
-                          name,
-                          responseType,
-                          description: description,
+                        UpdateVem(widget.vem.copyWith(
+                          name: name,
                           startDate: startDate,
                           endDate: endDate,
                           lockDate: lockDate,
+                          responseType: responseType,
+                          description: description,
                           minParticipants: minParticipants,
                           maxParticipants: maxParticipiants,
                         )),
                       );
                     },
-                    isEditing: false,
+                    isEditing: true,
                     vem: widget.vem,
                   ),
                 ),
