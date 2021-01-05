@@ -1,9 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:regimental_app/blocs/blocs.dart';
+import 'package:regimental_app/config/theme.dart';
 import 'package:regimental_app/screens/vem_details/view/view.dart';
 import 'package:regimental_app/widgets/widgets.dart';
 
@@ -23,9 +25,15 @@ class VemList extends StatelessWidget {
               final vems = vemsState.vems;
               final vemResponses = responsesState.vemResponses;
               if (vems.length > 0) {
-                return ListView.builder(
+                return ListView.separated(
+                  separatorBuilder: (context,index) => Divider(
+                    color: Theme.of(context).primaryColor,
+                  ),
                   itemCount: vems.length,
                   itemBuilder: (context, index) {
+                    dynamic temp = FirebaseFirestore.instance
+                        .collection('users')
+                        .doc(FirebaseAuth.instance.currentUser?.uid ?? '');
                     final vem = vems[index];
                     return VemItem(
                       vem: vem,
