@@ -18,6 +18,7 @@ class VemItem extends StatelessWidget {
   }) : super(key: key);
 
   bool _isFull() {
+    if (vemResponses == null) return false;
     return (vemResponses.length == vem.maxParticipants);
   }
 

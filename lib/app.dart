@@ -37,11 +37,13 @@ class App extends StatelessWidget {
             ),
           ),
           BlocProvider<VemsBloc>(
-            create: (context) => VemsBloc(vemRepository: vemRepository),
+            create: (context) =>
+                VemsBloc(vemRepository: vemRepository)..add(LoadVems()),
           ),
           BlocProvider<VemResponsesBloc>(
             create: (context) =>
-                VemResponsesBloc(vemResponseRepository: vemResponseRepository),
+                VemResponsesBloc(vemResponseRepository: vemResponseRepository)
+                  ..add(LoadVemResponses()),
           ),
         ],
         child: AppView(),
