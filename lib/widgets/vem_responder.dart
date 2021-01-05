@@ -74,23 +74,6 @@ class _VemResponderState extends State<VemResponder> {
                       FirebaseFirestore.instance
                           .collection('users')
                           .doc(FirebaseAuth.instance.currentUser?.uid ?? ''),
-                      'seen',
-                    ),
-                  ),
-                );
-                hideWidget();
-              },
-              child: Text('I\'m not ready to answer yet'), // TODO
-            ),
-            RaisedButton(
-              onPressed: () {
-                BlocProvider.of<VemResponsesBloc>(context).add(
-                  AddVemResponse(
-                    widget.vem.id,
-                    VemResponse(
-                      FirebaseFirestore.instance
-                          .collection('users')
-                          .doc(FirebaseAuth.instance.currentUser?.uid ?? ''),
                       'no',
                     ),
                   ),
@@ -105,3 +88,20 @@ class _VemResponderState extends State<VemResponder> {
     );
   }
 }
+
+/* TODO when pressed outside
+              onPressed: () {
+                BlocProvider.of<VemResponsesBloc>(context).add(
+                  AddVemResponse(
+                    widget.vem.id,
+                    VemResponse(
+                      FirebaseFirestore.instance
+                          .collection('users')
+                          .doc(FirebaseAuth.instance.currentUser?.uid ?? ''),
+                      'seen',
+                    ),
+                  ),
+                );
+                hideWidget();
+              }
+*/

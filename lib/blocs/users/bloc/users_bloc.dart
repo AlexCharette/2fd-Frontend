@@ -11,6 +11,7 @@ part 'users_state.dart';
 class UsersBloc extends Bloc<UsersEvent, UsersState> {
   final UserRepository _userRepository;
   StreamSubscription _usersSubscription;
+  StreamSubscription _currentUserSubscription;
 
   UsersBloc({@required UserRepository userRepository})
       : assert(userRepository != null),
@@ -21,6 +22,8 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
   Stream<UsersState> mapEventToState(UsersEvent event) async* {
     if (event is LoadUsers) {
       yield* _mapLoadUsersToState(event);
+    } else if (event is LoadCurrentUser) {
+      yield* _mapLoadCurrentUserToState(event);
     } else if (event is UpdateCurrentUser) {
       yield* _mapUpdateCurrentUserToState(event);
     }
@@ -30,6 +33,12 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
     _usersSubscription?.cancel();
     _usersSubscription =
         _userRepository.users().listen((users) => add(UsersUpdated(users)));
+  }
+
+    Stream<UsersState> _mapLoadCurrentUserToState(LoadCurrentUser event) async* {
+    _currentUserSubscription?.cancel();
+    _currentUserSubscription =
+        _userRepository.currentUser().listen((user) => add(CurrentUserUpdated(user)));
   }
 
   Stream<UsersState> _mapUpdateCurrentUserToState(

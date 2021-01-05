@@ -54,13 +54,6 @@ class _VemDetailsScreenState extends State<VemDetailsScreen> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           FloatingActionButton(
-            tooltip: 'Back',
-            child: Icon(Icons.arrow_back),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
-          FloatingActionButton(
             tooltip: 'More',
             child: Icon(Icons.list),
             onPressed: () {

@@ -22,3 +22,19 @@ class UsersLoaded extends UsersState {
 }
 
 class UsersNotLoaded extends UsersState {}
+
+class CurrentUserLoading extends UsersState {}
+
+class CurrentUserLoaded extends UsersState {
+  final User currentUser;
+
+  const CurrentUserLoaded([this.currentUser]);
+
+  @override
+  List<Object> get props => [currentUser];
+
+  @override
+  String toString() => 'CurrentUserLoaded { currentUser: $currentUser }';
+}
+
+class CurrentUserNotLoaded extends UsersState {}

@@ -9,6 +9,8 @@ class UsersEvent extends Equatable {
 
 class LoadUsers extends UsersEvent {}
 
+class LoadCurrentUser extends UsersEvent {}
+
 class UpdateCurrentUser extends UsersEvent {
   final User updatedUser;
 
@@ -30,3 +32,11 @@ class UsersUpdated extends UsersEvent {
   List<Object> get props => [users];
 }
 
+class CurrentUserUpdated extends UsersEvent {
+  final User currentUser;
+
+  const CurrentUserUpdated(this.currentUser);
+
+  @override
+  List<Object> get props => [currentUser];
+}
