@@ -11,7 +11,7 @@ class ResetPasswordForm extends StatelessWidget {
     return BlocListener<ResetPasswordBloc, ResetPasswordState>(
         listener: (context, state){
           if (state.status == FormzStatus.submissionFailure) {
-            Scaffold.of(context)
+            ScaffoldMessenger.of(context)
               ..hideCurrentSnackBar()
               ..showSnackBar(
                 const SnackBar(content: Text('Reset Password Failure')),
@@ -102,7 +102,6 @@ class _UsernameInput extends StatelessWidget {
 class _ResetPassword extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    ThemeData theme = Theme.of(context);
     return BlocBuilder<ResetPasswordBloc, ResetPasswordState>(
       buildWhen: (previous, current) => previous.status != current.status,
       builder: (context, state) {

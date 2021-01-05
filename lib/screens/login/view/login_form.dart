@@ -8,11 +8,10 @@ import 'package:regimental_app/screens/reset_password/reset_password.dart';
 class LoginForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    ThemeData theme = Theme.of(context);
     return BlocListener<LoginBloc, LoginState>(
       listener: (context, state) {
         if (state.status.isSubmissionFailure) {
-          Scaffold.of(context)
+          ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()
             ..showSnackBar(
               const SnackBar(content: Text('Authentication Failure')),
@@ -148,7 +147,6 @@ class _PasswordInput extends StatelessWidget {
 class _ForgotPasswordButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    NavigatorState _navigator = Navigator.of(context);
     return ElevatedButton(
       key: const Key('loginForm_forgotPassword_textButton'),
       style: ButtonStyle(
@@ -177,7 +175,6 @@ class _ForgotPasswordButton extends StatelessWidget {
 class _LoginButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    ThemeData theme = Theme.of(context);
     return BlocBuilder<LoginBloc, LoginState>(
       buildWhen: (previous, current) => previous.status != current.status,
       builder: (context, state) {

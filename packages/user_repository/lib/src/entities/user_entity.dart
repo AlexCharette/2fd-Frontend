@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
+import 'package:user_repository/src/models/models.dart';
 
 class UserEntity extends Equatable {
   final String id;
@@ -8,15 +9,13 @@ class UserEntity extends Equatable {
   final String rank;
   final String lastName;
   final int lastThree;
-  final String status;
-  final String accountType;
+  final MemberStatus status;
+  final AccountType accountType;
 
   const UserEntity(this.id, this.email, this.phoneNumber, this.lastName,
       this.lastThree, this.rank, this.status,
-      {String accountType})
-      : assert(accountType == 'normal' ||
-            accountType == 'detCommand' ||
-            accountType == 'command'),
+      {AccountType accountType})
+      : assert(accountType is AccountType),
         this.accountType = accountType;
 
   @override
@@ -37,7 +36,7 @@ class UserEntity extends Equatable {
       User{
         email: $email, phoneNumber: $phoneNumber, 
         lastName: $lastName, lastThree: $lastThree, rank: $rank, 
-        status: $status, accountType: $accountType
+        status: ${status.toString()}, accountType: ${accountType.toString()}
       }
     """;
   }
@@ -49,8 +48,8 @@ class UserEntity extends Equatable {
       "lastName": lastName,
       "lastThree": lastThree,
       "rank": rank,
-      "status": status,
-      "accountType": accountType,
+      "status": status.toString(),
+      "accountType": accountType.toString(),
       "id": id,
     };
   }
@@ -63,8 +62,8 @@ class UserEntity extends Equatable {
       json["lastName"] as String,
       json["lastThree"] as int,
       json["rank"] as String,
-      json["status"] as String,
-      accountType: json["accountType"] as String,
+      MemberStatus.values.firstWhere((element) => element.toString() == json["status"] as String),
+      accountType: AccountType.values.firstWhere((element) => element.toString() == json["accountType"] as String),
     );
   }
 
@@ -76,8 +75,8 @@ class UserEntity extends Equatable {
       snap.get('lastName'),
       snap.get('lastThree'),
       snap.get('rank'),
-      snap.get('status'),
-      accountType: snap.get('accountType'),
+      MemberStatus.values.firstWhere((element) => element.toString() == snap.get('status')),
+      accountType: AccountType.values.firstWhere((element) => element.toString() == snap.get('accountType')) ,
     );
   }
 
@@ -88,8 +87,8 @@ class UserEntity extends Equatable {
       "lastName": lastName,
       "lastThree": lastThree,
       "rank": rank,
-      "status": status,
-      "accountType": accountType,
+      "status": status.toString(),
+      "accountType": accountType.toString(),
     };
   }
 }
