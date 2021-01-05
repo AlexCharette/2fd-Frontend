@@ -11,17 +11,31 @@ class CustomBottomAppBar extends StatelessWidget {
       items: <BottomNavigationBarItem>[
         BottomNavigationBarItem(
             icon: Icon(Icons.notification_important),
-            label: 'VEMs'
+            label: 'VEMs',
         ),
         BottomNavigationBarItem(
             icon: Icon(Icons.mail_outline),
-            label: 'Demandes'
+            label: 'Demandes',
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.person),
           label: 'Profile',
         ),
       ],
+      onTap: (int index){
+        //TODO: implement the routes to the selected tab
+        switch(index){
+          case 1:
+            //Navigator.of(context).pushAndRemoveUntil(newRoute, (route) => false)
+            break;
+          case 2:
+            //Navigator.of(context).pushAndRemoveUntil(newRoute, (route) => false)
+            break;
+          case 3:
+            //Navigator.of(context).pushAndRemoveUntil(newRoute, (route) => false)
+            break;
+        }
+      },
     );
   }
 }
