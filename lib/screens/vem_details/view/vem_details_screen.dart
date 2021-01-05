@@ -1,7 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:regimental_app/blocs/blocs.dart';
+import 'package:regimental_app/screens/add_edit_vem/add_edit_vem.dart';
 import 'package:vem_repository/vem_repository.dart';
 
 class VemDetailsScreen extends StatefulWidget {
@@ -54,6 +57,15 @@ class _VemDetailsScreenState extends State<VemDetailsScreen> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           FloatingActionButton(
+            heroTag: 'backActionButton__heroTag',
+            tooltip: 'Back',
+            child: Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+          FloatingActionButton(
+            heroTag: 'moreActionButton__heroTag',
             tooltip: 'More',
             child: Icon(Icons.list),
             onPressed: () {
@@ -62,10 +74,42 @@ class _VemDetailsScreenState extends State<VemDetailsScreen> {
           ),
           // TODO only display if editing possible
           FloatingActionButton(
+            heroTag: 'editActionButton__heroTag',
             tooltip: 'Edit VEM',
             child: Icon(Icons.edit),
             onPressed: () {
-              // TODO go to AddEditVem with this vem
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => AddEditVemScreen(
+                    onSave: (
+                      name,
+                      startDate,
+                      endDate,
+                      lockDate,
+                      responseType,
+                      description,
+                      minParticipants,
+                      maxParticipiants,
+                    ) {
+                      BlocProvider.of<VemsBloc>(context).add(
+                        AddVem(Vem(
+                          name,
+                          responseType,
+                          description: description,
+                          startDate: startDate,
+                          endDate: endDate,
+                          lockDate: lockDate,
+                          minParticipants: minParticipants,
+                          maxParticipants: maxParticipiants,
+                        )),
+                      );
+                    },
+                    isEditing: false,
+                    vem: widget.vem,
+                  ),
+                ),
+              );
             },
           ),
         ],
