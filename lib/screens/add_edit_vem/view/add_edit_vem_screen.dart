@@ -22,8 +22,8 @@ enum ResponseTypes {
 
 class AddEditVemScreen extends StatefulWidget {
   final Vem vem;
-  OnSave onSave;
-  bool isEditing;
+  final OnSave onSave;
+  final bool isEditing;
 
   AddEditVemScreen({
     Key key,
@@ -144,6 +144,7 @@ class _AddEditVemScreenState extends State<AddEditVemScreen> {
       floatingActionButton: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
+          // TODO add confirmation widget
           FloatingActionButton(
             tooltip: 'Erase changes',
             child: Icon(Icons.close),
@@ -151,6 +152,7 @@ class _AddEditVemScreenState extends State<AddEditVemScreen> {
               Navigator.pop(context);
             },
           ),
+          // TODO add confirmation widget
           FloatingActionButton(
             tooltip: isEditing ? 'Save changes' : 'Publish VEM',
             child: Icon(isEditing ? Icons.check : Icons.add),

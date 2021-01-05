@@ -8,12 +8,18 @@ import 'package:regimental_app/blocs/blocs.dart';
 import 'package:vem_repository/vem_repository.dart';
 import 'package:vem_response_repository/vem_response_repository.dart';
 
+// TODO if response exists: update instead of add
+//                          render based on current response
 class VemResponder extends StatefulWidget {
   final Vem vem;
+  final VemResponse currentResponse;
+  final GestureTapCallback onTap;
 
   VemResponder({
     Key key,
+    @required this.onTap,
     @required this.vem,
+    this.currentResponse,
   }) : super(key: key);
 
   @override
@@ -67,20 +73,9 @@ class _VemResponderState extends State<VemResponder> {
             ),
             RaisedButton(
               onPressed: () {
-                BlocProvider.of<VemResponsesBloc>(context).add(
-                  AddVemResponse(
-                    widget.vem.id,
-                    VemResponse(
-                      FirebaseFirestore.instance
-                          .collection('users')
-                          .doc(FirebaseAuth.instance.currentUser?.uid ?? ''),
-                      'no',
-                    ),
-                  ),
-                );
+                widget.onTap();
                 hideWidget();
               },
-              child: Text('Confirm my absence'), // TODO
             ),
           ],
         ),
