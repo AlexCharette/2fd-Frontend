@@ -23,15 +23,15 @@ class CustomAppBar extends StatelessWidget with PreferredSizeWidget{
           //TODO: send to home page
         },
       ),
-      actions: <Widget>[
-        IconButton(
-            icon: Icon(Icons.menu, color: theme.primaryColor,),
-            iconSize: 50,
-            tooltip: 'Menu',
-            onPressed: (){
-              //TODO: open menu options
-            })
-      ],
+      // actions: <Widget>[
+      //   // IconButton(
+      //   //     icon: Icon(Icons.menu, color: theme.primaryColor,),
+      //   //     iconSize: 50,
+      //   //     tooltip: 'Menu',
+      //   //     onPressed: (){
+      //   //       //TODO: open menu options
+      //   //     })
+      // ],
     );
   }
 

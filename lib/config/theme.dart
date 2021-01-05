@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:local_storage_theme_manager_repository/local_storage_theme_manager_repository.dart';
 
 class AppColors {
-  // TODO: change the hex of the colors
   static const blue = Color(0xFF002984);
   static const blueFaded = Color(0xFF3D608A);
   static const charcoal = Color(0xFF454545);
@@ -21,7 +20,7 @@ class ThemeNotifier with ChangeNotifier {
     primaryColor: AppColors.white,
     accentColor: AppColors.blue,
     appBarTheme: AppBarTheme(
-        iconTheme: IconThemeData(color: AppColors.red),
+        iconTheme: IconThemeData(color: AppColors.white,),
         textTheme: TextTheme(
             caption: TextStyle(color: AppColors.charcoal, fontSize: 18))),
     textTheme: TextTheme(
@@ -68,28 +67,3 @@ class ThemeNotifier with ChangeNotifier {
 
   //TODO: implement method to change to wtv other themes that are added
 }
-
-// class AppSizes {
-//   // TODO
-//   // ex: static const int titleFontSize = x;
-// }
-//
-//
-// // TODO alter defaults put in place currently
-// class Theme {
-//   static ThemeData of(context) {
-//     ThemeData theme = Theme.of(context);
-//     return theme.copyWith(
-//         primaryColor: AppColors.red,
-//         accentColor: AppColors.blue,
-//         appBarTheme: theme.appBarTheme.copyWith(
-//             color: AppColors.white,
-//             iconTheme: IconThemeData(color: AppColors.red),
-//             textTheme: theme.textTheme.copyWith(
-//                 caption: TextStyle(color: AppColors.charcoal, fontSize: 18))),
-//         textTheme: theme.textTheme.copyWith(
-//           headline5: theme.textTheme.headline5
-//               .copyWith(fontSize: 48, color: AppColors.white),
-//         ));
-//   }
-// }

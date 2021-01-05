@@ -1,17 +1,51 @@
 import 'package:flutter/material.dart';
+import 'package:regimental_app/screens/home/view/home_page.dart';
 
 import 'custom_app_bar.dart';
 import 'custom_bottom_app_bar.dart';
 
 class CustomScaffold extends StatelessWidget {
-  CustomScaffold({this.body});
+  CustomScaffold({this.appBarTitle, this.body, this.displayBottomAppBar = true, this.selectedIndex = 0, this.floatingActionButtons = null});
 
   final Widget body;
+  final Widget floatingActionButtons;
+  final String appBarTitle;
+  final bool displayBottomAppBar;
+  final int selectedIndex;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(appBarTitle: 'VEMS',),
-      bottomNavigationBar: CustomBottomAppBar(selectedIndex: 0,),
+      appBar: CustomAppBar(appBarTitle: appBarTitle,),
+       endDrawer: Drawer(
+         child: Container(
+           decoration: BoxDecoration(
+               gradient: LinearGradient(
+                   begin: Alignment.topLeft,
+                   end: Alignment.bottomRight,
+                   colors: [Colors.red, Colors.blue]
+               ),
+           ),
+           child: ListView(
+             children: [
+               //TODO: adjust to the real routes for now they all route to home
+               ListTile(
+                 title: Text('Profile', style: Theme.of(context).textTheme.headline4,),
+                 onTap: () => Navigator.of(context).pushAndRemoveUntil(HomePage.route(), (route) => false),
+               ),
+               ListTile(
+                 title: Text('VEM', style: Theme.of(context).textTheme.headline4,),
+                 onTap: () => Navigator.of(context).pushAndRemoveUntil(HomePage.route(), (route) => false),
+               ),
+               ListTile(
+                 title: Text('Profile', style: Theme.of(context).textTheme.headline4,),
+                 onTap: () => Navigator.of(context).pushAndRemoveUntil(HomePage.route(), (route) => false),
+               ),
+             ],
+           ),
+         ),
+       ),
+       bottomNavigationBar: displayBottomAppBar ? CustomBottomAppBar(selectedIndex: selectedIndex,) : null,
       extendBodyBehindAppBar: true,
       body: Center(
         child: Container(
@@ -32,16 +66,7 @@ class CustomScaffold extends StatelessWidget {
             child: body
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(
-          Icons.add,
-          color: Theme.of(context).primaryColor,
-          size: 40,
-        ),
-        onPressed: (){
-          //TODO: display other floating action buttons
-        },
-      ),
+      floatingActionButton: floatingActionButtons
     );
   }
 }
