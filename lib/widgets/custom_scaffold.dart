@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:regimental_app/blocs/authentication/authentication.dart';
 import 'package:regimental_app/screens/home/view/home_page.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'custom_app_bar.dart';
 import 'custom_bottom_app_bar.dart';
@@ -30,16 +32,41 @@ class CustomScaffold extends StatelessWidget {
              children: [
                //TODO: adjust to the real routes for now they all route to home
                ListTile(
-                 title: Text('Profile', style: Theme.of(context).textTheme.headline4,),
+                 leading: TextButton(
+                   child: Text(
+                     'EN',
+                     style: Theme.of(context).textTheme.headline4,
+                   ),
+                   onPressed: (){
+                     print('english');
+                   },
+                 ),
+                 trailing: IconButton(
+                     icon: Icon(Icons.close),
+                     onPressed: (){
+                       Navigator.pop(context);
+                     },
+                 ),
+               ),
+               ListTile(
+                 trailing: Text('VEMS', style: Theme.of(context).textTheme.headline4,),
                  onTap: () => Navigator.of(context).pushAndRemoveUntil(HomePage.route(), (route) => false),
                ),
                ListTile(
-                 title: Text('VEM', style: Theme.of(context).textTheme.headline4,),
+                 trailing: Text('DEMANDES', style: Theme.of(context).textTheme.headline4,),
                  onTap: () => Navigator.of(context).pushAndRemoveUntil(HomePage.route(), (route) => false),
                ),
                ListTile(
-                 title: Text('Profile', style: Theme.of(context).textTheme.headline4,),
+                 trailing: Text('NOUVELLE VEM', style: Theme.of(context).textTheme.headline4,),
                  onTap: () => Navigator.of(context).pushAndRemoveUntil(HomePage.route(), (route) => false),
+               ),
+               ListTile(
+                 trailing: Text('MON PROFILE', style: Theme.of(context).textTheme.headline4,),
+                 onTap: () => Navigator.of(context).pushAndRemoveUntil(HomePage.route(), (route) => false),
+               ),
+               ListTile(
+                 trailing: Text('DÉCONNECTION', style: Theme.of(context).textTheme.headline4,),
+                 onTap: () => context.read<AuthenticationBloc>().add(AuthenticationLogoutRequested()),
                ),
              ],
            ),
@@ -63,7 +90,7 @@ class CustomScaffold extends StatelessWidget {
                     fit: BoxFit.cover
                 )
             ),
-            child: body
+            child: SafeArea(child: body)
         ),
       ),
       floatingActionButton: floatingActionButtons

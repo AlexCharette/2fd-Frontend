@@ -10,7 +10,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
-      appBarTitle: 'VEM',
+      appBarTitle: 'VEMS',
       body: VemList(),
       floatingActionButtons: FloatingActionButton(
         child: Icon(
