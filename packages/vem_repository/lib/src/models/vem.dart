@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
 import 'package:meta/meta.dart';
 import '../entities/entities.dart';
 
@@ -124,5 +125,17 @@ class Vem {
     DateTime lockDate = now.add(new Duration(days: 3));
     return Timestamp.fromDate(
         DateTime(lockDate.year, lockDate.month, lockDate.day, 23, 59));
+  }
+
+  static String timestampToYearMonthDay(Timestamp timestamp){
+    DateTime myDateTime = timestamp.toDate();
+
+    return DateFormat.yMd().format(myDateTime);
+  }
+
+  static String timestampToYearMonthDayTime(Timestamp timestamp){
+    DateTime myDateTime = timestamp.toDate();
+
+    return DateFormat.yMd().add_Hm().format(myDateTime);
   }
 }

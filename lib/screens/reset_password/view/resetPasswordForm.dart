@@ -11,7 +11,7 @@ class ResetPasswordForm extends StatelessWidget {
     return BlocListener<ResetPasswordBloc, ResetPasswordState>(
         listener: (context, state){
           if (state.status == FormzStatus.submissionFailure) {
-            Scaffold.of(context)
+            ScaffoldMessenger.of(context)
               ..hideCurrentSnackBar()
               ..showSnackBar(
                 const SnackBar(content: Text('Reset Password Failure')),
@@ -30,13 +30,13 @@ class ResetPasswordForm extends StatelessWidget {
                 Center(
                   child: Text(
                     'Mot de Passe',
-                    style: theme.textTheme.headline2
+                    style: theme.textTheme.headline2.copyWith(color: Colors.black)
                   ),
                 ),
                 Center(
                   child: Text(
                     'Oublié',
-                    style: theme.textTheme.headline2,
+                    style: theme.textTheme.headline2.copyWith(color: Colors.black),
                   ),
                 )
               ],
@@ -63,7 +63,14 @@ class ResetPasswordForm extends StatelessWidget {
             Flexible(child: Align(alignment: Alignment.bottomCenter, child: Padding(
               padding: EdgeInsets.only(bottom: 10.0),
               child: _ResetPassword(),
-            ),))
+            ),)),
+            ElevatedButton(
+                onPressed: () => Navigator.pop(context),
+                child: Text('Cancel'),
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all<Color>(AppColors.charcoal)
+                ),
+            )
           ],
         ),
       ),
@@ -102,7 +109,6 @@ class _UsernameInput extends StatelessWidget {
 class _ResetPassword extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    ThemeData theme = Theme.of(context);
     return BlocBuilder<ResetPasswordBloc, ResetPasswordState>(
       buildWhen: (previous, current) => previous.status != current.status,
       builder: (context, state) {

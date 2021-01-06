@@ -10,7 +10,7 @@ class CommandMember extends User {
     int lastThree,
     String rank, {
     String phoneNumber = '',
-    String status = 'active',
+    MemberStatus status = MemberStatus.Active,
     String id,
   }) : super(
           email,
@@ -29,7 +29,7 @@ class CommandMember extends User {
     String lastName,
     int lastThree,
     String rank,
-    String status,
+    MemberStatus status,
   }) {
     return CommandMember(
       email ?? this.email,
@@ -66,7 +66,7 @@ class CommandMember extends User {
       lastThree,
       rank,
       status,
-      accountType: 'command',
+      accountType: AccountType.command,
     );
   }
 

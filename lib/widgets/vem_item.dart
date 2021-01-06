@@ -24,6 +24,7 @@ class VemItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ThemeData theme = Theme.of(context);
     return ListTile(
       key: Key('__vem_item_${vem.id}'),
       onTap: onTap,
@@ -34,14 +35,20 @@ class VemItem extends StatelessWidget {
           width: MediaQuery.of(context).size.width,
           child: Text(
             vem.name,
-            // style ?
+            style: theme.textTheme.headline5,
           ),
         ),
       ),
       subtitle: vem.startDate != null
-          ? Text('Date: ${vem.startDate} - ${vem.endDate}')
+          ? Row(
+            children: [
+              Text('Date: ${Vem.timestampToYearMonthDay(vem.startDate)}', style: theme.textTheme.bodyText1.copyWith(color: theme.primaryColor),),
+              vem.endDate != null ? Text(' - ${Vem.timestampToYearMonthDay(vem.endDate)}', style: theme.textTheme.bodyText1.copyWith(color: theme.primaryColor),) : null,
+            ],
+          )
           : null,
-      trailing: Icon(_isFull()
+      trailing: Icon(
+          _isFull()
           ? Icons.check_circle_sharp
           : Icons.check_circle_outline_sharp),
       // TODO trailing: const VemAttendanceIcon,

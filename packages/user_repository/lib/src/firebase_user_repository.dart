@@ -43,11 +43,11 @@ class FirebaseUserRepository implements UserRepository {
         .map((snapshot) {
       UserEntity userEntity = UserEntity.fromSnapshot(snapshot);
       switch (userEntity.accountType) {
-        case 'normal':
+        case AccountType.normal:
           return NormalMember.fromEntity(userEntity);
-        case 'command':
+        case AccountType.command:
           return CommandMember.fromEntity(userEntity);
-        case 'detCommand':
+        case AccountType.detCommand:
           return DetCommandMember.fromEntity(userEntity);
         default:
           throw 'Invalid account type: ${userEntity.accountType}';

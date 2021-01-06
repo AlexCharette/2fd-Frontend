@@ -1,10 +1,9 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:regimental_app/blocs/blocs.dart';
 import 'package:regimental_app/screens/add_edit_vem/add_edit_vem.dart';
+import 'package:regimental_app/widgets/custom_scaffold.dart';
 import 'package:vem_repository/vem_repository.dart';
 
 class VemDetailsScreen extends StatefulWidget {
@@ -23,20 +22,30 @@ class _VemDetailsScreenState extends State<VemDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     ThemeData theme = Theme.of(context);
-    return Scaffold(
-      body: Padding(
-        padding: EdgeInsets.all(15.0),
-        child: Column(
-          children: <Widget>[
-            Row(
+    return CustomScaffold(
+      appBarTitle: widget.vem.name,
+      body: Column(
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Text(widget.vem.name),
-                // TODO change based on attendance, only display if allowed
-                Icon(Icons.check_circle_outline_sharp),
+              children: [
+                Text(
+                  widget.vem.name,
+                  style: theme.textTheme.headline6,
+                ),
+                Icon(
+                  Icons.check_circle_outline,
+                  size: 35,
+                  color: Colors.white30,
+                ),
               ],
             ),
-            Container(
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
               decoration: BoxDecoration(
                 border: Border(
                   top: BorderSide(width: 1.0, color: theme.primaryColor),
@@ -45,15 +54,76 @@ class _VemDetailsScreenState extends State<VemDetailsScreen> {
                   left: BorderSide(width: 1.0, color: theme.primaryColor),
                 ),
               ),
-              child: Row(), // TODO date displays
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Column(
+                      children: <Widget>[
+                        Icon(
+                          Icons.date_range_outlined,
+                          color: theme.primaryColor,
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Text(
+                          Vem.timestampToYearMonthDayTime(widget.vem.startDate),
+                          style: theme.textTheme.bodyText2,
+                        )
+                      ],
+                    ),
+                    widget.vem.endDate != null
+                        ? Column(
+                            children: <Widget>[
+                              Icon(Icons.date_range_outlined,
+                                  color: theme.primaryColor),
+                              SizedBox(
+                                height: 5,
+                              ),
+                              Text(
+                                Vem.timestampToYearMonthDayTime(
+                                    widget.vem.endDate),
+                                style: theme.textTheme.bodyText2,
+                              )
+                            ],
+                          )
+                        : null,
+                    Column(
+                      children: <Widget>[
+                        Icon(Icons.lock, color: theme.primaryColor),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Text(
+                          Vem.timestampToYearMonthDayTime(widget.vem.lockDate),
+                          style: theme.textTheme.bodyText2,
+                        )
+                      ],
+                    ),
+                  ],
+                ),
+              ),
             ),
-            Text(widget
-                .vem.description), // TODO don't show if there isn't description
-            // TODO responses widget (only display if allowed)
-          ],
-        ),
+          ),
+          widget.vem.description != null
+              ? Padding(
+                  padding: const EdgeInsets.fromLTRB(20.0, 5, 10, 10),
+                  child: Row(
+                    children: [
+                      Text(
+                        widget.vem.description,
+                        softWrap: true,
+                      ),
+                    ],
+                  ),
+                )
+              : null,
+          // TODO responses widget (only display if allowed)
+        ],
       ),
-      floatingActionButton: Row(
+      floatingActionButtons: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           FloatingActionButton(
@@ -64,46 +134,43 @@ class _VemDetailsScreenState extends State<VemDetailsScreen> {
               // TODO display buttons to go to answer details or participation list
             },
           ),
-          // TODO only display if editing possible
           FloatingActionButton(
-            heroTag: 'editActionButton__heroTag',
-            tooltip: 'Edit VEM',
-            child: Icon(Icons.edit),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => AddEditVemScreen(
-                    onSave: (
-                      name,
-                      startDate,
-                      endDate,
-                      lockDate,
-                      responseType,
-                      description,
-                      minParticipants,
-                      maxParticipiants,
-                    ) {
-                      BlocProvider.of<VemsBloc>(context).add(
-                        UpdateVem(widget.vem.copyWith(
-                          name: name,
-                          startDate: startDate,
-                          endDate: endDate,
-                          lockDate: lockDate,
-                          responseType: responseType,
-                          description: description,
-                          minParticipants: minParticipants,
-                          maxParticipants: maxParticipiants,
-                        )),
-                      );
-                    },
-                    isEditing: true,
-                    vem: widget.vem,
-                  ),
-                ),
-              );
-            },
-          ),
+              heroTag: 'editActionButton__heroTag',
+              tooltip: 'Edit VEM',
+              child: Icon(Icons.edit),
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => AddEditVemScreen(
+                        onSave: (
+                          name,
+                          startDate,
+                          endDate,
+                          lockDate,
+                          responseType,
+                          description,
+                          minParticipants,
+                          maxParticipiants,
+                        ) {
+                          BlocProvider.of<VemsBloc>(context).add(
+                            UpdateVem(widget.vem.copyWith(
+                              name: name,
+                              startDate: startDate,
+                              endDate: endDate,
+                              lockDate: lockDate,
+                              responseType: responseType,
+                              description: description,
+                              minParticipants: minParticipants,
+                              maxParticipants: maxParticipiants,
+                            )),
+                          );
+                        },
+                        isEditing: true,
+                        vem: widget.vem,
+                      ),
+                    ));
+              }),
         ],
       ),
     );

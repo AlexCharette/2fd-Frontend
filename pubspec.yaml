@@ -39,6 +39,7 @@ dependencies:
   path_provider: ^1.6.5
   streaming_shared_preferences: ^1.0.1
   provider: ^4.3.2+3
+  flutter_svg: ^0.19.2+1
   vem_repository:
     path: packages/vem_repository
   vem_response_repository:

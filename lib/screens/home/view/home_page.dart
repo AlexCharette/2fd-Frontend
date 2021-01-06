@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:regimental_app/blocs/authentication/bloc/authentication_bloc.dart';
+import 'package:regimental_app/widgets/custom_scaffold.dart';
 import 'package:regimental_app/widgets/widgets.dart';
 
 class HomePage extends StatelessWidget {
@@ -10,32 +9,19 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(title: Text('hello')),
-        body: Center(
-          child: VemList(),
-          // child: Column(
-          //   mainAxisSize: MainAxisSize.min,
-          //   children: <Widget>[
-          //     Builder(
-          //       builder: (context) {
-          //         final userId = context.select(
-          //           (AuthenticationBloc bloc) => bloc.state.user.id,
-          //         );
-          //         return Text('UserID: $userId');
-          //       },
-          //     ),
-
-          //     RaisedButton(
-          //       child: const Text('Logout'),
-          //       onPressed: () {
-          //         context
-          //             .read<AuthenticationBloc>()
-          //             .add(AuthenticationLogoutRequested());
-          //       },
-          //     ),
-          //   ],
-          // ),
-        ));
+    return CustomScaffold(
+      appBarTitle: 'VEMS',
+      body: VemList(),
+      floatingActionButtons: FloatingActionButton(
+        child: Icon(
+          Icons.add,
+          color: Theme.of(context).primaryColor,
+          size: 40,
+        ),
+        onPressed: (){
+          //TODO: display other floating action buttons
+        },
+      ),
+    );
   }
 }
