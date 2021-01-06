@@ -29,7 +29,8 @@ class ThemeNotifier with ChangeNotifier {
       headline3: TextStyle(fontSize: 55, letterSpacing: 2.0, color: AppColors.white, fontFamily: 'CastIron'),
       headline4: TextStyle(fontSize: 45, letterSpacing: 2.0, color: AppColors.white, fontFamily: 'CastIron'),
       headline5: TextStyle(fontSize: 35, letterSpacing: 2.0, color: AppColors.white, fontFamily: 'CastIron'),
-      headline6: TextStyle(fontSize: 48, color: AppColors.white),
+      headline6: TextStyle(fontSize: 25, letterSpacing: 2.0, color: AppColors.white, fontFamily: 'CastIron'),
+      bodyText2: TextStyle(color: AppColors.white),
       button: TextStyle(letterSpacing: 2.0),
     ),
   );

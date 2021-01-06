@@ -26,27 +26,67 @@ class _VemDetailsScreenState extends State<VemDetailsScreen> {
       appBarTitle: widget.vem.name,
       body: Column(
         children: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Text(widget.vem.name),
-              // TODO change based on attendance, only display if allowed
-              Icon(Icons.check_circle_outline_sharp),
-            ],
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal:8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(widget.vem.name, style: theme.textTheme.headline6,),
+                Icon(Icons.check_circle_outline, size: 35, color: Colors.white30,),
+              ],
+            ),
           ),
-          Container(
-            decoration: BoxDecoration(
-              border: Border(
-                top: BorderSide(width: 1.0, color: theme.primaryColor),
-                right: BorderSide(width: 1.0, color: theme.primaryColor),
-                bottom: BorderSide(width: 1.0, color: theme.primaryColor),
-                left: BorderSide(width: 1.0, color: theme.primaryColor),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              decoration: BoxDecoration(
+                border: Border(
+                  top: BorderSide(width: 1.0, color: theme.primaryColor),
+                  right: BorderSide(width: 1.0, color: theme.primaryColor),
+                  bottom: BorderSide(width: 1.0, color: theme.primaryColor),
+                  left: BorderSide(width: 1.0, color: theme.primaryColor),
+                ),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Column(
+                      children: <Widget>[
+                        Icon(Icons.date_range_outlined, color: theme.primaryColor,),
+                        SizedBox(height: 5,),
+                        Text(Vem.timestampToYearMonthDayTime(widget.vem.startDate), style: theme.textTheme.bodyText2,)
+                      ],
+                    ),
+                    widget.vem.endDate != null
+                        ? Column(
+                            children: <Widget>[
+                            Icon(Icons.date_range_outlined, color: theme.primaryColor),
+                            SizedBox(height: 5,),
+                            Text(Vem.timestampToYearMonthDayTime(widget.vem.endDate), style: theme.textTheme.bodyText2,)
+                            ],)
+                        : null,
+                    Column(
+                      children: <Widget>[
+                        Icon(Icons.lock, color: theme.primaryColor),
+                        SizedBox(height: 5,),
+                        Text(Vem.timestampToYearMonthDayTime(widget.vem.lockDate), style: theme.textTheme.bodyText2,)
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
-            child: Row(), // TODO date displays
           ),
-          Text(widget
-              .vem.description), // TODO don't show if there isn't description
+          widget.vem.description != null ? Padding(
+            padding: const EdgeInsets.fromLTRB(20.0,5,10,10),
+            child: Row(
+              children: [
+                Text(widget.vem.description, softWrap: true,),
+              ],
+            ),
+          ) : null,
           // TODO responses widget (only display if allowed)
         ],
       ),
