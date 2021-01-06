@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:regimental_app/widgets/widgets.dart';
 import 'package:vem_repository/vem_repository.dart';
 
 typedef OnSave = Function(
@@ -51,7 +52,9 @@ class _AddEditVemScreenState extends State<AddEditVemScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    ThemeData theme = Theme.of(context);
+    return CustomScaffold(
+      appBarTitle: isEditing ? widget.vem.name : 'New VEM',
       body: Padding(
         padding: EdgeInsets.all(15.0),
         child: Form(
@@ -67,12 +70,57 @@ class _AddEditVemScreenState extends State<AddEditVemScreen> {
                 onSaved: (value) => _name = value,
               ),
               Row(
-                children: <Widget>[], // TODO add icons that call showDatePicker
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  DateDisplay(
+                    icon: Icons.date_range_outlined,
+                    date: Vem.timestampToYearMonthDayTime(widget.vem.startDate),
+                    onTap: () async => _startDate = Timestamp.fromDate(
+                      await showDatePicker(
+                          context: context,
+                          initialDate: isEditing
+                              ? widget.vem.startDate.toDate()
+                              : Vem.getDefaultStartDate().toDate(),
+                          firstDate: Vem.getDefaultStartDate().toDate(),
+                          lastDate: DateTime.now().add(Duration(days: 365))),
+                    ),
+                  ),
+                  widget.vem.endDate != null
+                      ? DateDisplay(
+                          icon: Icons.date_range_outlined,
+                          date: Vem.timestampToYearMonthDayTime(
+                              widget.vem.endDate),
+                          onTap: () async => _endDate = Timestamp.fromDate(
+                            await showDatePicker(
+                                context: context,
+                                initialDate: isEditing
+                                    ? widget.vem.endDate.toDate()
+                                    : Vem.getDefaultEndDate().toDate(),
+                                firstDate: Vem.getDefaultStartDate().toDate(),
+                                lastDate:
+                                    DateTime.now().add(Duration(days: 365))),
+                          ),
+                        )
+                      : null,
+                  DateDisplay(
+                    icon: Icons.lock_clock,
+                    date: Vem.timestampToYearMonthDayTime(widget.vem.lockDate),
+                    onTap: () async => _lockDate = Timestamp.fromDate(
+                      await showDatePicker(
+                          context: context,
+                          initialDate: isEditing
+                              ? widget.vem.lockDate.toDate()
+                              : Vem.getDefaultStartDate().toDate(),
+                          firstDate: Vem.getDefaultStartDate().toDate(),
+                          lastDate: DateTime.now().add(Duration(days: 365))),
+                    ),
+                  ),
+                ],
               ),
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  // TODO
-                  // Icon(),
+                  Icon(Icons.people, color: theme.primaryColor),
                   TextFormField(
                     initialValue:
                         isEditing ? widget.vem.minParticipants.toString() : '1',
@@ -141,7 +189,7 @@ class _AddEditVemScreenState extends State<AddEditVemScreen> {
           ),
         ),
       ),
-      floatingActionButton: Row(
+      floatingActionButtons: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           // TODO add confirmation widget

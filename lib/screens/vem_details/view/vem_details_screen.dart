@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:regimental_app/blocs/blocs.dart';
 import 'package:regimental_app/screens/add_edit_vem/add_edit_vem.dart';
-import 'package:regimental_app/widgets/custom_scaffold.dart';
+import 'package:regimental_app/widgets/widgets.dart';
 import 'package:vem_repository/vem_repository.dart';
 
 class VemDetailsScreen extends StatefulWidget {
@@ -59,48 +59,22 @@ class _VemDetailsScreenState extends State<VemDetailsScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Column(
-                      children: <Widget>[
-                        Icon(
-                          Icons.date_range_outlined,
-                          color: theme.primaryColor,
-                        ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Text(
+                    DateDisplay(
+                      icon: Icons.date_range_outlined,
+                      date:
                           Vem.timestampToYearMonthDayTime(widget.vem.startDate),
-                          style: theme.textTheme.bodyText2,
-                        )
-                      ],
                     ),
                     widget.vem.endDate != null
-                        ? Column(
-                            children: <Widget>[
-                              Icon(Icons.date_range_outlined,
-                                  color: theme.primaryColor),
-                              SizedBox(
-                                height: 5,
-                              ),
-                              Text(
-                                Vem.timestampToYearMonthDayTime(
-                                    widget.vem.endDate),
-                                style: theme.textTheme.bodyText2,
-                              )
-                            ],
+                        ? DateDisplay(
+                            icon: Icons.date_range_outlined,
+                            date: Vem.timestampToYearMonthDayTime(
+                                widget.vem.endDate),
                           )
                         : null,
-                    Column(
-                      children: <Widget>[
-                        Icon(Icons.lock, color: theme.primaryColor),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Text(
+                    DateDisplay(
+                      icon: Icons.lock_clock,
+                      date:
                           Vem.timestampToYearMonthDayTime(widget.vem.lockDate),
-                          style: theme.textTheme.bodyText2,
-                        )
-                      ],
                     ),
                   ],
                 ),

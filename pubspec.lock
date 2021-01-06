@@ -272,8 +272,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "6.1.1"
-<<<<<<< HEAD
-=======
   flutter_email_sender:
     dependency: "direct main"
     description:
@@ -288,7 +286,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.19.2+1"
->>>>>>> main
   flutter_test:
     dependency: "direct dev"
     description: flutter
