@@ -30,13 +30,13 @@ class ResetPasswordForm extends StatelessWidget {
                 Center(
                   child: Text(
                     'Mot de Passe',
-                    style: theme.textTheme.headline2
+                    style: theme.textTheme.headline2.copyWith(color: Colors.black)
                   ),
                 ),
                 Center(
                   child: Text(
                     'Oublié',
-                    style: theme.textTheme.headline2,
+                    style: theme.textTheme.headline2.copyWith(color: Colors.black),
                   ),
                 )
               ],
@@ -63,7 +63,14 @@ class ResetPasswordForm extends StatelessWidget {
             Flexible(child: Align(alignment: Alignment.bottomCenter, child: Padding(
               padding: EdgeInsets.only(bottom: 10.0),
               child: _ResetPassword(),
-            ),))
+            ),)),
+            ElevatedButton(
+                onPressed: () => Navigator.pop(context),
+                child: Text('Cancel'),
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all<Color>(AppColors.charcoal)
+                ),
+            )
           ],
         ),
       ),

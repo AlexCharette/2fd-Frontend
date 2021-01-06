@@ -6,7 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'custom_app_bar.dart';
 import 'custom_bottom_app_bar.dart';
 
-class CustomScaffold extends StatelessWidget {
+class CustomScaffold extends StatefulWidget {
   CustomScaffold({this.appBarTitle, this.body, this.displayBottomAppBar = true, this.selectedIndex = 0, this.floatingActionButtons = null});
 
   final Widget body;
@@ -16,9 +16,14 @@ class CustomScaffold extends StatelessWidget {
   final int selectedIndex;
 
   @override
+  _CustomScaffoldState createState() => _CustomScaffoldState();
+}
+
+class _CustomScaffoldState extends State<CustomScaffold> {
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(appBarTitle: appBarTitle,),
+      appBar: CustomAppBar(appBarTitle: widget.appBarTitle,),
        endDrawer: Theme(
          data: Theme.of(context).copyWith(
            canvasColor: Colors.white38
@@ -34,6 +39,7 @@ class CustomScaffold extends StatelessWidget {
                      style: Theme.of(context).textTheme.headline5,
                    ),
                    onPressed: (){
+                     //TODO: actually change the language to english or french accordingly
                      print('english');
                    },
                  ),
@@ -72,7 +78,7 @@ class CustomScaffold extends StatelessWidget {
            ),
          ),
        ),
-       bottomNavigationBar: displayBottomAppBar ? CustomBottomAppBar(selectedIndex: selectedIndex,) : null,
+       bottomNavigationBar: widget.displayBottomAppBar ? CustomBottomAppBar(selectedIndex: widget.selectedIndex,) : null,
       extendBodyBehindAppBar: true,
       body: Center(
         child: Container(
@@ -90,10 +96,10 @@ class CustomScaffold extends StatelessWidget {
                     fit: BoxFit.cover
                 )
             ),
-            child: SafeArea(child: body)
+            child: SafeArea(child: widget.body)
         ),
       ),
-      floatingActionButton: floatingActionButtons
+      floatingActionButton: widget.floatingActionButtons
     );
   }
 }

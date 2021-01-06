@@ -132,4 +132,10 @@ class Vem {
 
     return DateFormat.yMd().format(myDateTime);
   }
+
+  static String timestampToYearMonthDayTime(Timestamp timestamp){
+    DateTime myDateTime = timestamp.toDate();
+
+    return DateFormat.yMd().add_Hm().format(myDateTime);
+  }
 }
