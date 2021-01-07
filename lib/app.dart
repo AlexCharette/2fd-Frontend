@@ -1,4 +1,6 @@
 import 'package:authentication_repository/authentication_repository.dart';
+import 'package:regimental_app/screens/reset_password/view/reset_password_screen.dart';
+import 'package:regimental_app/screens/vem_details/view/view.dart';
 import 'package:vem_repository/vem_repository.dart';
 import 'package:vem_response_repository/vem_response_repository.dart';
 import 'package:flutter/material.dart';
@@ -6,9 +8,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:regimental_app/blocs/blocs.dart';
 import 'package:regimental_app/config/theme.dart';
-import 'package:regimental_app/screens/home/view/home_page.dart';
-import 'package:regimental_app/screens/login/view/login_page.dart';
-import 'package:regimental_app/screens/splash/view/splash_page.dart';
+import 'package:regimental_app/config/routes.dart';
+import 'package:regimental_app/screens/add_edit_vem/add_edit_vem.dart';
+import 'package:regimental_app/screens/home/home.dart';
+import 'package:regimental_app/screens/login/login.dart';
+import 'package:regimental_app/screens/splash/splash.dart';
 
 class App extends StatelessWidget {
   const App({
@@ -68,19 +72,26 @@ class _AppViewState extends State<AppView> {
       return MaterialApp(
         theme: theme.getTheme(),
         navigatorKey: _navigatorKey,
+        routes: {
+          HomeScreen.routeName: (context) => HomeScreen(),
+          LoginScreen.routeName: (context) => LoginScreen(),
+          ResetPasswordScreen.routeName: (context) => ResetPasswordScreen(),
+          AddEditVemScreen.routeName: (context) => AddEditVemScreen(),
+          VemDetailsScreen.routeName: (context) => VemDetailsScreen(),
+        },
         builder: (context, child) {
           return BlocListener<AuthenticationBloc, AuthenticationState>(
             listener: (context, state) {
               switch (state.status) {
                 case AuthenticationStatus.authenticated:
                   _navigator.pushAndRemoveUntil<void>(
-                    HomePage.route(),
+                    HomeScreen.route(),
                     (route) => false,
                   );
                   break;
                 case AuthenticationStatus.unauthenticated:
                   _navigator.pushAndRemoveUntil<void>(
-                    LoginPage.route(),
+                    LoginScreen.route(),
                     (route) => false,
                   );
                   break;
@@ -91,7 +102,7 @@ class _AppViewState extends State<AppView> {
             child: child,
           );
         },
-        onGenerateRoute: (_) => SplashPage.route(),
+        onGenerateRoute: (_) => SplashScreen.route(),
       );
     });
   }

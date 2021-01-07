@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:regimental_app/config/routes.dart';
 import 'package:regimental_app/widgets/widgets.dart';
 import 'package:vem_repository/vem_repository.dart';
 
@@ -21,17 +22,26 @@ enum ResponseTypes {
   Other,
 }
 
-class AddEditVemScreen extends StatefulWidget {
+class AddEditVemScreenArguments {
   final Vem vem;
   final OnSave onSave;
   final bool isEditing;
 
-  AddEditVemScreen({
-    Key key,
-    this.vem,
-    @required this.onSave,
-    @required this.isEditing,
-  }) : super(key: key);
+  AddEditVemScreenArguments(this.vem, this.onSave, this.isEditing);
+}
+
+class AddEditVemScreen extends StatefulWidget {
+  static const routeName = Routes.addEditVem;
+  // final Vem vem;
+  // final OnSave onSave;
+  // final bool isEditing;
+
+  // AddEditVemScreen({
+  //   Key key,
+  //   this.vem,
+  //   @required this.onSave,
+  //   @required this.isEditing,
+  // }) : super(key: key);
 
   @override
   _AddEditVemScreenState createState() => _AddEditVemScreenState();
@@ -48,13 +58,16 @@ class _AddEditVemScreenState extends State<AddEditVemScreen> {
   int _minParticipants;
   int _maxParticipants;
 
-  bool get isEditing => widget.isEditing;
+  // bool get isEditing => args.isEditing;
 
   @override
   Widget build(BuildContext context) {
     ThemeData theme = Theme.of(context);
+    final AddEditVemScreenArguments args =
+        ModalRoute.of(context).settings.arguments;
+    bool isEditing = args.isEditing;
     return CustomScaffold(
-      appBarTitle: isEditing ? widget.vem.name : 'New VEM',
+      appBarTitle: isEditing ? args.vem.name : 'New VEM',
       body: Padding(
         padding: EdgeInsets.all(15.0),
         child: Form(
@@ -62,7 +75,7 @@ class _AddEditVemScreenState extends State<AddEditVemScreen> {
           child: ListView(
             children: [
               TextFormField(
-                initialValue: isEditing ? widget.vem.name : '',
+                initialValue: isEditing ? args.vem.name : '',
                 autofocus: !isEditing,
                 validator: (val) {
                   return val.trim().isEmpty ? 'The VEM needs a name' : null;
@@ -74,27 +87,27 @@ class _AddEditVemScreenState extends State<AddEditVemScreen> {
                 children: <Widget>[
                   DateDisplay(
                     icon: Icons.date_range_outlined,
-                    date: Vem.timestampToYearMonthDayTime(widget.vem.startDate),
+                    date: Vem.timestampToYearMonthDayTime(args.vem.startDate),
                     onTap: () async => _startDate = Timestamp.fromDate(
                       await showDatePicker(
                           context: context,
                           initialDate: isEditing
-                              ? widget.vem.startDate.toDate()
+                              ? args.vem.startDate.toDate()
                               : Vem.getDefaultStartDate().toDate(),
                           firstDate: Vem.getDefaultStartDate().toDate(),
                           lastDate: DateTime.now().add(Duration(days: 365))),
                     ),
                   ),
-                  widget.vem.endDate != null
+                  args.vem.endDate != null
                       ? DateDisplay(
                           icon: Icons.date_range_outlined,
-                          date: Vem.timestampToYearMonthDayTime(
-                              widget.vem.endDate),
+                          date:
+                              Vem.timestampToYearMonthDayTime(args.vem.endDate),
                           onTap: () async => _endDate = Timestamp.fromDate(
                             await showDatePicker(
                                 context: context,
                                 initialDate: isEditing
-                                    ? widget.vem.endDate.toDate()
+                                    ? args.vem.endDate.toDate()
                                     : Vem.getDefaultEndDate().toDate(),
                                 firstDate: Vem.getDefaultStartDate().toDate(),
                                 lastDate:
@@ -104,12 +117,12 @@ class _AddEditVemScreenState extends State<AddEditVemScreen> {
                       : null,
                   DateDisplay(
                     icon: Icons.lock_clock,
-                    date: Vem.timestampToYearMonthDayTime(widget.vem.lockDate),
+                    date: Vem.timestampToYearMonthDayTime(args.vem.lockDate),
                     onTap: () async => _lockDate = Timestamp.fromDate(
                       await showDatePicker(
                           context: context,
                           initialDate: isEditing
-                              ? widget.vem.lockDate.toDate()
+                              ? args.vem.lockDate.toDate()
                               : Vem.getDefaultStartDate().toDate(),
                           firstDate: Vem.getDefaultStartDate().toDate(),
                           lastDate: DateTime.now().add(Duration(days: 365))),
@@ -123,7 +136,7 @@ class _AddEditVemScreenState extends State<AddEditVemScreen> {
                   Icon(Icons.people, color: theme.primaryColor),
                   TextFormField(
                     initialValue:
-                        isEditing ? widget.vem.minParticipants.toString() : '1',
+                        isEditing ? args.vem.minParticipants.toString() : '1',
                     decoration:
                         new InputDecoration(labelText: 'Min participants'),
                     keyboardType: TextInputType.number,
@@ -139,7 +152,7 @@ class _AddEditVemScreenState extends State<AddEditVemScreen> {
                   ),
                   TextFormField(
                     initialValue:
-                        isEditing ? widget.vem.maxParticipants.toString() : '0',
+                        isEditing ? args.vem.maxParticipants.toString() : '0',
                     decoration:
                         new InputDecoration(labelText: 'Max participants'),
                     keyboardType: TextInputType.number,
@@ -180,7 +193,7 @@ class _AddEditVemScreenState extends State<AddEditVemScreen> {
               ),
               TextFormField(
                 initialValue: isEditing
-                    ? widget.vem.description
+                    ? args.vem.description
                     : 'Describe the what the VEM entails and requires.',
                 decoration: new InputDecoration(labelText: 'Description'),
                 onSaved: (value) => _description = value,
@@ -192,7 +205,7 @@ class _AddEditVemScreenState extends State<AddEditVemScreen> {
       floatingActionButtons: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          // TODO add confirmation widget
+          // TODO add confirmation args
           FloatingActionButton(
             tooltip: 'Erase changes',
             child: Icon(Icons.close),
@@ -200,14 +213,14 @@ class _AddEditVemScreenState extends State<AddEditVemScreen> {
               Navigator.pop(context);
             },
           ),
-          // TODO add confirmation widget
+          // TODO add confirmation args
           FloatingActionButton(
             tooltip: isEditing ? 'Save changes' : 'Publish VEM',
             child: Icon(isEditing ? Icons.check : Icons.add),
             onPressed: () {
               if (_formKey.currentState.validate()) {
                 _formKey.currentState.save();
-                widget.onSave(
+                args.onSave(
                   _name,
                   _startDate,
                   _endDate,
