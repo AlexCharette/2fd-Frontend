@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:regimental_app/widgets/custom_scaffold.dart';
+import 'package:regimental_app/config/routes.dart';
 import 'package:regimental_app/widgets/widgets.dart';
 
 class HomeScreen extends StatelessWidget {
-  static String routeName = '/';
+  static String routeName = Routes.home;
   static Route route() {
     return MaterialPageRoute<void>(builder: (_) => HomeScreen());
   }

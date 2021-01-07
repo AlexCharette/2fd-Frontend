@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:regimental_app/config/routes.dart';
 import 'package:regimental_app/widgets/widgets.dart';
 import 'package:vem_repository/vem_repository.dart';
 
@@ -30,7 +31,7 @@ class AddEditVemScreenArguments {
 }
 
 class AddEditVemScreen extends StatefulWidget {
-  static const routeName = '/add-edit-vem';
+  static const routeName = Routes.addEditVem;
   // final Vem vem;
   // final OnSave onSave;
   // final bool isEditing;

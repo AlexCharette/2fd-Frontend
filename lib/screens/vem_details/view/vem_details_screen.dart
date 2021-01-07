@@ -2,6 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:regimental_app/blocs/blocs.dart';
+import 'package:regimental_app/config/routes.dart';
 import 'package:regimental_app/screens/add_edit_vem/add_edit_vem.dart';
 import 'package:regimental_app/widgets/widgets.dart';
 import 'package:vem_repository/vem_repository.dart';
@@ -13,7 +14,7 @@ class VemDetailsScreenArguments {
 }
 
 class VemDetailsScreen extends StatefulWidget {
-  static const routeName = '/vem-details';
+  static const routeName = Routes.vemDetails;
   // final Vem vem;
 
   // VemDetailsScreen(

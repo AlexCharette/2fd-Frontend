@@ -9,36 +9,21 @@ import 'package:vem_response_repository/vem_response_repository.dart';
 
 // TODO if response exists: update instead of add
 //                          render based on current response
-class VemResponder extends StatefulWidget {
+class VemResponder extends Dialog {
   final Vem vem;
   final VemResponse currentResponse;
-  final GestureTapCallback onTap;
 
   VemResponder({
     Key key,
-    @required this.onTap,
     @required this.vem,
     this.currentResponse,
   }) : super(key: key);
 
-  @override
-  _VemResponderState createState() => _VemResponderState();
-}
-
-class _VemResponderState extends State<VemResponder> {
-  bool isVisible = true;
-
-  void _hideWidget() {
-    setState(() {
-      isVisible = false;
-    });
-  }
-
-  void _submitResponse(String answer) {
+  void _submitResponse(BuildContext context, String answer) {
     BlocProvider.of<VemResponsesBloc>(context).add(
-      widget.currentResponse != null
+      currentResponse != null
           ? UpdateVemResponse(
-              widget.vem.id,
+              vem.id,
               VemResponse(
                 FirebaseFirestore.instance
                     .collection('users')
@@ -47,7 +32,7 @@ class _VemResponderState extends State<VemResponder> {
               ),
             )
           : AddVemResponse(
-              widget.vem.id,
+              vem.id,
               VemResponse(
                 FirebaseFirestore.instance
                     .collection('users')
@@ -60,45 +45,45 @@ class _VemResponderState extends State<VemResponder> {
 
   @override
   Widget build(BuildContext context) {
-    return Visibility(
-      maintainState: true,
-      visible: isVisible,
-      child: Center(
-        key: Key('__vem_responder_${widget.vem.id}'),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            Hero(
-              tag: '${widget.vem.id}__heroTag',
-              child: Container(
-                width: MediaQuery.of(context).size.width,
-                child: Text(
-                  'Respond to ${widget.vem.name}',
+    return SimpleDialog(
+      children: <Widget>[
+        Center(
+          key: Key('__vem_responder_${vem.id}'),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Hero(
+                tag: '${vem.id}__heroTag',
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  child: Text(
+                    'Respond to ${vem.name}',
+                  ),
                 ),
               ),
-            ),
-            RaisedButton(
-              onPressed: (widget.currentResponse != null &&
-                      widget.currentResponse.answer != 'yes')
-                  ? () {
-                      _submitResponse('yes');
-                      _hideWidget();
-                    }
-                  : null,
-              child: Text('Confirm my attendance'), // TODO
-            ),
-            RaisedButton(
-              onPressed: (widget.currentResponse != null &&
-                      widget.currentResponse.answer != 'no')
-                  ? () {
-                      _submitResponse('no');
-                      _hideWidget();
-                    }
-                  : null,
-            ),
-          ],
+              RaisedButton(
+                onPressed:
+                    (currentResponse != null && currentResponse.answer != 'yes')
+                        ? () {
+                            _submitResponse(context, 'yes');
+                            //_hideWidget();
+                            Navigator.pop(context);
+                          }
+                        : null,
+                child: Text('Confirm my attendance'), // TODO
+              ),
+              RaisedButton(
+                onPressed:
+                    (currentResponse != null && currentResponse.answer != 'no')
+                        ? () {
+                            _submitResponse(context, 'no');
+                          }
+                        : null,
+              ),
+            ],
+          ),
         ),
-      ),
+      ],
     );
   }
 }
@@ -107,7 +92,7 @@ class _VemResponderState extends State<VemResponder> {
               onPressed: () {
                 BlocProvider.of<VemResponsesBloc>(context).add(
                   AddVemResponse(
-                    widget.vem.id,
+                    vem.id,
                     VemResponse(
                       FirebaseFirestore.instance
                           .collection('users')

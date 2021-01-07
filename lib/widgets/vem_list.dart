@@ -50,10 +50,10 @@ class VemList extends StatelessWidget {
                           // If the lock date has not passed
                           if (Timestamp.now().compareTo(vem.lockDate) <= 0) {
                             // open vem response widget
-                            Overlay.of(context)
-                                .insert(OverlayEntry(builder: (context) {
-                              return VemResponder(vem: vem);
-                            }));
+                            showDialog(
+                              context: context,
+                              builder: (context) => VemResponder(vem: vem),
+                            );
                           } else {
                             // TODO open response change request widget
                           }
