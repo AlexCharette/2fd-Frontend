@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:regimental_app/widgets/custom_scaffold.dart';
 import 'package:regimental_app/widgets/widgets.dart';
 
-class HomePage extends StatelessWidget {
+class HomeScreen extends StatelessWidget {
+  static String routeName = '/';
   static Route route() {
-    return MaterialPageRoute<void>(builder: (_) => HomePage());
+    return MaterialPageRoute<void>(builder: (_) => HomeScreen());
   }
 
   @override
@@ -18,7 +19,7 @@ class HomePage extends StatelessWidget {
           color: Theme.of(context).primaryColor,
           size: 40,
         ),
-        onPressed: (){
+        onPressed: () {
           //TODO: display other floating action buttons
         },
       ),

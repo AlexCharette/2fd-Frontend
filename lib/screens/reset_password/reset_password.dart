@@ -1,1 +1,1 @@
-export 'view/resetPasswordPage.dart';
+export 'view/reset_password_screen.dart';
