@@ -127,13 +127,13 @@ class Vem {
         DateTime(lockDate.year, lockDate.month, lockDate.day, 23, 59));
   }
 
-  static String timestampToYearMonthDay(Timestamp timestamp){
+  static String timestampToYearMonthDay(Timestamp timestamp) {
     DateTime myDateTime = timestamp.toDate();
 
     return DateFormat.yMd().format(myDateTime);
   }
 
-  static String timestampToYearMonthDayTime(Timestamp timestamp){
+  static String timestampToYearMonthDayTime(Timestamp timestamp) {
     DateTime myDateTime = timestamp.toDate();
 
     return DateFormat.yMd().add_Hm().format(myDateTime);

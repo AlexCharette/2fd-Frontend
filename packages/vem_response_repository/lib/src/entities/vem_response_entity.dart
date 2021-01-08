@@ -3,33 +3,37 @@ import 'package:equatable/equatable.dart';
 
 class VemResponseEntity extends Equatable {
   final String id;
-  final DocumentReference member;
+  final String userId;
+  final String vemId;
   final String answer;
 
-  const VemResponseEntity(this.id, this.member, {String answer = 'seen'})
+  const VemResponseEntity(this.id, this.userId, this.vemId,
+      {String answer = 'seen'})
       : assert(answer == 'yes' || answer == 'no' || answer == 'seen'),
         this.answer = answer;
 
   Map<String, Object> toJson() {
     return {
-      "member": member,
+      "userId": userId,
+      "vemId": vemId,
       "answer": answer,
       "id": id,
     };
   }
 
   @override
-  List<Object> get props => [member, answer, id];
+  List<Object> get props => [userId, vemId, answer, id];
 
   @override
   String toString() {
-    return 'VemResponse{member: $member, answer: $answer, id: $id}';
+    return 'VemResponse{userId: $userId, vemId: $vemId, answer: $answer, id: $id}';
   }
 
   static VemResponseEntity fromJson(Map<String, Object> json) {
     return VemResponseEntity(
       json["id"] as String,
-      json["member"] as DocumentReference,
+      json["userId"] as String,
+      json["vemId"] as String,
       answer: json["answer"] as String,
     );
   }
@@ -37,14 +41,16 @@ class VemResponseEntity extends Equatable {
   static VemResponseEntity fromSnapshot(DocumentSnapshot snap) {
     return VemResponseEntity(
       snap.id,
-      snap.get('member'),
+      snap.get('userId'),
+      snap.get('vemId'),
       answer: snap.get('answer'),
     );
   }
 
   Map<String, Object> toDocument() {
     return {
-      "member": member,
+      "userId": userId,
+      "vemId": vemId,
       "answer": answer,
     };
   }
