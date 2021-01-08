@@ -14,6 +14,7 @@ class VemDetailsScreenArguments {
   final List<VemResponse> response;
 
   VemDetailsScreenArguments(this.vem, this.response);
+
 }
 
 class VemDetailsScreen extends StatefulWidget {
@@ -45,10 +46,11 @@ class _VemDetailsScreenState extends State<VemDetailsScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  args.vem.name,
+                  widget.vem.name,
                   style: theme.textTheme.headline6,
                 ),
                 completionIcon(args.vem,args.response)
+
                 // Icon(
                 //   Icons.check_circle_outline,
                 //   size: 35,
@@ -180,7 +182,7 @@ class _VemDetailsScreenState extends State<VemDetailsScreen> {
         ],
       );
     }
-    else if(response.length == vem.minParticipants){
+    else if(widget.response.length == widget.vem.minParticipants){
       completionStatus = Icon(Icons.check_circle, color: AppColors.white, size: 35,);
     }
     else{
