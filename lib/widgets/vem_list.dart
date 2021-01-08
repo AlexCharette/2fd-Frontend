@@ -41,12 +41,13 @@ class VemList extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => VemDetailsScreen(key, vem),
+                            builder: (context) => VemDetailsScreen(key, vem, vemResponses['${vem.id}']),
                           ),
                         );
                       },
                       onLongPress: () async {
                         // if it isn't full
+                        // TODO: fucking wrong
                         if (vemResponses.length < vem.maxParticipants) {
                           // If the lock date has not passed
                           if (Timestamp.now().compareTo(vem.lockDate) <= 0) {
