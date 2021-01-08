@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:regimental_app/config/theme.dart';
 import 'package:vem_repository/vem_repository.dart';
 import 'package:vem_response_repository/vem_response_repository.dart';
 
@@ -17,9 +18,39 @@ class VemItem extends StatelessWidget {
     @required this.vemResponses,
   }) : super(key: key);
 
-  bool _isFull() {
-    if (vemResponses == null) return false;
-    return (vemResponses.length == vem.maxParticipants);
+  // bool _isFull() {
+  //   if (vemResponses == null) return false;
+  //   return (vemResponses.length == vem.maxParticipants);
+  // }
+  Widget completionIcon(){
+      Widget completionStatus;
+
+      if (vemResponses == null || vemResponses.length < vem.minParticipants){
+        print(vemResponses);
+        completionStatus = Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text("${vemResponses == null ? 0 : vemResponses.length}/${vem.maxParticipants}", style: TextStyle(color: Colors.red[900]),),
+            Icon(Icons.people, color: Colors.red[900], size: 35,),
+          ],
+        );
+      }
+      else if (vemResponses.length >= vem.minParticipants && vemResponses.length < vem.maxParticipants){
+        completionStatus = Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text("${vemResponses.length}/${vem.maxParticipants}", style: TextStyle(color: Colors.green),),
+            Icon(Icons.check_circle_outline, color: Colors.white54, size: 35,),
+          ],
+        );
+      }
+      else if(vemResponses.length == vem.minParticipants){
+        completionStatus = Icon(Icons.check_circle, color: AppColors.white, size: 35,);
+      }
+      else{
+        return null;
+      }
+      return completionStatus;
   }
 
   @override
@@ -47,11 +78,7 @@ class VemItem extends StatelessWidget {
             ],
           )
           : null,
-      trailing: Icon(
-          _isFull()
-          ? Icons.check_circle_sharp
-          : Icons.check_circle_outline_sharp),
-      // TODO trailing: const VemAttendanceIcon,
+      trailing: completionIcon()
     );
   }
 }

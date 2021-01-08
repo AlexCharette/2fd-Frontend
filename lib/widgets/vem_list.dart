@@ -46,6 +46,7 @@ class VemList extends StatelessWidget {
                       },
                       onLongPress: () async {
                         // if it isn't full
+                        // TODO: fucking wrong
                         if (vemResponses.length < vem.maxParticipants) {
                           // If the lock date has not passed
                           if (Timestamp.now().compareTo(vem.lockDate) <= 0) {
