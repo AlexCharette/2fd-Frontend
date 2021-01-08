@@ -41,7 +41,7 @@ class VemList extends StatelessWidget {
                         Navigator.pushNamed(
                           context,
                           VemDetailsScreen.routeName,
-                          arguments: VemDetailsScreenArguments(vem),
+                          arguments: VemDetailsScreenArguments(vem,vemResponses[vem.id]),
                         );
                       },
                       onLongPress: () async {

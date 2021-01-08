@@ -13,7 +13,8 @@ class VemDetailsScreenArguments {
   final Vem vem;
   final List<VemResponse> response;
 
-  VemDetailsScreenArguments({this.vem, this.response});
+  VemDetailsScreenArguments(this.vem, this.response);
+
 }
 
 class VemDetailsScreen extends StatefulWidget {
@@ -48,7 +49,8 @@ class _VemDetailsScreenState extends State<VemDetailsScreen> {
                   widget.vem.name,
                   style: theme.textTheme.headline6,
                 ),
-                completionIcon()
+                completionIcon(args.vem,args.response)
+
                 // Icon(
                 //   Icons.check_circle_outline,
                 //   size: 35,
@@ -162,20 +164,20 @@ class _VemDetailsScreenState extends State<VemDetailsScreen> {
     );
   }
 
-  Widget completionIcon(){
+  Widget completionIcon(Vem vem,List<VemResponse> response){
     Widget completionStatus;
-    if (widget.response == null || widget.response.length < widget.vem.minParticipants){
+    if (response == null || response.length < vem.minParticipants){
       completionStatus = Row(
         children: [
-          Text("${widget.response != null ? widget.response.length : 0}/${widget.vem.maxParticipants}", style: TextStyle(color: Colors.red),),
-          Icon(Icons.people, color: Colors.red,),
+          Text("${response != null ? response.length : 0}/${vem.maxParticipants}", style: TextStyle(color: Colors.red[900]),),
+          Icon(Icons.people, color: Colors.red[900],),
         ],
       );
     }
-    else if (widget.response.length >= widget.vem.minParticipants && widget.response.length < widget.vem.maxParticipants){
+    else if (response.length >= vem.minParticipants && response.length < vem.maxParticipants){
       completionStatus = Row(
         children: [
-          Text("${widget.response.length}/${widget.vem.maxParticipants}", style: TextStyle(color: Colors.green),),
+          Text("${response.length}/${vem.maxParticipants}", style: TextStyle(color: Colors.green),),
           Icon(Icons.check_circle_outline, color: Colors.white54, size: 35,),
         ],
       );
