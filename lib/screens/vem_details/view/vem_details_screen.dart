@@ -46,7 +46,7 @@ class _VemDetailsScreenState extends State<VemDetailsScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  widget.vem.name,
+                  args.vem.name,
                   style: theme.textTheme.headline6,
                 ),
                 completionIcon(args.vem,args.response)
@@ -182,7 +182,7 @@ class _VemDetailsScreenState extends State<VemDetailsScreen> {
         ],
       );
     }
-    else if(widget.response.length == widget.vem.minParticipants){
+    else if(response.length == vem.minParticipants){
       completionStatus = Icon(Icons.check_circle, color: AppColors.white, size: 35,);
     }
     else{
