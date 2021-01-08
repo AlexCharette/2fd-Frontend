@@ -1,4 +1,5 @@
 import 'package:authentication_repository/authentication_repository.dart';
+import 'package:regimental_app/screens/profile/profile.dart';
 import 'package:regimental_app/screens/reset_password/view/reset_password_screen.dart';
 import 'package:regimental_app/screens/vem_details/view/view.dart';
 import 'package:vem_repository/vem_repository.dart';
@@ -78,6 +79,7 @@ class _AppViewState extends State<AppView> {
           ResetPasswordScreen.routeName: (context) => ResetPasswordScreen(),
           AddEditVemScreen.routeName: (context) => AddEditVemScreen(),
           VemDetailsScreen.routeName: (context) => VemDetailsScreen(),
+          ProfileScreen.routeName: (context) => ProfileScreen(selectedIndex: 2,),
         },
         builder: (context, child) {
           return BlocListener<AuthenticationBloc, AuthenticationState>(
