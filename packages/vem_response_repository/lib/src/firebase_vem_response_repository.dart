@@ -29,24 +29,6 @@ class FirebaseVemResponseRepository implements VemResponseRepository {
         .toList());
   }
 
-  //   // Chart
-  //   // vems
-  //   // |-- doc XYZ
-  //   //     |-- responses
-  //   //         |-- doc ABC
-  Stream<List<VemResponse>> responsesForVem(String vemId) {
-    return vemCollection
-        .doc(vemId)
-        .collection('responses')
-        .snapshots()
-        .map((responseQuery) => responseQuery.docs
-            .map(
-              (responseDoc) => VemResponse.fromEntity(
-                  VemResponseEntity.fromSnapshot(responseDoc)),
-            )
-            .toList());
-  }
-
   @override
   Stream<Map<String, Stream<List<VemResponse>>>> groupedVemResponses() async* {
     // Build map
