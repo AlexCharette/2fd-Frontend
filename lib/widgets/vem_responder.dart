@@ -23,20 +23,16 @@ class VemResponder extends Dialog {
     BlocProvider.of<VemResponsesBloc>(context).add(
       currentResponse != null
           ? UpdateVemResponse(
-              vem.id,
               VemResponse(
-                FirebaseFirestore.instance
-                    .collection('users')
-                    .doc(FirebaseAuth.instance.currentUser?.uid ?? ''),
+                FirebaseAuth.instance.currentUser?.uid,
+                vem.id,
                 answer,
               ),
             )
           : AddVemResponse(
-              vem.id,
               VemResponse(
-                FirebaseFirestore.instance
-                    .collection('users')
-                    .doc(FirebaseAuth.instance.currentUser?.uid ?? ''),
+                FirebaseAuth.instance.currentUser?.uid,
+                vem.id,
                 answer,
               ),
             ),

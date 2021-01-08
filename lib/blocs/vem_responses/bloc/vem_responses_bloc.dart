@@ -33,19 +33,18 @@ class VemResponsesBloc extends Bloc<VemResponsesEvent, VemResponsesState> {
   Stream<VemResponsesState> _mapLoadVemResponsesToState() async* {
     _vemResponsesSubscription?.cancel();
     _vemResponsesSubscription = _vemResponseRepository
-        .groupedVemResponses()
+        .vemResponses()
         .listen((vemResponses) => add(VemResponsesUpdated(vemResponses)));
   }
 
   Stream<VemResponsesState> _mapAddVemResponseToState(
       AddVemResponse event) async* {
-    _vemResponseRepository.addVemResponse(event.vemId, event.vemResponse);
+    _vemResponseRepository.addVemResponse(event.vemResponse);
   }
 
   Stream<VemResponsesState> _mapUpdateVemResponseToState(
       UpdateVemResponse event) async* {
-    _vemResponseRepository.updateVemResponse(
-        event.vemId, event.updatedVemResponse);
+    _vemResponseRepository.updateVemResponse(event.updatedVemResponse);
   }
 
   Stream<VemResponsesState> _mapVemResponsesUpdatedToState(

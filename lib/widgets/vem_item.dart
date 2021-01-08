@@ -41,14 +41,23 @@ class VemItem extends StatelessWidget {
       ),
       subtitle: vem.startDate != null
           ? Row(
-            children: [
-              Text('Date: ${Vem.timestampToYearMonthDay(vem.startDate)}', style: theme.textTheme.bodyText1.copyWith(color: theme.primaryColor),),
-              vem.endDate != null ? Text(' - ${Vem.timestampToYearMonthDay(vem.endDate)}', style: theme.textTheme.bodyText1.copyWith(color: theme.primaryColor),) : null,
-            ],
-          )
+              children: [
+                Text(
+                  'Date: ${Vem.timestampToYearMonthDay(vem.startDate)}',
+                  style: theme.textTheme.bodyText1
+                      .copyWith(color: theme.primaryColor),
+                ),
+                vem.endDate != null
+                    ? Text(
+                        ' - ${Vem.timestampToYearMonthDay(vem.endDate)}',
+                        style: theme.textTheme.bodyText1
+                            .copyWith(color: theme.primaryColor),
+                      )
+                    : null,
+              ],
+            )
           : null,
-      trailing: Icon(
-          _isFull()
+      trailing: Icon(_isFull()
           ? Icons.check_circle_sharp
           : Icons.check_circle_outline_sharp),
       // TODO trailing: const VemAttendanceIcon,

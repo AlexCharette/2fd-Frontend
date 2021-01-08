@@ -35,7 +35,9 @@ class VemList extends StatelessWidget {
                     final vem = vems[index];
                     return VemItem(
                       vem: vem,
-                      vemResponses: vemResponses[vem.id],
+                      vemResponses: vemResponses
+                          .where((response) => response.vemId == vem.id)
+                          .toList(),
                       onTap: () async {
                         // go to vem details screen
                         Navigator.pushNamed(

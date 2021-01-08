@@ -5,21 +5,25 @@ import '../entities/entities.dart';
 @immutable
 class VemResponse {
   final String id;
-  final DocumentReference member;
+  final String userId;
+  final String vemId;
   final String answer;
 
-  VemResponse(this.member, this.answer, {String id}) : this.id = id;
+  VemResponse(this.userId, this.vemId, this.answer, {String id}) : this.id = id;
 
-  VemResponse copyWith({String id, DocumentReference member, String answer}) {
+  VemResponse copyWith(
+      {String id, String userId, String vemId, String answer}) {
     return VemResponse(
-      member ?? this.member,
+      userId ?? this.userId,
+      vemId ?? this.vemId,
       answer ?? this.answer,
       id: id ?? this.id,
     );
   }
 
   @override
-  int get hashCode => id.hashCode ^ member.hashCode ^ answer.hashCode;
+  int get hashCode =>
+      id.hashCode ^ userId.hashCode ^ vemId.hashCode ^ answer.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -27,10 +31,15 @@ class VemResponse {
       other is VemResponse && runtimeType == other.runtimeType;
 
   VemResponseEntity toEntity() {
-    return VemResponseEntity(id, member, answer: answer);
+    return VemResponseEntity(id, userId, vemId, answer: answer);
   }
 
   static VemResponse fromEntity(VemResponseEntity entity) {
-    return VemResponse(entity.member, entity.answer, id: entity.id);
+    return VemResponse(
+      entity.userId,
+      entity.vemId,
+      entity.answer,
+      id: entity.id,
+    );
   }
 }
