@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
+import 'package:regimental_app/blocs/vem_responses/vem_responses.dart';
 import 'package:vem_repository/vem_repository.dart';
 
 part 'vems_event.dart';

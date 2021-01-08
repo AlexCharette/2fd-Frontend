@@ -10,9 +10,9 @@ abstract class VemResponsesState extends Equatable {
 class VemResponsesLoading extends VemResponsesState {}
 
 class VemResponsesLoaded extends VemResponsesState {
-  final Map<String, List<VemResponse>> vemResponses;
+  final List<VemResponse> vemResponses;
 
-  const VemResponsesLoaded(this.vemResponses); // TODO see if this works
+  const VemResponsesLoaded(this.vemResponses);
 
   @override
   List<Object> get props => [vemResponses];

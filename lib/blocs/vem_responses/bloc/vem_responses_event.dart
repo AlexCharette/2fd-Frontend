@@ -10,35 +10,32 @@ abstract class VemResponsesEvent extends Equatable {
 class LoadVemResponses extends VemResponsesEvent {}
 
 class AddVemResponse extends VemResponsesEvent {
-  final String vemId;
   final VemResponse vemResponse;
 
-  const AddVemResponse(this.vemId, this.vemResponse);
+  const AddVemResponse(this.vemResponse);
 
   @override
   List<Object> get props => [vemResponse];
 
   @override
-  String toString() =>
-      'AddVemResponse { vemId: $vemId, vemResponse: $vemResponse }';
+  String toString() => 'AddVemResponse { vemResponse: $vemResponse }';
 }
 
 class UpdateVemResponse extends VemResponsesEvent {
-  final String vemId;
   final VemResponse updatedVemResponse;
 
-  const UpdateVemResponse(this.vemId, this.updatedVemResponse);
+  const UpdateVemResponse(this.updatedVemResponse);
 
   @override
-  List<Object> get props => [vemId, updatedVemResponse];
+  List<Object> get props => [updatedVemResponse];
 
   @override
   String toString() =>
-      'UpdateVemResponse { vemId: $vemId, updatedVemResponse: $updatedVemResponse }';
+      'UpdateVemResponse { updatedVemResponse: $updatedVemResponse }';
 }
 
 class VemResponsesUpdated extends VemResponsesEvent {
-  final Map<String, List<VemResponse>> vemResponses;
+  final List<VemResponse> vemResponses;
 
   const VemResponsesUpdated(this.vemResponses);
 

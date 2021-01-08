@@ -7,21 +7,16 @@ import 'entities/entities.dart';
 class FirebaseVemResponseRepository implements VemResponseRepository {
   final vemCollection = FirebaseFirestore.instance.collection('vems');
   final vemResponseCollection =
-      FirebaseFirestore.instance.collectionGroup('responses');
+      FirebaseFirestore.instance.collection('responses');
 
   @override
-  Future<void> addVemResponse(String vemId, VemResponse response) {
-    return vemCollection
-        .doc(vemId)
-        .collection('responses')
-        .add(response.toEntity().toDocument());
+  Future<void> addVemResponse(VemResponse response) {
+    return vemCollection.add(response.toEntity().toDocument());
   }
 
   @override
-  Future<void> updateVemResponse(String vemId, VemResponse response) {
+  Future<void> updateVemResponse(VemResponse response) {
     return vemCollection
-        .doc(vemId)
-        .collection('responses')
         .doc(response.id)
         .update(response.toEntity().toDocument());
   }
@@ -35,22 +30,21 @@ class FirebaseVemResponseRepository implements VemResponseRepository {
   }
 
   @override
-  Stream<Map<String, List<VemResponse>>> groupedVemResponses() async* {
+  Stream<Map<String, Stream<List<VemResponse>>>> groupedVemResponses() async* {
     // Build map
-    final Map<String, List<VemResponse>> vemResponses =
-        Map<String, List<VemResponse>>.identity();
+    final Map<String, Stream<List<VemResponse>>> vemResponses =
+        Map<String, Stream<List<VemResponse>>>.identity();
     // Then iterate over it and yield
-    vemCollection.snapshots().map(
-          (vemSnapshot) => vemSnapshot.docs.map((doc) =>
-              vemResponses['${doc.id}'] = doc.reference
-                  .collection('responses')
-                  .snapshots()
-                  .map((snapshot) => snapshot.docs
-                      .map((doc) => VemResponse.fromEntity(
-                          VemResponseEntity.fromSnapshot(doc)))
-                      .toList()) as List<VemResponse>),
-        );
-    print('responses: $vemResponses');
+    // vemCollection.snapshots().forEach(
+    //       (vemQuery) => vemQuery.docs.forEach(
+    //         (vemDoc) {
+    //           print('HELLOOOOOO');
+    //           vemResponses['${vemDoc.reference.id}'] =
+    //               await responsesForVem(vemDoc.reference.id);
+    //         },
+    //       ),
+    //     );
+    print('responses 3: $vemResponses');
     yield vemResponses;
   }
 }
