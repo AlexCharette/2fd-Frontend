@@ -2,15 +2,19 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:regimental_app/blocs/blocs.dart';
+import 'package:regimental_app/config/theme.dart';
 import 'package:regimental_app/config/routes.dart';
 import 'package:regimental_app/screens/add_edit_vem/add_edit_vem.dart';
 import 'package:regimental_app/widgets/widgets.dart';
 import 'package:vem_repository/vem_repository.dart';
+import 'package:vem_response_repository/vem_response_repository.dart';
 
 class VemDetailsScreenArguments {
   final Vem vem;
+  final List<VemResponse> response;
 
-  VemDetailsScreenArguments(this.vem);
+  VemDetailsScreenArguments(this.vem, this.response);
+
 }
 
 class VemDetailsScreen extends StatefulWidget {
@@ -45,11 +49,13 @@ class _VemDetailsScreenState extends State<VemDetailsScreen> {
                   args.vem.name,
                   style: theme.textTheme.headline6,
                 ),
-                Icon(
-                  Icons.check_circle_outline,
-                  size: 35,
-                  color: Colors.white30,
-                ),
+                completionIcon(args.vem,args.response)
+
+                // Icon(
+                //   Icons.check_circle_outline,
+                //   size: 35,
+                //   color: Colors.white30,
+                // ),
               ],
             ),
           ),
@@ -156,5 +162,32 @@ class _VemDetailsScreenState extends State<VemDetailsScreen> {
         ],
       ),
     );
+  }
+
+  Widget completionIcon(Vem vem,List<VemResponse> response){
+    Widget completionStatus;
+    if (response == null || response.length < vem.minParticipants){
+      completionStatus = Row(
+        children: [
+          Text("${response != null ? response.length : 0}/${vem.maxParticipants}", style: TextStyle(color: Colors.red[900]),),
+          Icon(Icons.people, color: Colors.red[900],),
+        ],
+      );
+    }
+    else if (response.length >= vem.minParticipants && response.length < vem.maxParticipants){
+      completionStatus = Row(
+        children: [
+          Text("${response.length}/${vem.maxParticipants}", style: TextStyle(color: Colors.green),),
+          Icon(Icons.check_circle_outline, color: Colors.white54, size: 35,),
+        ],
+      );
+    }
+    else if(response.length == vem.minParticipants){
+      completionStatus = Icon(Icons.check_circle, color: AppColors.white, size: 35,);
+    }
+    else{
+      return null;
+    }
+    return completionStatus;
   }
 }
