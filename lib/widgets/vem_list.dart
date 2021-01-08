@@ -24,7 +24,7 @@ class VemList extends StatelessWidget {
               final vemResponses = responsesState.vemResponses;
               if (vems.length > 0) {
                 return ListView.separated(
-                  separatorBuilder: (context,index) => Divider(
+                  separatorBuilder: (context, index) => Divider(
                     color: Theme.of(context).primaryColor,
                   ),
                   itemCount: vems.length,
@@ -38,11 +38,10 @@ class VemList extends StatelessWidget {
                       vemResponses: vemResponses[vem.id],
                       onTap: () async {
                         // go to vem details screen
-                        Navigator.push(
+                        Navigator.pushNamed(
                           context,
-                          MaterialPageRoute(
-                            builder: (context) => VemDetailsScreen(key, vem, vemResponses['${vem.id}']),
-                          ),
+                          VemDetailsScreen.routeName,
+                          arguments: VemDetailsScreenArguments(vem),
                         );
                       },
                       onLongPress: () async {
@@ -52,10 +51,10 @@ class VemList extends StatelessWidget {
                           // If the lock date has not passed
                           if (Timestamp.now().compareTo(vem.lockDate) <= 0) {
                             // open vem response widget
-                            Overlay.of(context)
-                                .insert(OverlayEntry(builder: (context) {
-                              return VemResponder(vem: vem);
-                            }));
+                            showDialog(
+                              context: context,
+                              builder: (context) => VemResponder(vem: vem),
+                            );
                           } else {
                             // TODO open response change request widget
                           }

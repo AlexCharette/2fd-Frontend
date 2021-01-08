@@ -1,6 +1,7 @@
 class Routes {
-  static const home = "/";
-  static const profile = "profile";
-  static const signIn = "sign_in";
-  static const forgotPassword = "forgot_password";
+  static const home = '/';
+  static const logIn = '/log-in';
+  static const resetPassword = '/reset-password';
+  static const addEditVem = '/add-edit-vem';
+  static const vemDetails = '/vem-details';
 }

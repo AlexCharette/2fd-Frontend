@@ -3,20 +3,27 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:regimental_app/blocs/blocs.dart';
 import 'package:regimental_app/config/theme.dart';
+import 'package:regimental_app/config/routes.dart';
 import 'package:regimental_app/screens/add_edit_vem/add_edit_vem.dart';
 import 'package:regimental_app/widgets/widgets.dart';
 import 'package:vem_repository/vem_repository.dart';
 import 'package:vem_response_repository/vem_response_repository.dart';
 
-class VemDetailsScreen extends StatefulWidget {
+class VemDetailsScreenArguments {
   final Vem vem;
   final List<VemResponse> response;
 
-  VemDetailsScreen(
-    Key key,
-    this.vem,
-    this.response
-  ) : super(key: key);
+  VemDetailsScreenArguments({this.vem, this.response});
+}
+
+class VemDetailsScreen extends StatefulWidget {
+  static const routeName = Routes.vemDetails;
+  // final Vem vem;
+
+  // VemDetailsScreen(
+  //   Key key,
+  //   this.vem,
+  // ) : super(key: key);
 
   @override
   _VemDetailsScreenState createState() => _VemDetailsScreenState();
@@ -26,9 +33,10 @@ class _VemDetailsScreenState extends State<VemDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     ThemeData theme = Theme.of(context);
-
+    final VemDetailsScreenArguments args =
+        ModalRoute.of(context).settings.arguments;
     return CustomScaffold(
-      appBarTitle: widget.vem.name,
+      appBarTitle: args.vem.name,
       body: Column(
         children: <Widget>[
           Padding(
@@ -67,33 +75,31 @@ class _VemDetailsScreenState extends State<VemDetailsScreen> {
                   children: <Widget>[
                     DateDisplay(
                       icon: Icons.date_range_outlined,
-                      date:
-                          Vem.timestampToYearMonthDayTime(widget.vem.startDate),
+                      date: Vem.timestampToYearMonthDayTime(args.vem.startDate),
                     ),
-                    widget.vem.endDate != null
+                    args.vem.endDate != null
                         ? DateDisplay(
                             icon: Icons.date_range_outlined,
                             date: Vem.timestampToYearMonthDayTime(
-                                widget.vem.endDate),
+                                args.vem.endDate),
                           )
                         : null,
                     DateDisplay(
                       icon: Icons.lock_clock,
-                      date:
-                          Vem.timestampToYearMonthDayTime(widget.vem.lockDate),
+                      date: Vem.timestampToYearMonthDayTime(args.vem.lockDate),
                     ),
                   ],
                 ),
               ),
             ),
           ),
-          widget.vem.description != null
+          args.vem.description != null
               ? Padding(
                   padding: const EdgeInsets.fromLTRB(20.0, 5, 10, 10),
                   child: Row(
                     children: [
                       Text(
-                        widget.vem.description,
+                        args.vem.description,
                         softWrap: true,
                       ),
                     ],
@@ -119,37 +125,37 @@ class _VemDetailsScreenState extends State<VemDetailsScreen> {
               tooltip: 'Edit VEM',
               child: Icon(Icons.edit),
               onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => AddEditVemScreen(
-                        onSave: (
-                          name,
-                          startDate,
-                          endDate,
-                          lockDate,
-                          responseType,
-                          description,
-                          minParticipants,
-                          maxParticipiants,
-                        ) {
-                          BlocProvider.of<VemsBloc>(context).add(
-                            UpdateVem(widget.vem.copyWith(
-                              name: name,
-                              startDate: startDate,
-                              endDate: endDate,
-                              lockDate: lockDate,
-                              responseType: responseType,
-                              description: description,
-                              minParticipants: minParticipants,
-                              maxParticipants: maxParticipiants,
-                            )),
-                          );
-                        },
-                        isEditing: true,
-                        vem: widget.vem,
-                      ),
-                    ));
+                Navigator.pushNamed(
+                  context,
+                  AddEditVemScreen.routeName,
+                  arguments: AddEditVemScreenArguments(
+                    args.vem,
+                    (
+                      name,
+                      startDate,
+                      endDate,
+                      lockDate,
+                      responseType,
+                      description,
+                      minParticipants,
+                      maxParticipiants,
+                    ) {
+                      BlocProvider.of<VemsBloc>(context).add(
+                        UpdateVem(args.vem.copyWith(
+                          name: name,
+                          startDate: startDate,
+                          endDate: endDate,
+                          lockDate: lockDate,
+                          responseType: responseType,
+                          description: description,
+                          minParticipants: minParticipants,
+                          maxParticipants: maxParticipiants,
+                        )),
+                      );
+                    },
+                    true,
+                  ),
+                );
               }),
         ],
       ),
