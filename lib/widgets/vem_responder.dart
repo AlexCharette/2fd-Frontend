@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:regimental_app/blocs/blocs.dart';
+import 'package:regimental_app/config/theme.dart';
 import 'package:vem_repository/vem_repository.dart';
 import 'package:vem_response_repository/vem_response_repository.dart';
 
@@ -41,6 +42,7 @@ class VemResponder extends Dialog {
 
   @override
   Widget build(BuildContext context) {
+    ThemeData theme = Theme.of(context);
     return SimpleDialog(
       children: <Widget>[
         Center(
@@ -58,6 +60,7 @@ class VemResponder extends Dialog {
                 ),
               ),
               RaisedButton(
+                color: AppColors.buttonGreen, // TODO edit disabled style
                 onPressed:
                     (currentResponse != null && currentResponse.answer != 'yes')
                         ? () {
@@ -66,15 +69,17 @@ class VemResponder extends Dialog {
                             Navigator.pop(context);
                           }
                         : null,
-                child: Text('Confirm my attendance'), // TODO
+                child: Text('I\'ll be there'),
               ),
               RaisedButton(
+                color: AppColors.buttonRed, // TODO edit disabled style
                 onPressed:
                     (currentResponse != null && currentResponse.answer != 'no')
                         ? () {
                             _submitResponse(context, 'no');
                           }
                         : null,
+                child: Text('I won\'t be there'),
               ),
             ],
           ),
