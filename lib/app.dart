@@ -1,7 +1,9 @@
 import 'package:authentication_repository/authentication_repository.dart';
+import 'package:regimental_app/blocs/users/bloc/users_bloc.dart';
 import 'package:regimental_app/screens/profile/profile.dart';
 import 'package:regimental_app/screens/reset_password/view/reset_password_screen.dart';
 import 'package:regimental_app/screens/vem_details/view/view.dart';
+import 'package:user_repository/user_repository.dart';
 import 'package:vem_repository/vem_repository.dart';
 import 'package:vem_response_repository/vem_response_repository.dart';
 import 'package:flutter/material.dart';
@@ -9,11 +11,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:regimental_app/blocs/blocs.dart';
 import 'package:regimental_app/config/theme.dart';
-import 'package:regimental_app/config/routes.dart';
 import 'package:regimental_app/screens/add_edit_vem/add_edit_vem.dart';
 import 'package:regimental_app/screens/home/home.dart';
 import 'package:regimental_app/screens/login/login.dart';
 import 'package:regimental_app/screens/splash/splash.dart';
+import 'package:user_repository/user_repository.dart';
 
 class App extends StatelessWidget {
   const App({
@@ -21,14 +23,17 @@ class App extends StatelessWidget {
     @required this.authenticationRepository,
     @required this.vemRepository,
     @required this.vemResponseRepository,
+    @required this.userRepository
   })  : assert(authenticationRepository != null),
         assert(vemRepository != null),
         assert(vemResponseRepository != null),
+        assert(userRepository != null),
         super(key: key);
 
   final AuthenticationRepository authenticationRepository;
   final VemRepository vemRepository;
   final VemResponseRepository vemResponseRepository;
+  final FirebaseUserRepository userRepository;
 
   @override
   Widget build(BuildContext context) {
@@ -49,6 +54,11 @@ class App extends StatelessWidget {
             create: (context) =>
                 VemResponsesBloc(vemResponseRepository: vemResponseRepository)
                   ..add(LoadVemResponses()),
+          ),
+          BlocProvider<UsersBloc>(
+            create: (context) =>
+                UsersBloc(userRepository: userRepository)
+                  ..add(LoadCurrentUser()),
           ),
         ],
         child: AppView(),

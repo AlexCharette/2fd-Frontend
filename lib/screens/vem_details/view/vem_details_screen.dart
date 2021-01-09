@@ -19,12 +19,6 @@ class VemDetailsScreenArguments {
 
 class VemDetailsScreen extends StatefulWidget {
   static const routeName = Routes.vemDetails;
-  // final Vem vem;
-
-  // VemDetailsScreen(
-  //   Key key,
-  //   this.vem,
-  // ) : super(key: key);
 
   @override
   _VemDetailsScreenState createState() => _VemDetailsScreenState();
@@ -50,12 +44,6 @@ class _VemDetailsScreenState extends State<VemDetailsScreen> {
                   style: theme.textTheme.headline6,
                 ),
                 completionIcon(args.vem,args.response)
-
-                // Icon(
-                //   Icons.check_circle_outline,
-                //   size: 35,
-                //   color: Colors.white30,
-                // ),
               ],
             ),
           ),
