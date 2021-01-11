@@ -41,6 +41,8 @@ dependencies:
   streaming_shared_preferences: ^1.0.1
   provider: ^4.3.2+3
   flutter_svg: ^0.19.2+1
+  email_validator: ^1.0.6
+  shared_preferences: ^0.5.12+4
   vem_repository:
     path: packages/vem_repository
   vem_response_repository:

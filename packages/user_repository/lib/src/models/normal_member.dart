@@ -10,7 +10,7 @@ class NormalMember extends User {
     int lastThree,
     String rank, {
     String phoneNumber = '',
-    MemberStatus status = MemberStatus.Active,
+    MemberStatus status = MemberStatus.active,
     String id,
   }) : super(
           email,

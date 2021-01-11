@@ -27,6 +27,9 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
     } else if (event is UpdateCurrentUser) {
       yield* _mapUpdateCurrentUserToState(event);
     }
+    else if( event is CurrentUserUpdated){
+      yield* _mapCurrentUserUpdateToState(event);
+    }
   }
 
   Stream<UsersState> _mapLoadUsersToState(LoadUsers event) async* {
@@ -44,5 +47,9 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
   Stream<UsersState> _mapUpdateCurrentUserToState(
       UpdateCurrentUser event) async* {
     _userRepository.updateUser(event.updatedUser);
+  }
+
+  Stream<UsersState> _mapCurrentUserUpdateToState(CurrentUserUpdated event) async*{
+    yield CurrentUserLoaded(event.currentUser);
   }
 }
