@@ -24,19 +24,23 @@ class ProfileScreen extends StatefulWidget {
   _ProfileScreenState createState() => _ProfileScreenState();
 }
 
-//TODO: placer les vrai valeurs dynamique
+
 class _ProfileScreenState extends State<ProfileScreen> {
-  bool emailInfoChanged = false;
-  bool phoneInfoChanged = false;
+  bool cancelSaveButtonsAreVisible = false;
+  bool isReadOnly = true;
+  bool editButtonVisible = true;
+
+  String email;
+  String phone;
 
   @override
   Widget build(BuildContext context) {
     final RegExp phoneRegex = new RegExp(r'^[6-9]\d{9}$');
     final _formKey =GlobalKey<FormState>();
     ThemeData theme = Theme.of(context);
+
     return BlocBuilder<UsersBloc, UsersState>(
       builder: (context, state){
-        print("bruuuuu $state");
       if (state is CurrentUserLoaded) {
         var currentUser = state.currentUser;
         return CustomScaffold(
@@ -52,17 +56,32 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Text("${currentUser.lastName} ${currentUser.lastThree}".toUpperCase(), style: theme.textTheme.headline3,),
-                      FlatButton(
-                          onPressed: (){
-                            //TODO: implementer l'action du button
-                          },
-                          child: Text("DEMANDER UN CHANGEMENT", style: theme.textTheme.bodyText1,)
+                      Visibility(
+                        visible: editButtonVisible,
+                        child: TextButton(
+                            style: TextButton.styleFrom(
+                              backgroundColor: Colors.transparent,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                                side: BorderSide(color: Colors.white)
+                              )
+                            ),
+                            onPressed: (){
+                              setState(() {
+                                editButtonVisible = false;
+                                isReadOnly = false;
+                                cancelSaveButtonsAreVisible = true;
+                              });
+                            },
+                            child: Text("DEMANDER UN CHANGEMENT", style: theme.textTheme.bodyText1.copyWith(color:Colors.white),)
+                        ),
                       )
                     ],
                   ),
                   Container(
                     width: 300,
                     child: TextFormField(
+                      readOnly: isReadOnly,
                       keyboardType: TextInputType.emailAddress,
                       decoration: InputDecoration(
                         icon: const Icon(Icons.email_outlined),
@@ -73,6 +92,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                         border: const OutlineInputBorder(),
                       ),
+                      onChanged: (value) => email = value,
                       validator: (value){
                         if (!EmailValidator.validate(value)){
                           return 'Addresse courriel invalide';
@@ -85,6 +105,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   Container(
                       width: 300,
                       child: TextFormField(
+                        readOnly: isReadOnly,
                         keyboardType: TextInputType.phone,
                         decoration: InputDecoration(
                           icon: const Icon(Icons.phone),
@@ -105,8 +126,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           }
                           return null;
                         },
+                        onChanged: (value) => phone=value,
                       ),
                     ),
+                  //TODO: l'information du detachement devrai etre dynamique
                   Text('DET:ALPHA', style: theme.textTheme.headline4,),
                   SizedBox(height: 5,),
                   Container(
@@ -161,26 +184,37 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                   ),
                   SizedBox(height: 10,),
-                  emailInfoChanged || phoneInfoChanged
-                      ? Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[
-                      IconButton(
-                          tooltip: "Annuler les Changements",
-                          icon: Icon(Icons.cancel, size: 50, color: AppColors.red,),
-                          onPressed: (){
-
-                          }
-                      ),
-                      IconButton(
-                          tooltip: "Confirmer les Changements",
-                          icon: Icon(Icons.check_circle, size: 50, color: AppColors.buttonGreen,),
-                          onPressed: (){
-
-                          }
-                      )
-                    ],
-                  ) : Text("")
+                  Visibility(
+                    visible: cancelSaveButtonsAreVisible,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        IconButton(
+                            tooltip: "Annuler les Changements",
+                            icon: Icon(Icons.cancel, size: 50, color: AppColors.red,),
+                            onPressed: (){
+                              setState(() {
+                                editButtonVisible = true;
+                                isReadOnly = true;
+                                cancelSaveButtonsAreVisible = false;
+                              });
+                            }
+                        ),
+                        IconButton(
+                            tooltip: "Confirmer les Changements",
+                            icon: Icon(Icons.check_circle, size: 50, color: AppColors.buttonGreen,),
+                            onPressed: (){
+                              //TODO: perform the changes on the database
+                              setState(() {
+                                editButtonVisible = true;
+                                isReadOnly = true;
+                                cancelSaveButtonsAreVisible = false;
+                              });
+                            }
+                        )
+                      ],
+                    ),
+                  )
                 ],
               ),
             ),

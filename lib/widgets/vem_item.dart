@@ -48,7 +48,7 @@ class VemItem extends StatelessWidget {
         children: [
           Text(
             "${vemResponses.length}/${vem.maxParticipants}",
-            style: TextStyle(color: Colors.green),
+            style: TextStyle(color: Colors.green[700]),
           ),
           Icon(
             Icons.check_circle_outline,

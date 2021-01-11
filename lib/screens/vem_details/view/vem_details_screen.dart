@@ -165,7 +165,7 @@ class _VemDetailsScreenState extends State<VemDetailsScreen> {
     else if (response.length >= vem.minParticipants && response.length < vem.maxParticipants){
       completionStatus = Row(
         children: [
-          Text("${response.length}/${vem.maxParticipants}", style: TextStyle(color: Colors.green),),
+          Text("${response.length}/${vem.maxParticipants}", style: TextStyle(color: Colors.green[700]),),
           Icon(Icons.check_circle_outline, color: Colors.white54, size: 35,),
         ],
       );
