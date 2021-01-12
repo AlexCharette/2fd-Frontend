@@ -1,20 +1,21 @@
 import 'package:authentication_repository/authentication_repository.dart';
-import 'package:regimental_app/screens/reset_password/view/reset_password_screen.dart';
-import 'package:regimental_app/screens/vem_details/view/view.dart';
-import 'package:vem_repository/vem_repository.dart';
-import 'package:vem_response_repository/vem_response_repository.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:regimental_app/blocs/blocs.dart';
 import 'package:regimental_app/config/theme.dart';
-import 'package:regimental_app/config/routes.dart';
-import 'package:regimental_app/screens/add_edit_vem/add_edit_vem.dart';
-import 'package:regimental_app/screens/home/home.dart';
-import 'package:regimental_app/screens/login/login.dart';
-import 'package:regimental_app/screens/splash/splash.dart';
+import 'package:regimental_app/screens/screens.dart';
+import 'package:regimental_app/services/push_notification_service.dart';
+import 'package:vem_repository/vem_repository.dart';
+import 'package:vem_response_repository/vem_response_repository.dart';
 
 class App extends StatelessWidget {
+  static final FirebaseMessaging firebaseMessaging = FirebaseMessaging();
+  final AuthenticationRepository authenticationRepository;
+  final VemRepository vemRepository;
+  final VemResponseRepository vemResponseRepository;
+
   const App({
     Key key,
     @required this.authenticationRepository,
@@ -25,12 +26,11 @@ class App extends StatelessWidget {
         assert(vemResponseRepository != null),
         super(key: key);
 
-  final AuthenticationRepository authenticationRepository;
-  final VemRepository vemRepository;
-  final VemResponseRepository vemResponseRepository;
-
   @override
   Widget build(BuildContext context) {
+    final PushNotificationService pushNotificationService =
+        PushNotificationService(firebaseMessaging);
+    pushNotificationService.init();
     return RepositoryProvider.value(
       value: authenticationRepository,
       child: MultiBlocProvider(
