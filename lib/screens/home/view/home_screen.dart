@@ -2,12 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:regimental_app/config/routes.dart';
 import 'package:regimental_app/widgets/widgets.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   static String routeName = Routes.home;
   static Route route() {
     return MaterialPageRoute<void>(builder: (_) => HomeScreen());
   }
 
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(

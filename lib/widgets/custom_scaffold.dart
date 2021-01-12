@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:regimental_app/blocs/authentication/authentication.dart';
 import 'package:regimental_app/screens/home/view/home_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:regimental_app/screens/profile/profile.dart';
 
 import 'custom_app_bar.dart';
 import 'custom_bottom_app_bar.dart';
@@ -89,8 +90,13 @@ class _CustomScaffoldState extends State<CustomScaffold> {
                     'MON PROFILE',
                     style: Theme.of(context).textTheme.headline4,
                   ),
-                  onTap: () => Navigator.of(context)
-                      .pushAndRemoveUntil(HomeScreen.route(), (route) => false),
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    if(widget.selectedIndex != 2){
+                      Navigator.of(context)
+                          .push(ProfileScreen.route());
+                    }
+                  }
                 ),
                 ListTile(
                   trailing: Text(

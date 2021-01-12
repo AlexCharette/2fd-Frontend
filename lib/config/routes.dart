@@ -4,4 +4,5 @@ class Routes {
   static const resetPassword = '/reset-password';
   static const addEditVem = '/add-edit-vem';
   static const vemDetails = '/vem-details';
+  static const profile = "/profile";
 }

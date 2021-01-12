@@ -1,7 +1,7 @@
 import 'package:meta/meta.dart';
 import '../entities/entities.dart';
 
-enum MemberStatus { Active, NonActive, NonPaidLeave }
+enum MemberStatus { active, nonActive, nonPaidLeave }
 enum AccountType { normal, detCommand, command }
 
 @immutable
@@ -20,7 +20,7 @@ abstract class User {
     this.lastThree,
     this.rank, {
     String phoneNumber = '',
-    MemberStatus status = MemberStatus.Active,
+    MemberStatus status = MemberStatus.active,
     String id,
   })  : this.phoneNumber = phoneNumber,
         this.status = status,

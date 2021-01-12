@@ -1,4 +1,5 @@
 import 'package:authentication_repository/authentication_repository.dart';
+import 'package:user_repository/user_repository.dart';
 import 'package:vem_repository/vem_repository.dart';
 import 'package:vem_response_repository/vem_response_repository.dart';
 import 'package:bloc/bloc.dart';
@@ -20,6 +21,7 @@ void main() async {
       authenticationRepository: AuthenticationRepository(),
       vemRepository: FirebaseVemRepository(),
       vemResponseRepository: FirebaseVemResponseRepository(),
+      userRepository: FirebaseUserRepository(),
     ),
   ));
 }

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:regimental_app/screens/home/home.dart';
+import 'package:regimental_app/screens/profile/profile.dart';
 
 class CustomBottomAppBar extends StatelessWidget {
   CustomBottomAppBar({this.selectedIndex});
@@ -25,14 +27,17 @@ class CustomBottomAppBar extends StatelessWidget {
       onTap: (int index){
         //TODO: implement the routes to the selected tab
         switch(index){
+          case 0:
+            if (selectedIndex != index)
+              Navigator.of(context).pushAndRemoveUntil(HomeScreen.route(), (route) => false);
+            break;
           case 1:
-            //Navigator.of(context).pushAndRemoveUntil(newRoute, (route) => false)
+              if (selectedIndex != index)
+                Navigator.of(context).pushNamed(ProfileScreen.routeName);
             break;
           case 2:
-            //Navigator.of(context).pushAndRemoveUntil(newRoute, (route) => false)
-            break;
-          case 3:
-            //Navigator.of(context).pushAndRemoveUntil(newRoute, (route) => false)
+            if(selectedIndex != index)
+              Navigator.of(context).pushNamed(ProfileScreen.routeName);
             break;
         }
       },
