@@ -11,12 +11,14 @@ import 'package:vem_response_repository/vem_response_repository.dart';
 // TODO if response exists: update instead of add
 //                          render based on current response
 class VemResponder extends Dialog {
-  final Vem vem;
+  final String vemName;
+  final String vemId;
   final VemResponse currentResponse;
 
   VemResponder({
     Key key,
-    @required this.vem,
+    @required this.vemName,
+    @required this.vemId,
     this.currentResponse,
   }) : super(key: key);
 
@@ -26,14 +28,14 @@ class VemResponder extends Dialog {
           ? UpdateVemResponse(
               VemResponse(
                 FirebaseAuth.instance.currentUser?.uid,
-                vem.id,
+                vemId,
                 answer,
               ),
             )
           : AddVemResponse(
               VemResponse(
                 FirebaseAuth.instance.currentUser?.uid,
-                vem.id,
+                vemId,
                 answer,
               ),
             ),
@@ -46,16 +48,16 @@ class VemResponder extends Dialog {
     return SimpleDialog(
       children: <Widget>[
         Center(
-          key: Key('__vem_responder_${vem.id}'),
+          key: Key('__vem_responder_${vemId}'),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               Hero(
-                tag: '${vem.id}__heroTag',
+                tag: '${vemId}__heroTag',
                 child: Container(
                   width: MediaQuery.of(context).size.width,
                   child: Text(
-                    'Respond to ${vem.name}',
+                    'Respond to ${vemName}',
                   ),
                 ),
               ),
