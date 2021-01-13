@@ -1,15 +1,12 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:regimental_app/blocs/blocs.dart';
 import 'package:regimental_app/config/theme.dart';
-import 'package:vem_repository/vem_repository.dart';
 import 'package:vem_response_repository/vem_response_repository.dart';
 
-// TODO if response exists: update instead of add
-//                          render based on current response
+// TODO render based on current response
 class VemResponder extends Dialog {
   final String vemName;
   final String vemId;
@@ -48,7 +45,7 @@ class VemResponder extends Dialog {
     return SimpleDialog(
       children: <Widget>[
         Center(
-          key: Key('__vem_responder_${vemId}'),
+          key: Key('__vem_responder_$vemId'),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
@@ -57,7 +54,7 @@ class VemResponder extends Dialog {
                 child: Container(
                   width: MediaQuery.of(context).size.width,
                   child: Text(
-                    'Respond to ${vemName}',
+                    'Respond to $vemName',
                   ),
                 ),
               ),
