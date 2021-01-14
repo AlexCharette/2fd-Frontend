@@ -8,18 +8,21 @@ import 'custom_app_bar.dart';
 import 'custom_bottom_app_bar.dart';
 
 class CustomScaffold extends StatefulWidget {
-  CustomScaffold(
-      {this.appBarTitle,
-      this.body,
-      this.displayBottomAppBar = true,
-      this.selectedIndex = 0,
-      this.floatingActionButtons = null});
-
   final Widget body;
   final Widget floatingActionButtons;
+  final PageController pageController;
   final String appBarTitle;
   final bool displayBottomAppBar;
   final int selectedIndex;
+
+  CustomScaffold({
+    this.appBarTitle,
+    this.body,
+    this.pageController,
+    this.displayBottomAppBar = true,
+    this.selectedIndex = 0,
+    this.floatingActionButtons,
+  });
 
   @override
   _CustomScaffoldState createState() => _CustomScaffoldState();
@@ -86,18 +89,16 @@ class _CustomScaffoldState extends State<CustomScaffold> {
                       .pushAndRemoveUntil(HomeScreen.route(), (route) => false),
                 ),
                 ListTile(
-                  trailing: Text(
-                    'MON PROFILE',
-                    style: Theme.of(context).textTheme.headline4,
-                  ),
-                  onTap: () {
-                    Navigator.of(context).pop();
-                    if(widget.selectedIndex != 2){
-                      Navigator.of(context)
-                          .push(ProfileScreen.route());
-                    }
-                  }
-                ),
+                    trailing: Text(
+                      'MON PROFILE',
+                      style: Theme.of(context).textTheme.headline4,
+                    ),
+                    onTap: () {
+                      Navigator.of(context).pop();
+                      if (widget.selectedIndex != 2) {
+                        Navigator.of(context).push(ProfileScreen.route());
+                      }
+                    }),
                 ListTile(
                   trailing: Text(
                     'DÉCONNECTION',
@@ -113,7 +114,7 @@ class _CustomScaffoldState extends State<CustomScaffold> {
         ),
         bottomNavigationBar: widget.displayBottomAppBar
             ? CustomBottomAppBar(
-                selectedIndex: widget.selectedIndex,
+                pageController: widget.pageController,
               )
             : null,
         extendBodyBehindAppBar: true,
@@ -127,6 +128,7 @@ class _CustomScaffoldState extends State<CustomScaffold> {
                   image: DecorationImage(
                       colorFilter: ColorFilter.mode(
                           Colors.black.withOpacity(0.3), BlendMode.dstATop),
+                      // TODO change to local asset or data
                       image: NetworkImage(
                           'https://firebasestorage.googleapis.com/v0/b/second-fd-app.appspot.com/o/assets%2Fimages%2Ftradition.jpg?alt=media&token=cd2f7c47-e7c9-449b-83ee-75ae3faa7782'),
                       fit: BoxFit.cover)),
