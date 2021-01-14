@@ -217,7 +217,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ),
                             Icon(Icons.phone),
                             Text(
-                              '-(514)695-3344',
+                              '(514)695-3344',
                               style: theme.textTheme.headline6,
                             ),
                           ],

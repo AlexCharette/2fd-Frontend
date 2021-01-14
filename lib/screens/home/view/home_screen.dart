@@ -54,16 +54,18 @@ class _HomeScreenState extends State<HomeScreen> {
           ProfileScreen(),
         ],
       ),
-      floatingActionButtons: FloatingActionButton(
-        child: Icon(
-          Icons.add,
-          color: Theme.of(context).primaryColor,
-          size: 40,
-        ),
-        onPressed: () {
-          //TODO: display other floating action buttons
-        },
-      ),
+      floatingActionButtons: (_pageController.page.round() != 2)
+          ? FloatingActionButton(
+              child: Icon(
+                Icons.add,
+                color: Theme.of(context).primaryColor,
+                size: 40,
+              ),
+              onPressed: () {
+                //TODO: display other floating action buttons
+              },
+            )
+          : null,
     );
   }
 }
