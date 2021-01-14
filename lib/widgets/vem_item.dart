@@ -8,14 +8,14 @@ class VemItem extends StatelessWidget {
   final GestureTapCallback onTap;
   final GestureLongPressCallback onLongPress;
   final Vem vem;
-  final List<VemResponse> vemResponses;
+  final int numParticipants;
 
   VemItem({
     Key key,
     @required this.onTap,
     @required this.onLongPress,
     @required this.vem,
-    @required this.vemResponses,
+    @required this.numParticipants,
   }) : super(key: key);
 
   // bool _isFull() {
@@ -25,13 +25,13 @@ class VemItem extends StatelessWidget {
   Widget completionIcon() {
     Widget completionStatus;
 
-    if (vemResponses == null || vemResponses.length < vem.minParticipants) {
-      print(vemResponses);
+    if (numParticipants == null || numParticipants < vem.minParticipants) {
+      print(numParticipants);
       completionStatus = Row(
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
-            "${vemResponses == null ? 0 : vemResponses.length}/${vem.maxParticipants}",
+            "${numParticipants == null ? 0 : numParticipants}/${vem.maxParticipants}",
             style: TextStyle(color: Colors.red[900]),
           ),
           Icon(
@@ -41,13 +41,13 @@ class VemItem extends StatelessWidget {
           ),
         ],
       );
-    } else if (vemResponses.length >= vem.minParticipants &&
-        vemResponses.length < vem.maxParticipants) {
+    } else if (numParticipants >= vem.minParticipants &&
+        numParticipants < vem.maxParticipants) {
       completionStatus = Row(
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
-            "${vemResponses.length}/${vem.maxParticipants}",
+            "${numParticipants}/${vem.maxParticipants}",
             style: TextStyle(color: Colors.green[700]),
           ),
           Icon(
@@ -57,7 +57,7 @@ class VemItem extends StatelessWidget {
           ),
         ],
       );
-    } else if (vemResponses.length == vem.minParticipants) {
+    } else if (numParticipants == vem.minParticipants) {
       completionStatus = Icon(
         Icons.check_circle,
         color: AppColors.white,
@@ -106,4 +106,11 @@ class VemItem extends StatelessWidget {
             : null,
         trailing: completionIcon());
   }
+
+  // @override
+  // void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+  //   super.debugFillProperties(properties);
+  //   properties
+  //       .add(IterableProperty<VemResponse>('vemResponses', numParticipants));
+  // }
 }

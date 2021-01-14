@@ -42,6 +42,17 @@ class FirebaseVemResponseRepository implements VemResponseRepository {
   }
 
   @override
+  Stream<List<VemResponse>> responsesForUser(String userId) {
+    return vemResponseCollection
+        .where('userId', isEqualTo: userId)
+        .snapshots()
+        .map((snapshot) => snapshot.docs
+            .map((doc) =>
+                VemResponse.fromEntity(VemResponseEntity.fromSnapshot(doc)))
+            .toList());
+  }
+
+  @override
   Stream<Map<String, Stream<List<VemResponse>>>> groupedVemResponses() async* {
     // Build map
     final Map<String, Stream<List<VemResponse>>> vemResponses =

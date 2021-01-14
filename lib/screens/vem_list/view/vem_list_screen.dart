@@ -5,6 +5,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:regimental_app/blocs/blocs.dart';
 import 'package:regimental_app/screens/vem_details/view/view.dart';
+import 'package:regimental_app/widgets/request_response_change.dart';
 import 'package:regimental_app/widgets/widgets.dart';
 
 class VemList extends StatelessWidget {
@@ -14,12 +15,13 @@ class VemList extends StatelessWidget {
       builder: (context, vemsState) {
         return BlocBuilder<VemResponsesBloc, VemResponsesState>(
           builder: (context, responsesState) {
-            if (vemsState is VemsLoading) {
+            if (vemsState is VemsLoading &&
+                responsesState is UserResponsesLoading) {
               return Center(
                 child: CircularProgressIndicator(),
               );
             } else if (vemsState is VemsLoaded &&
-                responsesState is VemResponsesLoaded) {
+                responsesState is UserResponsesLoaded) {
               final vems = vemsState.vems;
               final vemResponses = responsesState.vemResponses;
               if (vems.length > 0) {
@@ -35,22 +37,19 @@ class VemList extends StatelessWidget {
                     final vem = vems[index];
                     return VemItem(
                       vem: vem,
-                      vemResponses: vemResponses
-                          .where((response) => response.vemId == vem.id)
-                          .toList(),
+                      numParticipants: vem.numParticipants,
                       onTap: () async {
                         // go to vem details screen
                         Navigator.pushNamed(
                           context,
                           VemDetailsScreen.routeName,
-                          arguments:
-                              VemDetailsScreenArguments(vem, vemResponses),
+                          arguments: VemDetailsScreenArguments(vem),
                         );
                       },
                       onLongPress: () async {
+                        // Load vem responses
                         // if it isn't full
-                        // TODO: fucking wrong
-                        if (vemResponses.length < vem.maxParticipants) {
+                        if (vem.numParticipants < vem.maxParticipants) {
                           // If the lock date has not passed
                           if (Timestamp.now().compareTo(vem.lockDate) <= 0) {
                             // open vem response widget
@@ -62,7 +61,13 @@ class VemList extends StatelessWidget {
                               ),
                             );
                           } else {
-                            // TODO open response change request widget
+                            // TODO get current response for this vem
+                            // showDialog(
+                            //   context: context,
+                            //   builder: (context) => RequestResponseChange(
+                            //     currentResponse: currentResponse,
+                            //   ),
+                            // );
                           }
                         }
                         // else popup saying it's full

@@ -11,6 +11,8 @@ abstract class VemResponseRepository {
 
   Stream<List<VemResponse>> responsesForVem(String vemId);
 
+  Stream<List<VemResponse>> responsesForUser(String userId);
+
   Stream<Map<String, Stream<List<VemResponse>>>> groupedVemResponses();
 
   Future<void> addResponseChange(ResponseChange change);
