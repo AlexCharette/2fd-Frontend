@@ -5,18 +5,19 @@ import 'package:vem_response_repository/vem_response_repository.dart';
 import 'entities/entities.dart';
 
 class FirebaseVemResponseRepository implements VemResponseRepository {
-  final vemCollection = FirebaseFirestore.instance.collection('vems');
+  final responseChangeCollection =
+      FirebaseFirestore.instance.collection('responseChanges');
   final vemResponseCollection =
       FirebaseFirestore.instance.collection('responses');
 
   @override
   Future<void> addVemResponse(VemResponse response) {
-    return vemCollection.add(response.toEntity().toDocument());
+    return vemResponseCollection.add(response.toEntity().toDocument());
   }
 
   @override
   Future<void> updateVemResponse(VemResponse response) {
-    return vemCollection
+    return vemResponseCollection
         .doc(response.id)
         .update(response.toEntity().toDocument());
   }
@@ -27,6 +28,17 @@ class FirebaseVemResponseRepository implements VemResponseRepository {
         .map((doc) =>
             VemResponse.fromEntity(VemResponseEntity.fromSnapshot(doc)))
         .toList());
+  }
+
+  @override
+  Stream<List<VemResponse>> responsesForVem(String vemId) {
+    return vemResponseCollection
+        .where('vemId', isEqualTo: vemId)
+        .snapshots()
+        .map((snapshot) => snapshot.docs
+            .map((doc) =>
+                VemResponse.fromEntity(VemResponseEntity.fromSnapshot(doc)))
+            .toList());
   }
 
   @override
@@ -46,5 +58,17 @@ class FirebaseVemResponseRepository implements VemResponseRepository {
     //     );
     print('responses 3: $vemResponses');
     yield vemResponses;
+  }
+
+  @override
+  Future<void> addResponseChange(ResponseChange change) {
+    return responseChangeCollection.add(change.toEntity().toDocument());
+  }
+
+  @override
+  Future<void> updateResponseChange(ResponseChange change) {
+    return responseChangeCollection
+        .doc(change.id)
+        .update(change.toEntity().toDocument());
   }
 }
