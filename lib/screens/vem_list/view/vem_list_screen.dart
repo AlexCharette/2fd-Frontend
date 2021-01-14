@@ -56,7 +56,10 @@ class VemList extends StatelessWidget {
                             // open vem response widget
                             showDialog(
                               context: context,
-                              builder: (context) => VemResponder(vem: vem),
+                              builder: (context) => VemResponder(
+                                vemId: vem.id,
+                                vemName: vem.name,
+                              ),
                             );
                           } else {
                             // TODO open response change request widget

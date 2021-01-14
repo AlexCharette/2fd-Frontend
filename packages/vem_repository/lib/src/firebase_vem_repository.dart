@@ -9,6 +9,10 @@ class FirebaseVemRepository implements VemRepository {
   final vemResponseCollection =
       FirebaseFirestore.instance.collectionGroup('responses');
 
+  Future<CollectionReference> _getCollection() async {
+    var snapshot = await FirebaseFirestore.instance.collection('vems');
+  }
+
   @override
   Future<void> addNewVem(Vem vem) {
     return vemCollection.add(vem.toEntity().toDocument());
@@ -21,7 +25,12 @@ class FirebaseVemRepository implements VemRepository {
 
   @override
   Stream<List<Vem>> vems() {
-    return vemCollection.snapshots().map((snapshot) {
+    Query query =
+        vemCollection.where("endDate", isGreaterThanOrEqualTo: Timestamp.now());
+    return vemCollection
+        .where("endDate", isGreaterThanOrEqualTo: Timestamp.now())
+        .snapshots()
+        .map((snapshot) {
       return snapshot.docs
           .map((doc) => Vem.fromEntity(VemEntity.fromSnapshot(doc)))
           .toList();

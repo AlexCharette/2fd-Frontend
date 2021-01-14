@@ -1,22 +1,21 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:regimental_app/blocs/blocs.dart';
 import 'package:regimental_app/config/theme.dart';
-import 'package:vem_repository/vem_repository.dart';
 import 'package:vem_response_repository/vem_response_repository.dart';
 
-// TODO if response exists: update instead of add
-//                          render based on current response
+// TODO render based on current response
 class VemResponder extends Dialog {
-  final Vem vem;
+  final String vemName;
+  final String vemId;
   final VemResponse currentResponse;
 
   VemResponder({
     Key key,
-    @required this.vem,
+    @required this.vemName,
+    @required this.vemId,
     this.currentResponse,
   }) : super(key: key);
 
@@ -26,14 +25,14 @@ class VemResponder extends Dialog {
           ? UpdateVemResponse(
               VemResponse(
                 FirebaseAuth.instance.currentUser?.uid,
-                vem.id,
+                vemId,
                 answer,
               ),
             )
           : AddVemResponse(
               VemResponse(
                 FirebaseAuth.instance.currentUser?.uid,
-                vem.id,
+                vemId,
                 answer,
               ),
             ),
@@ -46,16 +45,16 @@ class VemResponder extends Dialog {
     return SimpleDialog(
       children: <Widget>[
         Center(
-          key: Key('__vem_responder_${vem.id}'),
+          key: Key('__vem_responder_$vemId'),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               Hero(
-                tag: '${vem.id}__heroTag',
+                tag: '${vemId}__heroTag',
                 child: Container(
                   width: MediaQuery.of(context).size.width,
                   child: Text(
-                    'Respond to ${vem.name}',
+                    'Respond to $vemName',
                   ),
                 ),
               ),

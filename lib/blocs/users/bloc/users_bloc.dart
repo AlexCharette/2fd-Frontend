@@ -26,8 +26,7 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
       yield* _mapLoadCurrentUserToState(event);
     } else if (event is UpdateCurrentUser) {
       yield* _mapUpdateCurrentUserToState(event);
-    }
-    else if( event is CurrentUserUpdated){
+    } else if (event is CurrentUserUpdated) {
       yield* _mapCurrentUserUpdateToState(event);
     }
   }
@@ -38,10 +37,11 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
         _userRepository.users().listen((users) => add(UsersUpdated(users)));
   }
 
-    Stream<UsersState> _mapLoadCurrentUserToState(LoadCurrentUser event) async* {
+  Stream<UsersState> _mapLoadCurrentUserToState(LoadCurrentUser event) async* {
     _currentUserSubscription?.cancel();
-    _currentUserSubscription =
-        _userRepository.currentUser().listen((user) => add(CurrentUserUpdated(user)));
+    _currentUserSubscription = _userRepository
+        .currentUser()
+        .listen((user) => add(CurrentUserUpdated(user)));
   }
 
   Stream<UsersState> _mapUpdateCurrentUserToState(
@@ -49,7 +49,8 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
     _userRepository.updateUser(event.updatedUser);
   }
 
-  Stream<UsersState> _mapCurrentUserUpdateToState(CurrentUserUpdated event) async*{
+  Stream<UsersState> _mapCurrentUserUpdateToState(
+      CurrentUserUpdated event) async* {
     yield CurrentUserLoaded(event.currentUser);
   }
 }

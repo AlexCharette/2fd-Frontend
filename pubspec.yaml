@@ -26,12 +26,14 @@ dependencies:
   # flutter_localizations:
   #   sdk: flutter
   flutter_bloc: ^6.1.0
+  flutter_local_notifications: ^3.0.3
   flutter_email_sender: ^4.0.0
   cloud_firestore: ^0.14.4
   cupertino_icons: ^1.0.0
   equatable: ^1.2.5
   firebase_auth: ^0.18.0+1
   firebase_core: ^0.5.3
+  firebase_messaging: ^7.0.3
   firebase_storage: ^5.2.0
   formz: ^0.3.1
   http: ^0.12.0+4
@@ -58,7 +60,19 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   bloc_test: ^7.0.0
-  mockito: ^4.1.1
+  mockito: ^4.1.3
+  
+dependency_overrides:
+  flutter_local_notifications:
+    git:
+      url: https://github.com/ened/flutter_local_notifications.git
+      path: flutter_local_notifications
+      ref: 17-notification-actions
+  flutter_local_notifications_platform_interface:
+    git:
+      url: https://github.com/ened/flutter_local_notifications.git
+      path: flutter_local_notifications_platform_interface
+      ref: 17-notification-actions
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
