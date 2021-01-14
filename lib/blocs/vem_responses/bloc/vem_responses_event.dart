@@ -42,3 +42,15 @@ class VemResponsesUpdated extends VemResponsesEvent {
   @override
   List<Object> get props => [vemResponses];
 }
+
+class AddResponseChange extends VemResponsesEvent {
+  final ResponseChange responseChange;
+
+  const AddResponseChange(this.responseChange);
+
+  @override
+  List<Object> get props => [responseChange];
+
+  @override
+  String toString() => 'AddResponseChange { responseChange: $responseChange }';
+}

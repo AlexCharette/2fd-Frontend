@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:http/http.dart';
 import 'package:meta/meta.dart';
 import 'package:vem_response_repository/vem_response_repository.dart';
 
@@ -27,6 +28,8 @@ class VemResponsesBloc extends Bloc<VemResponsesEvent, VemResponsesState> {
       yield* _mapUpdateVemResponseToState(event);
     } else if (event is VemResponsesUpdated) {
       yield* _mapVemResponsesUpdatedToState(event);
+    } else if (event is AddResponseChange) {
+      yield* _mapAddResponseChangeToState(event);
     }
   }
 
@@ -50,6 +53,11 @@ class VemResponsesBloc extends Bloc<VemResponsesEvent, VemResponsesState> {
   Stream<VemResponsesState> _mapVemResponsesUpdatedToState(
       VemResponsesUpdated event) async* {
     yield VemResponsesLoaded(event.vemResponses);
+  }
+
+  Stream<VemResponsesState> _mapAddResponseChangeToState(
+      AddResponseChange event) async* {
+    _vemResponseRepository.addResponseChange(event.responseChange);
   }
 
   @override
