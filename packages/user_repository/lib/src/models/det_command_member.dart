@@ -8,7 +8,8 @@ class DetCommandMember extends User {
     String email,
     String lastName,
     int lastThree,
-    String rank, {
+    String rank,
+    String detId, {
     String phoneNumber = '',
     MemberStatus status = MemberStatus.active,
     String id,
@@ -17,6 +18,7 @@ class DetCommandMember extends User {
           lastName,
           lastThree,
           rank,
+          detId,
           phoneNumber: phoneNumber,
           status: status,
           id: id,
@@ -24,6 +26,7 @@ class DetCommandMember extends User {
 
   DetCommandMember copyWith({
     String id,
+    String detId,
     String email,
     String phoneNumber,
     String lastName,
@@ -36,6 +39,7 @@ class DetCommandMember extends User {
       lastName ?? this.lastName,
       lastThree ?? this.lastThree,
       rank ?? this.rank,
+      detId ?? this.detId,
       phoneNumber: phoneNumber ?? this.phoneNumber,
       status: status ?? this.status,
       id: id ?? this.id,
@@ -45,6 +49,7 @@ class DetCommandMember extends User {
   @override
   int get hashCode =>
       id.hashCode ^
+      detId.hashCode ^
       email.hashCode ^
       phoneNumber.hashCode ^
       lastName.hashCode ^
@@ -65,6 +70,7 @@ class DetCommandMember extends User {
       lastName,
       lastThree,
       rank,
+      detId,
       status,
       accountType: AccountType.detCommand,
     );
@@ -76,6 +82,7 @@ class DetCommandMember extends User {
       entity.lastName,
       entity.lastThree,
       entity.rank,
+      entity.detId,
       phoneNumber: entity.phoneNumber,
       status: entity.status,
       id: entity.id,

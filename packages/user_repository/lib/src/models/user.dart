@@ -11,6 +11,7 @@ abstract class User {
   final String phoneNumber;
   final String lastName;
   final int lastThree;
+  final String detId;
   final String rank;
   final MemberStatus status;
 
@@ -18,7 +19,8 @@ abstract class User {
     this.email,
     this.lastName,
     this.lastThree,
-    this.rank, {
+    this.rank,
+    this.detId, {
     String phoneNumber = '',
     MemberStatus status = MemberStatus.active,
     String id,
@@ -33,6 +35,7 @@ abstract class User {
     String lastName,
     int lastThree,
     String rank,
+    String detId,
     MemberStatus status,
   });
 
@@ -44,6 +47,7 @@ abstract class User {
       lastName.hashCode ^
       lastThree.hashCode ^
       rank.hashCode ^
+      detId.hashCode ^
       status.hashCode;
 
   @override
