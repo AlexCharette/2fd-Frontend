@@ -176,6 +176,7 @@ class _VemDetailsScreenState extends State<VemDetailsScreen> {
                 }),
           ],
         ),
+        displayBottomAppBar: false,
       ),
       onWillPop: () async => _onPop(context),
     );
