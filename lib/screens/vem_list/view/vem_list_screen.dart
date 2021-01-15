@@ -5,7 +5,6 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:regimental_app/blocs/blocs.dart';
 import 'package:regimental_app/screens/vem_details/view/view.dart';
-import 'package:regimental_app/widgets/request_response_change.dart';
 import 'package:regimental_app/widgets/widgets.dart';
 
 class VemList extends StatelessWidget {
@@ -35,9 +34,20 @@ class VemList extends StatelessWidget {
                         .collection('users')
                         .doc(FirebaseAuth.instance.currentUser?.uid ?? '');
                     final vem = vems[index];
+                    final response = vemResponses
+                            .where((response) => response.vemId == vem.id)
+                            .isNotEmpty
+                        ? vemResponses
+                            .where((response) => response.vemId == vem.id)
+                            .first
+                        : null;
                     return VemItem(
                       vem: vem,
                       numParticipants: vem.numParticipants,
+                      isAttending:
+                          (response != null && response.answer == 'yes')
+                              ? true
+                              : false,
                       onTap: () async {
                         // go to vem details screen
                         Navigator.pushNamed(
@@ -61,30 +71,30 @@ class VemList extends StatelessWidget {
                               ),
                             );
                           } else {
-                            // TODO get current response for this vem
-                            // showDialog(
-                            //   context: context,
-                            //   builder: (context) => RequestResponseChange(
-                            //     currentResponse: currentResponse,
-                            //   ),
-                            // );
+                            showDialog(
+                              context: context,
+                              builder: (context) => RequestResponseChange(
+                                currentResponse: response,
+                              ),
+                            );
                           }
+                        } else {
+                          // else popup saying it's full
+                          final snackBar = SnackBar(
+                            content: Text(
+                                'Maximum attendance for this VEM has been reached.'),
+                          );
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
                         }
-                        // else popup saying it's full
-                        final snackBar = SnackBar(
-                          content: Text(
-                              'Maximum attendance for this VEM has been reached.'),
-                        );
-                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
                       },
                     );
                   },
                 );
               } else {
-                return Container();
+                return Container(child: Text('get fucked'));
               }
             } else {
-              return Container();
+              return Container(child: Text('get fucked'));
             }
           },
         );

@@ -2,13 +2,13 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:regimental_app/config/theme.dart';
 import 'package:vem_repository/vem_repository.dart';
-import 'package:vem_response_repository/vem_response_repository.dart';
 
 class VemItem extends StatelessWidget {
   final GestureTapCallback onTap;
   final GestureLongPressCallback onLongPress;
   final Vem vem;
   final int numParticipants;
+  final bool isAttending;
 
   VemItem({
     Key key,
@@ -16,6 +16,7 @@ class VemItem extends StatelessWidget {
     @required this.onLongPress,
     @required this.vem,
     @required this.numParticipants,
+    @required this.isAttending,
   }) : super(key: key);
 
   // bool _isFull() {

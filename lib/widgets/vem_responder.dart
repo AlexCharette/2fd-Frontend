@@ -17,7 +17,9 @@ class VemResponder extends Dialog {
     @required this.vemName,
     @required this.vemId,
     this.currentResponse,
-  }) : super(key: key);
+  }) : super(key: key) {
+    print('Current response: ${this.currentResponse}');
+  }
 
   void _submitResponse(BuildContext context, String answer) {
     BlocProvider.of<VemResponsesBloc>(context).add(
@@ -55,6 +57,7 @@ class VemResponder extends Dialog {
                   width: MediaQuery.of(context).size.width,
                   child: Text(
                     'Respond to $vemName',
+                    style: TextStyle(color: theme.accentColor),
                   ),
                 ),
               ),
