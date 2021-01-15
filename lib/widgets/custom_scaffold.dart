@@ -96,7 +96,12 @@ class _CustomScaffoldState extends State<CustomScaffold> {
                     onTap: () {
                       Navigator.of(context).pop();
                       if (widget.selectedIndex != 2) {
-                        Navigator.of(context).push(ProfileScreen.route());
+                        widget.pageController.animateToPage(
+                          2,
+                          duration: new Duration(milliseconds: 250),
+                          curve: Curves.bounceInOut,
+                        );
+                        //Navigator.of(context).push(ProfileScreen.route());
                       }
                     }),
                 ListTile(

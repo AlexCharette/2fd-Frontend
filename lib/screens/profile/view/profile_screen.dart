@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -6,11 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:regimental_app/blocs/users/bloc/users_bloc.dart';
 import 'package:regimental_app/config/routes.dart';
 import 'package:regimental_app/config/theme.dart';
-import 'package:regimental_app/screens/splash/splash.dart';
-import 'package:regimental_app/widgets/custom_scaffold.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:user_repository/user_repository.dart';
-import 'package:firebase_auth/firebase_auth.dart' as auth;
 
 class ProfileScreen extends StatefulWidget {
   ProfileScreen({this.selectedIndex});
@@ -139,7 +133,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
                 //TODO: l'information du detachement devrai etre dynamique
                 Text(
-                  'DET:ALPHA',
+                  'DET:${currentUser.detId}',
                   style: theme.textTheme.headline4,
                 ),
                 SizedBox(
