@@ -236,6 +236,7 @@ class _AddEditVemScreenState extends State<AddEditVemScreen> {
           ),
         ],
       ),
+      displayBottomAppBar: false,
     );
   }
 }
