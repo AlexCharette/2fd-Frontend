@@ -13,9 +13,10 @@ class _CustomBottomAppBarState extends State<CustomBottomAppBar> {
   int _selectedIndex = 0;
   @override
   Widget build(BuildContext context) {
-    _selectedIndex = widget.pageController.hasClients
-        ? widget.pageController.page.round()
-        : _selectedIndex;
+    _selectedIndex =
+        (widget.pageController != null && widget.pageController.hasClients)
+            ? widget.pageController.page.round()
+            : _selectedIndex;
     return BottomNavigationBar(
       currentIndex: _selectedIndex,
       selectedItemColor: Theme.of(context).accentColor,

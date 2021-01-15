@@ -54,7 +54,8 @@ class _HomeScreenState extends State<HomeScreen> {
           ProfileScreen(),
         ],
       ),
-      floatingActionButtons: (_pageController.page.round() != 2)
+      floatingActionButtons: (_pageController.positions.isNotEmpty &&
+              _pageController.page.round() != 2)
           ? FloatingActionButton(
               child: Icon(
                 Icons.add,

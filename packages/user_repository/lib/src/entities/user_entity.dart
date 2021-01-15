@@ -9,11 +9,12 @@ class UserEntity extends Equatable {
   final String rank;
   final String lastName;
   final int lastThree;
+  final String detId;
   final MemberStatus status;
   final AccountType accountType;
 
   const UserEntity(this.id, this.email, this.phoneNumber, this.lastName,
-      this.lastThree, this.rank, this.status,
+      this.lastThree, this.rank, this.detId, this.status,
       {AccountType accountType})
       : assert(accountType is AccountType),
         this.accountType = accountType;
@@ -27,6 +28,7 @@ class UserEntity extends Equatable {
         rank,
         status,
         accountType,
+        detId,
         id,
       ];
 
@@ -35,7 +37,7 @@ class UserEntity extends Equatable {
     return """
       User{
         email: $email, phoneNumber: $phoneNumber, 
-        lastName: $lastName, lastThree: $lastThree, rank: $rank, 
+        lastName: $lastName, lastThree: $lastThree, rank: $rank, detId: $detId,
         status: ${status.toString()}, accountType: ${accountType.toString()}
       }
     """;
@@ -48,6 +50,7 @@ class UserEntity extends Equatable {
       "lastName": lastName,
       "lastThree": lastThree,
       "rank": rank,
+      "detId": detId,
       "status": status.toString(),
       "accountType": accountType.toString(),
       "id": id,
@@ -62,8 +65,13 @@ class UserEntity extends Equatable {
       json["lastName"] as String,
       json["lastThree"] as int,
       json["rank"] as String,
-      MemberStatus.values.firstWhere((element) => element.toString() == json["status"] as String, orElse: () => MemberStatus.active),
-      accountType: AccountType.values.firstWhere((element) => element.toString() == json["accountType"] as String, orElse: () => AccountType.normal),
+      json["detId"] as String,
+      MemberStatus.values.firstWhere(
+          (element) => element.toString() == json["status"] as String,
+          orElse: () => MemberStatus.active),
+      accountType: AccountType.values.firstWhere(
+          (element) => element.toString() == json["accountType"] as String,
+          orElse: () => AccountType.normal),
     );
   }
 
@@ -75,8 +83,15 @@ class UserEntity extends Equatable {
       snap.get('lastName'),
       snap.get('lastThree'),
       snap.get('rank'),
-      MemberStatus.values.firstWhere((element) => element.toString() == 'MemberStatus.' + snap.get('status'), orElse: ()=>MemberStatus.active),
-      accountType: AccountType.values.firstWhere((element) => element.toString() == 'AccountType.' + snap.get('accountType'), orElse: ()=>AccountType.normal) ,
+      snap.get('detId'),
+      MemberStatus.values.firstWhere(
+          (element) =>
+              element.toString() == 'MemberStatus.' + snap.get('status'),
+          orElse: () => MemberStatus.active),
+      accountType: AccountType.values.firstWhere(
+          (element) =>
+              element.toString() == 'AccountType.' + snap.get('accountType'),
+          orElse: () => AccountType.normal),
     );
   }
 
@@ -87,6 +102,7 @@ class UserEntity extends Equatable {
       "lastName": lastName,
       "lastThree": lastThree,
       "rank": rank,
+      "detId": detId,
       "status": status.toString(),
       "accountType": accountType.toString(),
     };

@@ -17,18 +17,14 @@ class VemResponder extends Dialog {
     @required this.vemName,
     @required this.vemId,
     this.currentResponse,
-  }) : super(key: key);
+  }) : super(key: key) {
+    print('Current response: ${this.currentResponse}');
+  }
 
   void _submitResponse(BuildContext context, String answer) {
     BlocProvider.of<VemResponsesBloc>(context).add(
       currentResponse != null
-          ? UpdateVemResponse(
-              VemResponse(
-                FirebaseAuth.instance.currentUser?.uid,
-                vemId,
-                answer,
-              ),
-            )
+          ? UpdateVemResponse(currentResponse.copyWith(answer: answer))
           : AddVemResponse(
               VemResponse(
                 FirebaseAuth.instance.currentUser?.uid,
@@ -37,6 +33,7 @@ class VemResponder extends Dialog {
               ),
             ),
     );
+    Navigator.pop(context);
   }
 
   @override
@@ -55,25 +52,24 @@ class VemResponder extends Dialog {
                   width: MediaQuery.of(context).size.width,
                   child: Text(
                     'Respond to $vemName',
+                    style: TextStyle(color: theme.accentColor),
                   ),
                 ),
               ),
               RaisedButton(
-                color: AppColors.buttonGreen, // TODO edit disabled style
+                color: AppColors.buttonGreen,
                 onPressed:
-                    (currentResponse != null && currentResponse.answer != 'yes')
+                    (currentResponse == null || currentResponse.answer != 'yes')
                         ? () {
                             _submitResponse(context, 'yes');
-                            //_hideWidget();
-                            Navigator.pop(context);
                           }
                         : null,
                 child: Text('I\'ll be there'),
               ),
               RaisedButton(
-                color: AppColors.buttonRed, // TODO edit disabled style
+                color: AppColors.buttonRed,
                 onPressed:
-                    (currentResponse != null && currentResponse.answer != 'no')
+                    (currentResponse == null || currentResponse.answer != 'no')
                         ? () {
                             _submitResponse(context, 'no');
                           }
@@ -87,20 +83,3 @@ class VemResponder extends Dialog {
     );
   }
 }
-
-/* TODO when pressed outside
-              onPressed: () {
-                BlocProvider.of<VemResponsesBloc>(context).add(
-                  AddVemResponse(
-                    vem.id,
-                    VemResponse(
-                      FirebaseFirestore.instance
-                          .collection('users')
-                          .doc(FirebaseAuth.instance.currentUser?.uid ?? ''),
-                      'seen',
-                    ),
-                  ),
-                );
-                hideWidget();
-              }
-*/

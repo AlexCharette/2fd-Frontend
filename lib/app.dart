@@ -1,4 +1,5 @@
 import 'package:authentication_repository/authentication_repository.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -48,14 +49,15 @@ class App extends StatelessWidget {
             create: (context) =>
                 VemsBloc(vemRepository: vemRepository)..add(LoadVems()),
           ),
-          BlocProvider<VemResponsesBloc>(
-            create: (context) =>
-                VemResponsesBloc(vemResponseRepository: vemResponseRepository)
-                  ..add(LoadVemResponses()),
-          ),
           BlocProvider<UsersBloc>(
             create: (context) => UsersBloc(userRepository: userRepository)
               ..add(LoadCurrentUser()),
+          ),
+          BlocProvider<VemResponsesBloc>(
+            create: (context) => VemResponsesBloc(
+                vemResponseRepository: vemResponseRepository)
+              ..add(
+                  LoadResponsesForUser(FirebaseAuth.instance.currentUser?.uid)),
           ),
         ],
         child: AppView(),

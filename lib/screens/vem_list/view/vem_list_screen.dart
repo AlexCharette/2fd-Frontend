@@ -14,12 +14,13 @@ class VemList extends StatelessWidget {
       builder: (context, vemsState) {
         return BlocBuilder<VemResponsesBloc, VemResponsesState>(
           builder: (context, responsesState) {
-            if (vemsState is VemsLoading) {
+            if (vemsState is VemsLoading &&
+                responsesState is UserResponsesLoading) {
               return Center(
                 child: CircularProgressIndicator(),
               );
             } else if (vemsState is VemsLoaded &&
-                responsesState is VemResponsesLoaded) {
+                responsesState is UserResponsesLoaded) {
               final vems = vemsState.vems;
               final vemResponses = responsesState.vemResponses;
               if (vems.length > 0) {
@@ -33,24 +34,33 @@ class VemList extends StatelessWidget {
                         .collection('users')
                         .doc(FirebaseAuth.instance.currentUser?.uid ?? '');
                     final vem = vems[index];
+                    final response = vemResponses
+                            .where((response) => response.vemId == vem.id)
+                            .isNotEmpty
+                        ? vemResponses
+                            .where((response) => response.vemId == vem.id)
+                            .first
+                        : null;
+                    print('response for ${vem.name}: ${response?.id}');
                     return VemItem(
                       vem: vem,
-                      vemResponses: vemResponses
-                          .where((response) => response.vemId == vem.id)
-                          .toList(),
+                      numParticipants: vem.numParticipants,
+                      isAttending:
+                          (response != null && response.answer == 'yes')
+                              ? true
+                              : false,
                       onTap: () async {
                         // go to vem details screen
                         Navigator.pushNamed(
                           context,
                           VemDetailsScreen.routeName,
-                          arguments:
-                              VemDetailsScreenArguments(vem, vemResponses),
+                          arguments: VemDetailsScreenArguments(vem),
                         );
                       },
                       onLongPress: () async {
+                        // Load vem responses
                         // if it isn't full
-                        // TODO: fucking wrong
-                        if (vemResponses.length < vem.maxParticipants) {
+                        if (vem.numParticipants < vem.maxParticipants) {
                           // If the lock date has not passed
                           if (Timestamp.now().compareTo(vem.lockDate) <= 0) {
                             // open vem response widget
@@ -59,27 +69,34 @@ class VemList extends StatelessWidget {
                               builder: (context) => VemResponder(
                                 vemId: vem.id,
                                 vemName: vem.name,
+                                currentResponse: response,
                               ),
                             );
                           } else {
-                            // TODO open response change request widget
+                            showDialog(
+                              context: context,
+                              builder: (context) => RequestResponseChange(
+                                currentResponse: response,
+                              ),
+                            );
                           }
+                        } else {
+                          // else popup saying it's full
+                          final snackBar = SnackBar(
+                            content: Text(
+                                'Maximum attendance for this VEM has been reached.'),
+                          );
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
                         }
-                        // else popup saying it's full
-                        final snackBar = SnackBar(
-                          content: Text(
-                              'Maximum attendance for this VEM has been reached.'),
-                        );
-                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
                       },
                     );
                   },
                 );
               } else {
-                return Container();
+                return Container(child: Text('get fucked'));
               }
             } else {
-              return Container();
+              return Container(child: Text('get fucked'));
             }
           },
         );

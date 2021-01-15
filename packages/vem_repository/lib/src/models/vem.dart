@@ -14,6 +14,7 @@ class Vem {
   final String description;
   final int minParticipants;
   final int maxParticipants;
+  final int numParticipants;
 
   Vem(
     this.name,
@@ -24,6 +25,7 @@ class Vem {
     Timestamp lockDate,
     int minParticipants = 0,
     int maxParticipants = 999,
+    int numParticipants = 0,
     String id,
   })  : this.description = description ?? '',
         this.startDate = startDate ?? getDefaultStartDate(),
@@ -31,6 +33,7 @@ class Vem {
         this.lockDate = lockDate ?? getDefaultLockDate(),
         this.minParticipants = minParticipants,
         this.maxParticipants = maxParticipants,
+        this.numParticipants = numParticipants,
         this.id = id;
 
   Vem copyWith({
@@ -43,6 +46,7 @@ class Vem {
     Timestamp lockDate,
     int minParticipants,
     int maxParticipants,
+    int numParticipants,
   }) {
     return Vem(
       name ?? this.name,
@@ -53,6 +57,7 @@ class Vem {
       lockDate: lockDate ?? this.lockDate,
       minParticipants: minParticipants ?? this.minParticipants,
       maxParticipants: maxParticipants ?? this.maxParticipants,
+      numParticipants: numParticipants ?? this.numParticipants,
       id: id ?? this.id,
     );
   }
@@ -67,7 +72,8 @@ class Vem {
       responseType.hashCode ^
       description.hashCode ^
       minParticipants.hashCode ^
-      maxParticipants.hashCode;
+      maxParticipants.hashCode ^
+      numParticipants.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -84,6 +90,7 @@ class Vem {
       description,
       minParticipants,
       maxParticipants,
+      numParticipants,
       responseType: responseType,
     );
   }
@@ -98,6 +105,7 @@ class Vem {
       lockDate: entity.lockDate,
       minParticipants: entity.minParticipants,
       maxParticipants: entity.maxParticipants,
+      numParticipants: entity.numParticipants,
       id: entity.id,
     );
   }

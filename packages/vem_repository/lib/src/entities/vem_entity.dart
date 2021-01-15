@@ -11,6 +11,7 @@ class VemEntity extends Equatable {
   final String description;
   final int minParticipants;
   final int maxParticipants;
+  final int numParticipants;
 
   const VemEntity(
       this.id,
@@ -21,6 +22,7 @@ class VemEntity extends Equatable {
       this.description,
       this.minParticipants,
       this.maxParticipants,
+      this.numParticipants,
       {String responseType})
       : assert(responseType == 'battery' || responseType == 'other'),
         this.responseType = responseType;
@@ -35,6 +37,7 @@ class VemEntity extends Equatable {
         description,
         minParticipants,
         maxParticipants,
+        numParticipants,
         id
       ];
 
@@ -45,7 +48,7 @@ class VemEntity extends Equatable {
         name: $name, startDate: $startDate, endDate: $endDate, 
         lockDate: $lockDate, responseType: $responseType, 
         description: $description, minParticipants: $minParticipants,
-        maxParticipants: $maxParticipants, id: $id
+        maxParticipants: $maxParticipants, numParticipants: $numParticipants, id: $id
       }
     """;
   }
@@ -60,6 +63,7 @@ class VemEntity extends Equatable {
       "description": description,
       "minParticipants": minParticipants,
       "maxParticipants": maxParticipants,
+      "numParticipants": numParticipants,
       "id": id,
     };
   }
@@ -74,6 +78,7 @@ class VemEntity extends Equatable {
       json["description"] as String,
       json["minParticipants"] as int,
       json["maxParticipants"] as int,
+      json["numParticipants"] as int,
       responseType: json["responseType"] as String,
     );
   }
@@ -88,6 +93,7 @@ class VemEntity extends Equatable {
       snap.get('description'),
       snap.get('minParticipants'),
       snap.get('maxParticipants'),
+      snap.get('numParticipants'),
       responseType: snap.get('responseType'),
     );
   }
@@ -102,6 +108,7 @@ class VemEntity extends Equatable {
       "description": description,
       "minParticipants": minParticipants,
       "maxParticipants": maxParticipants,
+      "numParticipants": numParticipants,
     };
   }
 }

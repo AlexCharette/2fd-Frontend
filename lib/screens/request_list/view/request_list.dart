@@ -36,16 +36,13 @@ class RequestList extends StatelessWidget {
                     final vem = vems[index];
                     return VemItem(
                       vem: vem,
-                      vemResponses: vemResponses
-                          .where((response) => response.vemId == vem.id)
-                          .toList(),
+                      numParticipants: 0, // TODO
                       onTap: () async {
                         // go to vem details screen
                         Navigator.pushNamed(
                           context,
                           VemDetailsScreen.routeName,
-                          arguments:
-                              VemDetailsScreenArguments(vem, vemResponses),
+                          arguments: VemDetailsScreenArguments(vem),
                         );
                       },
                       onLongPress: () async {

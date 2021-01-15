@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class DateDisplay extends StatelessWidget {
   final IconData icon;
   final String date;
-  GestureTapCallback onTap;
+  final GestureTapCallback onTap;
 
   DateDisplay({
     this.icon,
