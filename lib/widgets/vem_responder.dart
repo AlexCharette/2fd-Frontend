@@ -24,13 +24,7 @@ class VemResponder extends Dialog {
   void _submitResponse(BuildContext context, String answer) {
     BlocProvider.of<VemResponsesBloc>(context).add(
       currentResponse != null
-          ? UpdateVemResponse(
-              VemResponse(
-                FirebaseAuth.instance.currentUser?.uid,
-                vemId,
-                answer,
-              ),
-            )
+          ? UpdateVemResponse(currentResponse.copyWith(answer: answer))
           : AddVemResponse(
               VemResponse(
                 FirebaseAuth.instance.currentUser?.uid,
@@ -63,22 +57,26 @@ class VemResponder extends Dialog {
               ),
               RaisedButton(
                 color: AppColors.buttonGreen, // TODO edit disabled style
-                onPressed:
-                    (currentResponse != null && currentResponse.answer != 'yes')
-                        ? () {
-                            _submitResponse(context, 'yes');
-                            //_hideWidget();
-                            Navigator.pop(context);
-                          }
-                        : null,
+                onPressed: () {
+                  if (currentResponse == null) {
+                    _submitResponse(context, 'yes');
+                    //_hideWidget();
+                    Navigator.pop(context);
+                  } else if (currentResponse != null &&
+                      currentResponse.answer != 'yes') {
+                    _submitResponse(context, 'yes');
+                    Navigator.pop(context);
+                  }
+                },
                 child: Text('I\'ll be there'),
               ),
               RaisedButton(
                 color: AppColors.buttonRed, // TODO edit disabled style
                 onPressed:
-                    (currentResponse != null && currentResponse.answer != 'no')
+                    (currentResponse == null || currentResponse.answer != 'no')
                         ? () {
                             _submitResponse(context, 'no');
+                            Navigator.pop(context);
                           }
                         : null,
                 child: Text('I won\'t be there'),
