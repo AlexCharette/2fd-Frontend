@@ -41,6 +41,7 @@ class VemList extends StatelessWidget {
                             .where((response) => response.vemId == vem.id)
                             .first
                         : null;
+                    print('response for ${vem.name}: ${response?.id}');
                     return VemItem(
                       vem: vem,
                       numParticipants: vem.numParticipants,
@@ -68,6 +69,7 @@ class VemList extends StatelessWidget {
                               builder: (context) => VemResponder(
                                 vemId: vem.id,
                                 vemName: vem.name,
+                                currentResponse: response,
                               ),
                             );
                           } else {

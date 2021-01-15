@@ -33,6 +33,7 @@ class VemResponder extends Dialog {
               ),
             ),
     );
+    Navigator.pop(context);
   }
 
   @override
@@ -56,27 +57,21 @@ class VemResponder extends Dialog {
                 ),
               ),
               RaisedButton(
-                color: AppColors.buttonGreen, // TODO edit disabled style
-                onPressed: () {
-                  if (currentResponse == null) {
-                    _submitResponse(context, 'yes');
-                    //_hideWidget();
-                    Navigator.pop(context);
-                  } else if (currentResponse != null &&
-                      currentResponse.answer != 'yes') {
-                    _submitResponse(context, 'yes');
-                    Navigator.pop(context);
-                  }
-                },
+                color: AppColors.buttonGreen,
+                onPressed:
+                    (currentResponse == null || currentResponse.answer != 'yes')
+                        ? () {
+                            _submitResponse(context, 'yes');
+                          }
+                        : null,
                 child: Text('I\'ll be there'),
               ),
               RaisedButton(
-                color: AppColors.buttonRed, // TODO edit disabled style
+                color: AppColors.buttonRed,
                 onPressed:
                     (currentResponse == null || currentResponse.answer != 'no')
                         ? () {
                             _submitResponse(context, 'no');
-                            Navigator.pop(context);
                           }
                         : null,
                 child: Text('I won\'t be there'),
@@ -88,20 +83,3 @@ class VemResponder extends Dialog {
     );
   }
 }
-
-/* TODO when pressed outside
-              onPressed: () {
-                BlocProvider.of<VemResponsesBloc>(context).add(
-                  AddVemResponse(
-                    vem.id,
-                    VemResponse(
-                      FirebaseFirestore.instance
-                          .collection('users')
-                          .doc(FirebaseAuth.instance.currentUser?.uid ?? ''),
-                      'seen',
-                    ),
-                  ),
-                );
-                hideWidget();
-              }
-*/
