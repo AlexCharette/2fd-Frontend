@@ -48,7 +48,7 @@ class _VemDetailsScreenState extends State<VemDetailsScreen> {
                 child: CircularProgressIndicator(),
               );
             } else if (state is VemResponsesLoaded) {
-              return Column(
+              return ListView(
                 children: <Widget>[
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -127,7 +127,7 @@ class _VemDetailsScreenState extends State<VemDetailsScreen> {
           },
         ),
         floatingActionButtons: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
             FloatingActionButton(
               heroTag: 'moreActionButton__heroTag',
