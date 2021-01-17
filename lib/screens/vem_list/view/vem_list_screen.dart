@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:regimental_app/blocs/blocs.dart';
 import 'package:regimental_app/screens/vem_details/view/view.dart';
 import 'package:regimental_app/widgets/widgets.dart';
+import 'package:regimental_app/screens/screens.dart';
 
 class VemList extends StatelessWidget {
   @override
@@ -92,11 +93,21 @@ class VemList extends StatelessWidget {
                     );
                   },
                 );
-              } else {
-                return Container(child: Text('get fucked'));
+              } else if (vems.length == 0 ){
+                return Center(
+                  child: Container(
+                    child: Text('PAS DE VEMS DISPONIBLES',style: TextStyle(fontSize: 20),),
+                  ),
+                );
+              }
+              else {
+                assert(true,'This should NEVER EVER happen... How the fuck are we in the negatives');
+                return _ErrorDialog();
               }
             } else {
-              return Container(child: Text('get fucked'));
+              //TODO: when clicking on the vem this happens for a fraction of second because the state is changing (thats my guess) so we can't display an error
+              //we need to figure something out
+              return Container(child: Text(''),);
             }
           },
         );
@@ -104,3 +115,31 @@ class VemList extends StatelessWidget {
     );
   }
 }
+
+class _ErrorDialog extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: Text('Error', style: TextStyle(color: Colors.blueAccent),),
+      content: SingleChildScrollView(
+        child: ListBody(
+          children: <Widget>[
+            Text('There has been an error with the vem list.'),
+            Text('Please communicate this issue with one of the developers: Bdr Charette or Bdr Hoyos'),
+            Text('We are sorry for the inconvenience')
+          ],
+        ),
+      ),
+      actions: <Widget>[
+        TextButton(
+          child: Text('Retry vem list'),
+          onPressed: (){
+            Navigator.of(context).pop();
+            Navigator.of(context).pushAndRemoveUntil(HomeScreen.route(), (route) => false);
+          },
+        ),
+      ],
+    );
+  }
+}
+
