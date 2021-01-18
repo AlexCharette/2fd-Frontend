@@ -85,21 +85,17 @@ class _VemDetailsScreenState extends State<VemDetailsScreen> {
                           children: <Widget>[
                             DateDisplay(
                               icon: Icons.date_range_outlined,
-                              date: Vem.timestampToYearMonthDayTime(
-                                  args.vem.startDate),
+                              date: args.vem.startDate,
                             ),
                             args.vem.endDate != null
                                 ? DateDisplay(
                                     icon: Icons.date_range_outlined,
-                                    date: Vem.timestampToYearMonthDayTime(
-                                        args.vem.endDate),
+                                    date: args.vem.endDate,
                                   )
                                 : null,
                             DateDisplay(
-                              icon: Icons.lock_clock,
-                              date: Vem.timestampToYearMonthDayTime(
-                                  args.vem.lockDate),
-                            ),
+                                icon: Icons.lock_clock,
+                                date: args.vem.lockDate),
                           ],
                         ),
                       ),
