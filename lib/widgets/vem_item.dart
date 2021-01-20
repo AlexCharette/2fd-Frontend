@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:regimental_app/app.dart';
 import 'package:regimental_app/config/theme.dart';
 import 'package:regimental_app/widgets/widgets.dart';
 import 'package:vem_repository/vem_repository.dart';
@@ -107,8 +108,21 @@ class VemItem extends StatelessWidget {
             )
           : null,
       trailing: Container(
-        width: MediaQuery.of(context).size.width / 6,
-        child: CompletionIcon(vem: vem),
+        width: MediaQuery.of(context).size.width / 4,
+        child: Row(
+          children: <Widget>[
+            isAttending
+                ? Icon(
+                    Icons.check_circle,
+                    color: AppColors.buttonGreen,
+                  )
+                : null,
+            SizedBox(
+              width: 10,
+            ),
+            CompletionIcon(vem: vem),
+          ],
+        ),
       ),
     );
   }
