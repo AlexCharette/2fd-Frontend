@@ -1,14 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:regimental_app/blocs/blocs.dart';
-import 'package:regimental_app/config/theme.dart';
 import 'package:regimental_app/config/routes.dart';
 import 'package:regimental_app/screens/add_edit_vem/add_edit_vem.dart';
 import 'package:regimental_app/widgets/widgets.dart';
 import 'package:vem_repository/vem_repository.dart';
-import 'package:vem_response_repository/vem_response_repository.dart';
 
 class VemDetailsScreenArguments {
   final Vem vem;
@@ -24,17 +21,18 @@ class VemDetailsScreen extends StatefulWidget {
 }
 
 class _VemDetailsScreenState extends State<VemDetailsScreen> {
-  Future<bool> _onPop(BuildContext context) {
+  Future<bool> _onPop(BuildContext context) async {
     BlocProvider.of<VemResponsesBloc>(context)
-        .add(LoadResponsesForUser(FirebaseAuth.instance.currentUser?.uid));
+        .add(LoadResponsesForUser(FirebaseAuth.instance.currentUser.uid));
     Navigator.of(context).pop(true);
+    return true;
   }
 
   @override
   Widget build(BuildContext context) {
     ThemeData theme = Theme.of(context);
     final VemDetailsScreenArguments args =
-        ModalRoute.of(context).settings.arguments;
+        ModalRoute.of(context).settings.arguments as VemDetailsScreenArguments;
     BlocProvider.of<VemResponsesBloc>(context).add(
       LoadResponsesForVem(args.vem.id),
     );
@@ -59,7 +57,7 @@ class _VemDetailsScreenState extends State<VemDetailsScreen> {
                           args.vem.name,
                           style: theme.textTheme.headline6,
                         ),
-                        completionIcon(args.vem, state.vemResponses)
+                        CompletionIcon(vem: args.vem),
                       ],
                     ),
                   ),
@@ -151,8 +149,10 @@ class _VemDetailsScreenState extends State<VemDetailsScreen> {
                         responseType,
                         description,
                         minParticipants,
-                        maxParticipiants,
+                        maxParticipants,
                       ) {
+                        print(
+                            '$name, $startDate, $endDate, $lockDate, $responseType, $description, $minParticipants, $maxParticipants');
                         BlocProvider.of<VemsBloc>(context).add(
                           UpdateVem(args.vem.copyWith(
                             name: name,
@@ -162,7 +162,7 @@ class _VemDetailsScreenState extends State<VemDetailsScreen> {
                             responseType: responseType,
                             description: description,
                             minParticipants: minParticipants,
-                            maxParticipants: maxParticipiants,
+                            maxParticipants: maxParticipants,
                           )),
                         );
                       },
@@ -176,47 +176,5 @@ class _VemDetailsScreenState extends State<VemDetailsScreen> {
       ),
       onWillPop: () async => _onPop(context),
     );
-  }
-
-  Widget completionIcon(Vem vem, List<VemResponse> response) {
-    Widget completionStatus;
-    if (response == null || response.length < vem.minParticipants) {
-      completionStatus = Row(
-        children: [
-          Text(
-            "${response != null ? response.length : 0}/${vem.maxParticipants}",
-            style: TextStyle(color: Colors.red[900]),
-          ),
-          Icon(
-            Icons.people,
-            color: Colors.red[900],
-          ),
-        ],
-      );
-    } else if (response.length >= vem.minParticipants &&
-        response.length < vem.maxParticipants) {
-      completionStatus = Row(
-        children: [
-          Text(
-            "${response.length}/${vem.maxParticipants}",
-            style: TextStyle(color: Colors.green[700]),
-          ),
-          Icon(
-            Icons.check_circle_outline,
-            color: Colors.white54,
-            size: 35,
-          ),
-        ],
-      );
-    } else if (response.length == vem.minParticipants) {
-      completionStatus = Icon(
-        Icons.check_circle,
-        color: AppColors.white,
-        size: 35,
-      );
-    } else {
-      return null;
-    }
-    return completionStatus;
   }
 }

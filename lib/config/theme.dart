@@ -20,16 +20,42 @@ class ThemeNotifier with ChangeNotifier {
     primaryColor: AppColors.white,
     accentColor: AppColors.blue,
     appBarTheme: AppBarTheme(
-        iconTheme: IconThemeData(color: AppColors.white,),
+        iconTheme: IconThemeData(
+          color: AppColors.white,
+        ),
         textTheme: TextTheme(
             caption: TextStyle(color: AppColors.charcoal, fontSize: 18))),
     textTheme: TextTheme(
-      headline1: TextStyle(fontSize: 75, letterSpacing: 2.0, color: AppColors.white, fontFamily: 'CastIron'),
-      headline2: TextStyle(fontSize: 65, letterSpacing: 2.0, color: AppColors.white, fontFamily: 'CastIron'),
-      headline3: TextStyle(fontSize: 55, letterSpacing: 2.0, color: AppColors.white, fontFamily: 'CastIron'),
-      headline4: TextStyle(fontSize: 45, letterSpacing: 2.0, color: AppColors.white, fontFamily: 'CastIron'),
-      headline5: TextStyle(fontSize: 35, letterSpacing: 2.0, color: AppColors.white, fontFamily: 'CastIron'),
-      headline6: TextStyle(fontSize: 25, letterSpacing: 2.0, color: AppColors.white, fontFamily: 'CastIron'),
+      headline1: TextStyle(
+          fontSize: 75,
+          letterSpacing: 2.0,
+          color: AppColors.white,
+          fontFamily: 'CastIron'),
+      headline2: TextStyle(
+          fontSize: 65,
+          letterSpacing: 2.0,
+          color: AppColors.white,
+          fontFamily: 'CastIron'),
+      headline3: TextStyle(
+          fontSize: 55,
+          letterSpacing: 2.0,
+          color: AppColors.white,
+          fontFamily: 'CastIron'),
+      headline4: TextStyle(
+          fontSize: 45,
+          letterSpacing: 2.0,
+          color: AppColors.white,
+          fontFamily: 'CastIron'),
+      headline5: TextStyle(
+          fontSize: 35,
+          letterSpacing: 2.0,
+          color: AppColors.white,
+          fontFamily: 'CastIron'),
+      headline6: TextStyle(
+          fontSize: 25,
+          letterSpacing: 2.0,
+          color: AppColors.white,
+          fontFamily: 'CastIron'),
       bodyText2: TextStyle(color: AppColors.white),
       button: TextStyle(letterSpacing: 2.0),
     ),

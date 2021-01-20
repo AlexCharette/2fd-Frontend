@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,6 +6,9 @@ import 'package:regimental_app/blocs/blocs.dart';
 import 'package:regimental_app/screens/vem_details/view/view.dart';
 import 'package:regimental_app/widgets/widgets.dart';
 import 'package:regimental_app/screens/screens.dart';
+import 'package:vem_repository/vem_repository.dart' show Vem;
+import 'package:vem_response_repository/vem_response_repository.dart'
+    show VemResponse;
 
 class VemList extends StatelessWidget {
   @override
@@ -22,8 +24,8 @@ class VemList extends StatelessWidget {
               );
             } else if (vemsState is VemsLoaded &&
                 responsesState is UserResponsesLoaded) {
-              final vems = vemsState.vems;
-              final vemResponses = responsesState.vemResponses;
+              List<Vem> vems = vemsState.vems;
+              List<VemResponse> vemResponses = responsesState.vemResponses;
               if (vems.length > 0) {
                 return ListView.separated(
                   separatorBuilder: (context, index) => Divider(
@@ -31,11 +33,8 @@ class VemList extends StatelessWidget {
                   ),
                   itemCount: vems.length,
                   itemBuilder: (context, index) {
-                    dynamic temp = FirebaseFirestore.instance
-                        .collection('users')
-                        .doc(FirebaseAuth.instance.currentUser?.uid ?? '');
-                    final vem = vems[index];
-                    final response = vemResponses
+                    Vem vem = vems[index];
+                    VemResponse response = vemResponses
                             .where((response) => response.vemId == vem.id)
                             .isNotEmpty
                         ? vemResponses
@@ -87,27 +86,32 @@ class VemList extends StatelessWidget {
                             content: Text(
                                 'Maximum attendance for this VEM has been reached.'),
                           );
-                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                          Scaffold.of(context).showSnackBar(snackBar);
                         }
                       },
                     );
                   },
                 );
-              } else if (vems.length == 0 ){
+              } else if (vems.length == 0) {
                 return Center(
                   child: Container(
-                    child: Text('PAS DE VEMS DISPONIBLES',style: TextStyle(fontSize: 20),),
+                    child: Text(
+                      'PAS DE VEMS DISPONIBLES',
+                      style: TextStyle(fontSize: 20),
+                    ),
                   ),
                 );
-              }
-              else {
-                assert(true,'This should NEVER EVER happen... How the fuck are we in the negatives');
+              } else {
+                assert(true,
+                    'This should NEVER EVER happen... How the fuck are we in the negatives');
                 return _ErrorDialog();
               }
             } else {
               //TODO: when clicking on the vem this happens for a fraction of second because the state is changing (thats my guess) so we can't display an error
               //we need to figure something out
-              return Container(child: Text(''),);
+              return Container(
+                child: Text(''),
+              );
             }
           },
         );
@@ -120,12 +124,16 @@ class _ErrorDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text('Error', style: TextStyle(color: Colors.blueAccent),),
+      title: Text(
+        'Error',
+        style: TextStyle(color: Colors.blueAccent),
+      ),
       content: SingleChildScrollView(
         child: ListBody(
           children: <Widget>[
             Text('There has been an error with the vem list.'),
-            Text('Please communicate this issue with one of the developers: Bdr Charette or Bdr Hoyos'),
+            Text(
+                'Please communicate this issue with one of the developers: Bdr Charette or Bdr Hoyos'),
             Text('We are sorry for the inconvenience')
           ],
         ),
@@ -133,13 +141,13 @@ class _ErrorDialog extends StatelessWidget {
       actions: <Widget>[
         TextButton(
           child: Text('Retry vem list'),
-          onPressed: (){
+          onPressed: () {
             Navigator.of(context).pop();
-            Navigator.of(context).pushAndRemoveUntil(HomeScreen.route(), (route) => false);
+            Navigator.of(context)
+                .pushAndRemoveUntil(HomeScreen.route(), (route) => false);
           },
         ),
       ],
     );
   }
 }
-

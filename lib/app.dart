@@ -25,11 +25,7 @@ class App extends StatelessWidget {
       @required this.vemRepository,
       @required this.vemResponseRepository,
       @required this.userRepository})
-      : assert(authenticationRepository != null),
-        assert(vemRepository != null),
-        assert(vemResponseRepository != null),
-        assert(userRepository != null),
-        super(key: key);
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +53,7 @@ class App extends StatelessWidget {
             create: (context) => VemResponsesBloc(
                 vemResponseRepository: vemResponseRepository)
               ..add(
-                  LoadResponsesForUser(FirebaseAuth.instance.currentUser?.uid)),
+                  LoadResponsesForUser(FirebaseAuth.instance.currentUser.uid)),
           ),
         ],
         child: AppView(),
