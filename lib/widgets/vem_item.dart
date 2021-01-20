@@ -106,7 +106,10 @@ class VemItem extends StatelessWidget {
               ],
             )
           : null,
-      //trailing: CompletionIcon(vem: vem),
+      trailing: Container(
+        width: MediaQuery.of(context).size.width / 6,
+        child: CompletionIcon(vem: vem),
+      ),
     );
   }
 
