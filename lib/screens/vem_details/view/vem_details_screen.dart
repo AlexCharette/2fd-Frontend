@@ -21,17 +21,18 @@ class VemDetailsScreen extends StatefulWidget {
 }
 
 class _VemDetailsScreenState extends State<VemDetailsScreen> {
-  Future<bool> _onPop(BuildContext context) {
+  Future<bool> _onPop(BuildContext context) async {
     BlocProvider.of<VemResponsesBloc>(context)
-        .add(LoadResponsesForUser(FirebaseAuth.instance.currentUser?.uid));
+        .add(LoadResponsesForUser(FirebaseAuth.instance.currentUser.uid));
     Navigator.of(context).pop(true);
+    return true;
   }
 
   @override
   Widget build(BuildContext context) {
     ThemeData theme = Theme.of(context);
     final VemDetailsScreenArguments args =
-        ModalRoute.of(context).settings.arguments;
+        ModalRoute.of(context).settings.arguments as VemDetailsScreenArguments;
     BlocProvider.of<VemResponsesBloc>(context).add(
       LoadResponsesForVem(args.vem.id),
     );

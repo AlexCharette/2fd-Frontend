@@ -5,7 +5,7 @@ import 'package:vem_repository/vem_repository.dart' show Vem;
 class CompletionIcon extends StatelessWidget {
   final Vem vem;
 
-  const CompletionIcon({this.vem});
+  const CompletionIcon({@required this.vem});
 
   Widget build(BuildContext context) {
     if (vem.numParticipants < vem.minParticipants) {

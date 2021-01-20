@@ -36,7 +36,8 @@ class RequestList extends StatelessWidget {
                     final vem = vems[index];
                     return VemItem(
                       vem: vem,
-                      numParticipants: 0, // TODO
+                      numParticipants: 0,
+                      isAttending: true, // TODO
                       onTap: () async {
                         // go to vem details screen
                         Navigator.pushNamed(
@@ -68,7 +69,7 @@ class RequestList extends StatelessWidget {
                           content: Text(
                               'Maximum attendance for this VEM has been reached.'),
                         );
-                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                        Scaffold.of(context).showSnackBar(snackBar);
                       },
                     );
                   },

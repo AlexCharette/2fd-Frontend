@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:intl/intl.dart';
 import 'package:regimental_app/blocs/blocs.dart';
 import 'package:regimental_app/config/routes.dart';
@@ -41,7 +41,8 @@ class AddEditVemScreen extends StatefulWidget {
 }
 
 class _AddEditVemScreenState extends State<AddEditVemScreen> {
-  static final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  static final GlobalKey<FormBuilderState> _formKey =
+      GlobalKey<FormBuilderState>();
   String _name;
   Timestamp _startDate;
   Timestamp _endDate;
@@ -50,9 +51,6 @@ class _AddEditVemScreenState extends State<AddEditVemScreen> {
   String _description;
   int _minParticipants;
   int _maxParticipants;
-  GlobalKey<DateDisplayState> _startDateDisplayKey = GlobalKey();
-  GlobalKey<DateDisplayState> _endDateDisplayKey = GlobalKey();
-  GlobalKey<DateDisplayState> _lockDateDisplayKey = GlobalKey();
 
   Timestamp get startDate => _startDate;
   Timestamp get endDate => _endDate;
@@ -62,7 +60,7 @@ class _AddEditVemScreenState extends State<AddEditVemScreen> {
   Widget build(BuildContext context) {
     ThemeData theme = Theme.of(context);
     final AddEditVemScreenArguments args =
-        ModalRoute.of(context).settings.arguments;
+        ModalRoute.of(context).settings.arguments as AddEditVemScreenArguments;
 
     bool isEditing = args.isEditing;
     _startDate = isEditing ? args.vem.startDate : Vem.getDefaultStartDate();
@@ -76,7 +74,7 @@ class _AddEditVemScreenState extends State<AddEditVemScreen> {
       appBarTitle: isEditing ? args.vem.name : 'New VEM',
       body: Padding(
         padding: EdgeInsets.all(15.0),
-        child: Form(
+        child: FormBuilder(
           key: _formKey,
           child: ListView(
             shrinkWrap: true,
@@ -116,107 +114,81 @@ class _AddEditVemScreenState extends State<AddEditVemScreen> {
                   child: Column(
                     //mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      DateTimeField(
+                      FormBuilderDateTimePicker(
+                        name: 'start_date',
                         decoration: InputDecoration(
                             labelText: 'Start',
                             icon: Icon(Icons.calendar_today),
                             fillColor: theme.primaryColor),
+                        inputType: InputType.both,
                         format: DateFormat("yyyy-MM-dd HH:mm"),
                         initialValue: isEditing
                             ? _startDate.toDate()
-                            : Vem.getDefaultStartDate(),
-                        onShowPicker: (context, currentValue) async {
-                          final date = await showDatePicker(
-                              context: context,
-                              firstDate: DateTime(1900),
-                              initialDate: isEditing
-                                  ? _startDate.toDate()
-                                  : DateTime.now(),
-                              lastDate: DateTime(2100));
-                          if (date != null) {
-                            final time = await showTimePicker(
-                              context: context,
-                              initialTime: TimeOfDay.fromDateTime(
-                                isEditing
-                                    ? _startDate.toDate()
-                                    : DateTime.now(),
-                              ),
-                            );
-                            return DateTimeField.combine(date, time);
-                          } else {
-                            return DateTimeField.combine(_startDate.toDate(),
-                                TimeOfDay.fromDateTime(_startDate.toDate()));
-                          }
+                            : Vem.getDefaultStartDate() as DateTime,
+                        initialDate:
+                            isEditing ? _startDate.toDate() : DateTime.now(),
+                        firstDate: DateTime.now(),
+                        lastDate: DateTime(2100),
+                        initialTime: TimeOfDay.fromDateTime(
+                          isEditing ? _startDate.toDate() : DateTime.now(),
+                        ),
+                        onChanged: (val) {
+                          final date = Timestamp.fromDate(val);
+                          setState(() => _startDate = date);
                         },
                         onSaved: (val) {
                           final date = Timestamp.fromDate(val);
                           setState(() => _startDate = date);
                         },
                       ),
-                      DateTimeField(
+                      FormBuilderDateTimePicker(
+                        name: 'end_date',
                         decoration: InputDecoration(
                             labelText: 'End',
                             icon: Icon(Icons.calendar_today),
                             fillColor: theme.primaryColor),
+                        inputType: InputType.both,
                         format: DateFormat("yyyy-MM-dd HH:mm"),
                         initialValue: isEditing
                             ? _endDate.toDate()
-                            : Vem.getDefaultEndDate(),
-                        onShowPicker: (context, currentValue) async {
-                          final date = await showDatePicker(
-                              context: context,
-                              firstDate: DateTime(1900),
-                              initialDate: isEditing
-                                  ? _endDate.toDate()
-                                  : DateTime.now(),
-                              lastDate: DateTime(2100));
-                          if (date != null) {
-                            final time = await showTimePicker(
-                              context: context,
-                              initialTime: TimeOfDay.fromDateTime(
-                                isEditing ? _endDate.toDate() : DateTime.now(),
-                              ),
-                            );
-                            return DateTimeField.combine(date, time);
-                          } else {
-                            return DateTimeField.combine(_endDate.toDate(),
-                                TimeOfDay.fromDateTime(_endDate.toDate()));
-                          }
+                            : Vem.getDefaultEndDate() as DateTime,
+                        initialDate:
+                            isEditing ? _endDate.toDate() : DateTime.now(),
+                        firstDate: DateTime.now(),
+                        lastDate: DateTime(2100),
+                        initialTime: TimeOfDay.fromDateTime(
+                          isEditing ? _endDate.toDate() : DateTime.now(),
+                        ),
+                        onChanged: (val) {
+                          final date = Timestamp.fromDate(val);
+                          setState(() => _endDate = date);
                         },
                         onSaved: (val) {
                           final date = Timestamp.fromDate(val);
                           setState(() => _endDate = date);
                         },
                       ),
-                      DateTimeField(
+                      FormBuilderDateTimePicker(
+                        name: 'lock_date',
                         decoration: InputDecoration(
                             labelText: 'Lock',
                             icon: Icon(Icons.lock_clock),
                             fillColor: theme.primaryColor),
+                        inputType: InputType.both,
                         format: DateFormat("yyyy-MM-dd HH:mm"),
                         initialValue: isEditing
                             ? _lockDate.toDate()
-                            : Vem.getDefaultLockDate(),
-                        onShowPicker: (context, currentValue) async {
-                          final date = await showDatePicker(
-                              context: context,
-                              firstDate: DateTime(1900),
-                              initialDate: isEditing
-                                  ? _lockDate.toDate()
-                                  : DateTime.now(),
-                              lastDate: DateTime(2100));
-                          if (date != null) {
-                            final time = await showTimePicker(
-                              context: context,
-                              initialTime: TimeOfDay.fromDateTime(
-                                isEditing ? _lockDate.toDate() : DateTime.now(),
-                              ),
-                            );
-                            return DateTimeField.combine(date, time);
-                          } else {
-                            return DateTimeField.combine(_lockDate.toDate(),
-                                TimeOfDay.fromDateTime(_lockDate.toDate()));
-                          }
+                            : Vem.getDefaultLockDate() as DateTime,
+                        initialDate:
+                            isEditing ? _lockDate.toDate() : DateTime.now(),
+                        firstDate: DateTime.now(),
+                        lastDate: DateTime(2100),
+                        initialTime: TimeOfDay.fromDateTime(
+                          isEditing ? _lockDate.toDate() : DateTime.now(),
+                        ),
+                        onChanged: (val) {
+                          final date = Timestamp.fromDate(val);
+                          setState(() => _lockDate = date);
                         },
                         onSaved: (val) {
                           final date = Timestamp.fromDate(val);
@@ -239,37 +211,42 @@ class _AddEditVemScreenState extends State<AddEditVemScreen> {
                     children: <Widget>[
                       Flexible(
                         flex: 1,
-                        child: TextFormField(
-                          initialValue: isEditing
-                              ? args.vem.minParticipants.toString()
-                              : '1',
-                          decoration: new InputDecoration(
-                              errorBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.red)),
-                              labelText: 'Min participants',
-                              prefixIcon: Icon(
-                                Icons.people,
-                                color: theme.primaryColor,
-                              )),
+                        child: FormBuilderTextField(
+                          name: 'minParticipants',
+                          decoration: InputDecoration(
+                            labelText:
+                                'The minimum number of participants who could respond to this VEM.',
+                            prefixIcon:
+                                Icon(Icons.people, color: theme.primaryColor),
+                          ),
                           keyboardType: TextInputType.number,
                           inputFormatters: <TextInputFormatter>[
                             FilteringTextInputFormatter.digitsOnly
                           ],
+                          initialValue: isEditing
+                              ? args.vem.minParticipants.toString()
+                              : '0',
                           onChanged: (val) {
                             int temp = int.tryParse(val);
                             setState(() {
                               _minParticipants = temp;
                             });
                           },
-                          validator: (val) {
-                            if (val.isEmpty) {
-                              return 'Il doit avoir un minimum';
-                            } else
-                              return null;
-                            // return int.tryParse(val) > _maxParticipants
-                            //     ? 'The maximum needs to be higher than the minimum.'
-                            //     : null;
-                          },
+                          // valueTransformer: (text) => num.tryParse(text),
+                          validator: FormBuilderValidators.compose([
+                            FormBuilderValidators.required(context),
+                            FormBuilderValidators.numeric(context),
+                            FormBuilderValidators.max(context, 100),
+                            (val) {
+                              try {
+                                return _minParticipants > _maxParticipants
+                                    ? 'Minimum plus grand que max'
+                                    : null;
+                              } catch (e) {
+                                return null;
+                              }
+                            } as String Function(String)
+                          ]),
                           onSaved: (val) {
                             int temp = int.tryParse(val);
                             setState(() {
@@ -281,12 +258,11 @@ class _AddEditVemScreenState extends State<AddEditVemScreen> {
                       SizedBox(width: 5),
                       Flexible(
                         flex: 1,
-                        child: TextFormField(
-                          initialValue: isEditing
-                              ? args.vem.maxParticipants.toString()
-                              : '0',
-                          decoration: new InputDecoration(
-                            labelText: 'Max participants',
+                        child: FormBuilderTextField(
+                          name: 'maxParticipants',
+                          decoration: InputDecoration(
+                            labelText:
+                                'The maximum number of participants who could respond to this VEM.',
                             prefixIcon:
                                 Icon(Icons.people, color: theme.primaryColor),
                           ),
@@ -294,21 +270,30 @@ class _AddEditVemScreenState extends State<AddEditVemScreen> {
                           inputFormatters: <TextInputFormatter>[
                             FilteringTextInputFormatter.digitsOnly
                           ],
+                          initialValue: isEditing
+                              ? args.vem.maxParticipants.toString()
+                              : '0',
                           onChanged: (val) {
                             int temp = int.tryParse(val);
                             setState(() {
                               _maxParticipants = temp;
                             });
                           },
-                          validator: (val) {
-                            try {
-                              return _minParticipants > _maxParticipants
-                                  ? 'Minimum plus grand que max'
-                                  : null;
-                            } catch (e) {
-                              return null;
-                            }
-                          },
+                          // valueTransformer: (text) => num.tryParse(text),
+                          validator: FormBuilderValidators.compose([
+                            FormBuilderValidators.required(context),
+                            FormBuilderValidators.numeric(context),
+                            FormBuilderValidators.max(context, 100),
+                            (val) {
+                              try {
+                                return _minParticipants > _maxParticipants
+                                    ? 'Minimum plus grand que max'
+                                    : null;
+                              } catch (e) {
+                                return null;
+                              }
+                            } as String Function(String)
+                          ]),
                           onSaved: (val) {
                             int temp = int.tryParse(val);
                             setState(() {
@@ -325,48 +310,36 @@ class _AddEditVemScreenState extends State<AddEditVemScreen> {
                 height: 10,
               ),
               Center(
-                child: Container(
-                  width: MediaQuery.of(context).size.width * 4 / 5,
-                  //decoration: BoxDecoration(color: Colors.white),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Container(
-                        width: MediaQuery.of(context).size.width / 3,
-                        child: RadioWithLabel<String>(
-                          title: 'Battery',
-                          value: 'battery',
-                          groupValue: _responseType,
-                          onChanged: (String type) {
-                            print('changed response type');
-                            setState(() {
-                              _responseType = type;
-                            });
-                          },
-                        ),
-                      ),
-                      Container(
-                        width: MediaQuery.of(context).size.width / 3,
-                        child: RadioWithLabel<String>(
-                          title: 'Other',
-                          value: 'other',
-                          groupValue: _responseType,
-                          onChanged: (String type) {
-                            print('changed response type');
-                            setState(() {
-                              _responseType = type;
-                            });
-                          },
-                        ),
-                      ),
-                    ],
+                child: FormBuilderRadioGroup(
+                  name: 'response_type',
+                  decoration: InputDecoration(labelText: 'Response Type'),
+                  initialValue: isEditing
+                      ? _responseType
+                      : ResponseTypes.Battery.toString().split('.').last,
+                  onChanged: (dynamic val) {
+                    setState(() => _responseType = val);
+                  },
+                  validator: FormBuilderValidators.compose(
+                    [FormBuilderValidators.required(context)],
                   ),
+                  options: ResponseTypes.values
+                      .map((value) =>
+                          value.toString().split('.').last.toLowerCase())
+                      .map((value) => FormBuilderFieldOption(
+                            value: value,
+                            child: Text('$value'),
+                          ))
+                      .toList(growable: false),
+                  onSaved: (dynamic val) {
+                    setState(() => _responseType = val);
+                  },
                 ),
               ),
               SizedBox(
                 height: 15,
               ),
-              TextFormField(
+              FormBuilderTextField(
+                name: 'description',
                 keyboardType: TextInputType.multiline,
                 style:
                     theme.textTheme.bodyText1.copyWith(color: Colors.grey[600]),

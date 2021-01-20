@@ -79,7 +79,8 @@ class RequestResponseChange extends Dialog {
             content:
                 Text('Sorry, we can\'t process your request at the moment'),
           );
-          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          Scaffold.of(context).showSnackBar(snackBar);
+          return null;
         }
       },
     );
