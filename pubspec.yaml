@@ -30,6 +30,7 @@ dependencies:
   flutter_email_sender: ^4.0.0
   cloud_firestore: ^0.14.4
   cupertino_icons: ^1.0.0
+  datetime_picker_formfield: ^1.0.0
   equatable: ^1.2.5
   firebase_auth: ^0.18.0+1
   firebase_core: ^0.5.3

@@ -1,7 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/foundation.dart';
+import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
+import 'package:regimental_app/blocs/blocs.dart';
 import 'package:regimental_app/config/routes.dart';
 import 'package:regimental_app/widgets/widgets.dart';
 import 'package:vem_repository/vem_repository.dart';
@@ -60,6 +63,7 @@ class _AddEditVemScreenState extends State<AddEditVemScreen> {
     ThemeData theme = Theme.of(context);
     final AddEditVemScreenArguments args =
         ModalRoute.of(context).settings.arguments;
+
     bool isEditing = args.isEditing;
     _startDate = isEditing ? args.vem.startDate : Vem.getDefaultStartDate();
     _endDate = isEditing ? args.vem.endDate : Vem.getDefaultEndDate();
@@ -67,6 +71,7 @@ class _AddEditVemScreenState extends State<AddEditVemScreen> {
     _responseType = isEditing ? args.vem.responseType : 'battery';
     _minParticipants = isEditing ? args.vem.minParticipants : 1;
     _maxParticipants = isEditing ? args.vem.maxParticipants : null;
+
     return CustomScaffold(
       appBarTitle: isEditing ? args.vem.name : 'New VEM',
       body: Padding(
@@ -96,7 +101,7 @@ class _AddEditVemScreenState extends State<AddEditVemScreen> {
                     validator: (val) {
                       return val.trim().isEmpty ? 'The VEM needs a name' : null;
                     },
-                    onSaved: (value) => _name = value,
+                    onSaved: (val) => setState(() => _name = val),
                   ),
                 ),
               ),
@@ -108,130 +113,114 @@ class _AddEditVemScreenState extends State<AddEditVemScreen> {
                 ),
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  child: Column(
+                    //mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      DateDisplay(
-                        key: _startDateDisplayKey,
-                        icon: Icons.date_range_outlined,
-                        date: startDate,
-                        onTap: () async {
-                          DateTime date = await showDatePicker(
-                            context: context,
-                            initialDate: isEditing
-                                ? args.vem.startDate.toDate()
-                                : Vem.getDefaultStartDate().toDate(),
-                            firstDate: isEditing
-                                ? args.vem.startDate.toDate()
-                                : Vem.getDefaultStartDate().toDate(),
-                            lastDate: DateTime.now().add(Duration(days: 365)),
-                          );
-
-                          if (date == null) {
-                            Timestamp tempDate = isEditing
-                                ? args.vem.startDate
-                                : Vem.getDefaultStartDate();
-                            return setState(() => _startDate = tempDate);
-                          }
-
-                          TimeOfDay time = await showTimePicker(
+                      DateTimeField(
+                        decoration: InputDecoration(
+                            labelText: 'Start',
+                            icon: Icon(Icons.calendar_today),
+                            fillColor: theme.primaryColor),
+                        format: DateFormat("yyyy-MM-dd HH:mm"),
+                        initialValue: isEditing
+                            ? _startDate.toDate()
+                            : Vem.getDefaultStartDate(),
+                        onShowPicker: (context, currentValue) async {
+                          final date = await showDatePicker(
                               context: context,
-                              initialTime: TimeOfDay(hour: 8, minute: 0));
-                          Timestamp fullDate = Timestamp.fromDate(DateTime(
-                            date.year,
-                            date.month,
-                            date.day,
-                            time.hour,
-                            time.minute,
-                          ));
-                          print('NEW START DATE AND TIME: $fullDate -- $time');
-                          setState(() => _startDate = fullDate);
-                          print('IN STATE: $_startDate');
-                          _startDateDisplayKey.currentState
-                              .updateDate(_startDate);
+                              firstDate: DateTime(1900),
+                              initialDate: isEditing
+                                  ? _startDate.toDate()
+                                  : DateTime.now(),
+                              lastDate: DateTime(2100));
+                          if (date != null) {
+                            final time = await showTimePicker(
+                              context: context,
+                              initialTime: TimeOfDay.fromDateTime(
+                                isEditing
+                                    ? _startDate.toDate()
+                                    : DateTime.now(),
+                              ),
+                            );
+                            return DateTimeField.combine(date, time);
+                          } else {
+                            return DateTimeField.combine(_startDate.toDate(),
+                                TimeOfDay.fromDateTime(_startDate.toDate()));
+                          }
+                        },
+                        onSaved: (val) {
+                          final date = Timestamp.fromDate(val);
+                          setState(() => _startDate = date);
                         },
                       ),
-                      args.vem != null && args.vem.endDate != null
-                          ? DateDisplay(
-                              key: _endDateDisplayKey,
-                              icon: Icons.date_range_outlined,
-                              date: endDate,
-                              onTap: () async {
-                                DateTime date = await showDatePicker(
-                                  context: context,
-                                  initialDate: isEditing
-                                      ? args.vem.endDate.toDate()
-                                      : Vem.getDefaultEndDate().toDate(),
-                                  firstDate: isEditing
-                                      ? args.vem.endDate.toDate()
-                                      : Vem.getDefaultEndDate().toDate(),
-                                  lastDate:
-                                      DateTime.now().add(Duration(days: 365)),
-                                );
-
-                                if (date == null) {
-                                  Timestamp tempDate = isEditing
-                                      ? args.vem.endDate
-                                      : Vem.getDefaultEndDate();
-                                  return setState(() => _endDate = tempDate);
-                                }
-
-                                TimeOfDay time = await showTimePicker(
-                                    context: context,
-                                    initialTime:
-                                        TimeOfDay(hour: 17, minute: 0));
-                                Timestamp fullDate =
-                                    Timestamp.fromDate(DateTime(
-                                  date.year,
-                                  date.month,
-                                  date.day,
-                                  time.hour,
-                                  time.minute,
-                                ));
-                                print('NEW END DATE: $fullDate');
-                                setState(() => _endDate = fullDate);
-                                _endDateDisplayKey.currentState
-                                    .updateDate(_endDate);
-                              },
-                            )
-                          : null,
-                      DateDisplay(
-                        key: _lockDateDisplayKey,
-                        icon: Icons.lock_clock,
-                        date: lockDate,
-                        onTap: () async {
-                          DateTime date = await showDatePicker(
-                            context: context,
-                            initialDate: isEditing
-                                ? args.vem.lockDate.toDate()
-                                : Vem.getDefaultLockDate().toDate(),
-                            firstDate: isEditing
-                                ? args.vem.lockDate.toDate()
-                                : Vem.getDefaultLockDate().toDate(),
-                            lastDate: DateTime.now().add(Duration(days: 365)),
-                          );
-
-                          if (date == null) {
-                            Timestamp tempDate = isEditing
-                                ? args.vem.lockDate
-                                : Vem.getDefaultLockDate();
-                            return setState(() => _lockDate = tempDate);
-                          }
-
-                          TimeOfDay time = await showTimePicker(
+                      DateTimeField(
+                        decoration: InputDecoration(
+                            labelText: 'End',
+                            icon: Icon(Icons.calendar_today),
+                            fillColor: theme.primaryColor),
+                        format: DateFormat("yyyy-MM-dd HH:mm"),
+                        initialValue: isEditing
+                            ? _endDate.toDate()
+                            : Vem.getDefaultEndDate(),
+                        onShowPicker: (context, currentValue) async {
+                          final date = await showDatePicker(
                               context: context,
-                              initialTime: TimeOfDay(hour: 23, minute: 59));
-                          Timestamp fullDate = Timestamp.fromDate(DateTime(
-                            date.year,
-                            date.month,
-                            date.day,
-                            time.hour,
-                            time.minute,
-                          ));
-
-                          setState(() => _lockDate = fullDate);
-                          _lockDateDisplayKey.currentState
-                              .updateDate(_lockDate);
+                              firstDate: DateTime(1900),
+                              initialDate: isEditing
+                                  ? _endDate.toDate()
+                                  : DateTime.now(),
+                              lastDate: DateTime(2100));
+                          if (date != null) {
+                            final time = await showTimePicker(
+                              context: context,
+                              initialTime: TimeOfDay.fromDateTime(
+                                isEditing ? _endDate.toDate() : DateTime.now(),
+                              ),
+                            );
+                            return DateTimeField.combine(date, time);
+                          } else {
+                            return DateTimeField.combine(_endDate.toDate(),
+                                TimeOfDay.fromDateTime(_endDate.toDate()));
+                          }
+                        },
+                        onSaved: (val) {
+                          final date = Timestamp.fromDate(val);
+                          setState(() => _endDate = date);
+                        },
+                      ),
+                      DateTimeField(
+                        decoration: InputDecoration(
+                            labelText: 'Lock',
+                            icon: Icon(Icons.lock_clock),
+                            fillColor: theme.primaryColor),
+                        format: DateFormat("yyyy-MM-dd HH:mm"),
+                        initialValue: isEditing
+                            ? _lockDate.toDate()
+                            : Vem.getDefaultLockDate(),
+                        onShowPicker: (context, currentValue) async {
+                          final date = await showDatePicker(
+                              context: context,
+                              firstDate: DateTime(1900),
+                              initialDate: isEditing
+                                  ? _lockDate.toDate()
+                                  : DateTime.now(),
+                              lastDate: DateTime(2100));
+                          if (date != null) {
+                            final time = await showTimePicker(
+                              context: context,
+                              initialTime: TimeOfDay.fromDateTime(
+                                isEditing ? _lockDate.toDate() : DateTime.now(),
+                              ),
+                            );
+                            return DateTimeField.combine(date, time);
+                          } else {
+                            return DateTimeField.combine(_lockDate.toDate(),
+                                TimeOfDay.fromDateTime(_lockDate.toDate()));
+                          }
+                        },
+                        onSaved: (val) {
+                          final date = Timestamp.fromDate(val);
+                          setState(() => _lockDate = date);
                         },
                       ),
                     ],
@@ -266,9 +255,12 @@ class _AddEditVemScreenState extends State<AddEditVemScreen> {
                           inputFormatters: <TextInputFormatter>[
                             FilteringTextInputFormatter.digitsOnly
                           ],
-                          onChanged: (val) => setState(() {
-                            _minParticipants = int.tryParse(val);
-                          }),
+                          onChanged: (val) {
+                            int temp = int.tryParse(val);
+                            setState(() {
+                              _minParticipants = temp;
+                            });
+                          },
                           validator: (val) {
                             if (val.isEmpty) {
                               return 'Il doit avoir un minimum';
@@ -278,9 +270,12 @@ class _AddEditVemScreenState extends State<AddEditVemScreen> {
                             //     ? 'The maximum needs to be higher than the minimum.'
                             //     : null;
                           },
-                          onSaved: (val) => setState(() {
-                            _minParticipants = int.tryParse(val);
-                          }),
+                          onSaved: (val) {
+                            int temp = int.tryParse(val);
+                            setState(() {
+                              _minParticipants = temp;
+                            });
+                          },
                         ),
                       ),
                       SizedBox(width: 5),
@@ -299,9 +294,12 @@ class _AddEditVemScreenState extends State<AddEditVemScreen> {
                           inputFormatters: <TextInputFormatter>[
                             FilteringTextInputFormatter.digitsOnly
                           ],
-                          onChanged: (val) => setState(() {
-                            _maxParticipants = int.tryParse(val);
-                          }),
+                          onChanged: (val) {
+                            int temp = int.tryParse(val);
+                            setState(() {
+                              _maxParticipants = temp;
+                            });
+                          },
                           validator: (val) {
                             try {
                               return _minParticipants > _maxParticipants
@@ -311,9 +309,12 @@ class _AddEditVemScreenState extends State<AddEditVemScreen> {
                               return null;
                             }
                           },
-                          onSaved: (val) => setState(() {
-                            _maxParticipants = int.tryParse(val);
-                          }),
+                          onSaved: (val) {
+                            int temp = int.tryParse(val);
+                            setState(() {
+                              _maxParticipants = temp;
+                            });
+                          },
                         ),
                       ),
                     ],
@@ -337,6 +338,7 @@ class _AddEditVemScreenState extends State<AddEditVemScreen> {
                           value: 'battery',
                           groupValue: _responseType,
                           onChanged: (String type) {
+                            print('changed response type');
                             setState(() {
                               _responseType = type;
                             });
@@ -350,6 +352,7 @@ class _AddEditVemScreenState extends State<AddEditVemScreen> {
                           value: 'other',
                           groupValue: _responseType,
                           onChanged: (String type) {
+                            print('changed response type');
                             setState(() {
                               _responseType = type;
                             });
@@ -410,15 +413,16 @@ class _AddEditVemScreenState extends State<AddEditVemScreen> {
               if (_formKey.currentState.validate()) {
                 _formKey.currentState.save();
                 args.onSave(
-                  _name,
-                  _startDate,
-                  _endDate,
-                  _lockDate,
-                  _responseType,
-                  _description,
-                  _minParticipants,
-                  _maxParticipants,
+                  this._name,
+                  this._startDate,
+                  this._endDate,
+                  this._lockDate,
+                  this._responseType,
+                  this._description,
+                  this._minParticipants,
+                  this._maxParticipants,
                 );
+                BlocProvider.of<VemsBloc>(context).add(LoadVems());
                 Navigator.pop(context);
               }
             },
