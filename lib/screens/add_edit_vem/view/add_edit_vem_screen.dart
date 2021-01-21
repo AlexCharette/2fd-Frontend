@@ -124,7 +124,7 @@ class _AddEditVemScreenState extends State<AddEditVemScreen> {
                         format: DateFormat("yyyy-MM-dd HH:mm"),
                         initialValue: isEditing
                             ? _startDate.toDate()
-                            : Vem.getDefaultStartDate() as DateTime,
+                            : Vem.getDefaultStartDate().toDate(),
                         initialDate:
                             isEditing ? _startDate.toDate() : DateTime.now(),
                         firstDate: DateTime.now(),
@@ -151,7 +151,7 @@ class _AddEditVemScreenState extends State<AddEditVemScreen> {
                         format: DateFormat("yyyy-MM-dd HH:mm"),
                         initialValue: isEditing
                             ? _endDate.toDate()
-                            : Vem.getDefaultEndDate() as DateTime,
+                            : Vem.getDefaultEndDate().toDate(),
                         initialDate:
                             isEditing ? _endDate.toDate() : DateTime.now(),
                         firstDate: DateTime.now(),
@@ -178,7 +178,7 @@ class _AddEditVemScreenState extends State<AddEditVemScreen> {
                         format: DateFormat("yyyy-MM-dd HH:mm"),
                         initialValue: isEditing
                             ? _lockDate.toDate()
-                            : Vem.getDefaultLockDate() as DateTime,
+                            : Vem.getDefaultLockDate().toDate(),
                         initialDate:
                             isEditing ? _lockDate.toDate() : DateTime.now(),
                         firstDate: DateTime.now(),

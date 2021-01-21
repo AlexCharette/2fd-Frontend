@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -64,13 +65,26 @@ class VemList extends StatelessWidget {
                           // If the lock date has not passed
                           if (Timestamp.now().compareTo(vem.lockDate) <= 0) {
                             // open vem response widget
-                            showDialog(
+                            String answer = await showDialog(
                               context: context,
                               builder: (context) => VemResponder(
                                 vemId: vem.id,
                                 vemName: vem.name,
                                 currentResponse: response,
                               ),
+                            );
+                            if (answer == null) answer = 'seen';
+                            BlocProvider.of<VemResponsesBloc>(context).add(
+                              response != null
+                                  ? UpdateVemResponse(
+                                      response.copyWith(answer: answer))
+                                  : AddVemResponse(
+                                      VemResponse(
+                                        FirebaseAuth.instance.currentUser?.uid,
+                                        vem.id,
+                                        answer,
+                                      ),
+                                    ),
                             );
                           } else {
                             showDialog(
