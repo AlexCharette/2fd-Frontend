@@ -343,9 +343,7 @@ class _AddEditVemScreenState extends State<AddEditVemScreen> {
                 keyboardType: TextInputType.multiline,
                 style:
                     theme.textTheme.bodyText1.copyWith(color: Colors.grey[600]),
-                initialValue: isEditing
-                    ? args.vem.description
-                    : 'Describe what the VEM entails and requires.',
+                initialValue: isEditing ? args.vem.description : '',
                 decoration: new InputDecoration(
                   labelStyle: theme.textTheme.bodyText1,
                   border: OutlineInputBorder(
