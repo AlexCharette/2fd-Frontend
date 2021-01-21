@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:regimental_app/blocs/authentication/authentication.dart';
-import 'package:regimental_app/screens/home/view/home_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:regimental_app/screens/profile/profile.dart';
+import 'package:regimental_app/blocs/blocs.dart';
+import 'package:regimental_app/screens/screens.dart';
+import 'package:vem_repository/vem_repository.dart' show Vem;
 
 import 'custom_app_bar.dart';
 import 'custom_bottom_app_bar.dart';
@@ -85,8 +85,37 @@ class _CustomScaffoldState extends State<CustomScaffold> {
                     'NOUVELLE VEM',
                     style: Theme.of(context).textTheme.headline4,
                   ),
-                  onTap: () => Navigator.of(context)
-                      .pushAndRemoveUntil(HomeScreen.route(), (route) => false),
+                  onTap: () => Navigator.pushNamed(
+                    context,
+                    AddEditVemScreen.routeName,
+                    arguments: AddEditVemScreenArguments(
+                      null,
+                      (
+                        name,
+                        startDate,
+                        endDate,
+                        lockDate,
+                        responseType,
+                        description,
+                        minParticipants,
+                        maxParticipants,
+                      ) {
+                        BlocProvider.of<VemsBloc>(context).add(AddVem(
+                          Vem(
+                            name,
+                            responseType,
+                            startDate: startDate,
+                            endDate: endDate,
+                            lockDate: lockDate,
+                            description: description,
+                            minParticipants: minParticipants,
+                            maxParticipants: maxParticipants,
+                          ),
+                        ));
+                      },
+                      false,
+                    ),
+                  ),
                 ),
                 ListTile(
                     trailing: Text(

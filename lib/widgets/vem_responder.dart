@@ -64,7 +64,8 @@ class VemResponder extends Dialog {
                 onPressed:
                     (currentResponse == null || currentResponse.answer != 'yes')
                         ? () {
-                            _submitResponse(context, 'yes');
+                            Navigator.pop(context, 'yes');
+                            // _submitResponse(context, 'yes');
                           }
                         : null,
                 child: Text('I\'ll be there'),
@@ -74,7 +75,8 @@ class VemResponder extends Dialog {
                 onPressed:
                     (currentResponse == null || currentResponse.answer != 'no')
                         ? () {
-                            _submitResponse(context, 'no');
+                            Navigator.pop(context, 'no');
+                            // _submitResponse(context, 'no');
                           }
                         : null,
                 child: Text('I won\'t be there'),
