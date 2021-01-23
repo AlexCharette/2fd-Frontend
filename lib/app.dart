@@ -50,9 +50,18 @@ class _AppState extends State<App> {
 
     RemoteMessage initialMessage =
         await FirebaseMessaging.instance.getInitialMessage();
+
     try {
       if (initialMessage?.data['type'] == 'new_vem' ||
           initialMessage?.data['type'] == 'vem_reminder') {
+        Navigator.pushNamed(
+          context,
+          VemDetailsScreen.routeName,
+          arguments: VemDetailsScreenArguments(
+            initialMessage?.data['vemId'],
+          ),
+        );
+      } else if (initialMessage?.data['type'] == 'response_change_status') {
         Navigator.pushNamed(context, HomeScreen.routeName);
       }
     } catch (exception) {
@@ -62,6 +71,14 @@ class _AppState extends State<App> {
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
       if (message.data['type'] == 'new_vem' ||
           message.data['type'] == 'vem_reminder') {
+        Navigator.pushNamed(
+          context,
+          VemDetailsScreen.routeName,
+          arguments: VemDetailsScreenArguments(
+            initialMessage?.data['vemId'],
+          ),
+        );
+      } else if (message?.data['type'] == 'response_change_status') {
         Navigator.pushNamed(context, HomeScreen.routeName);
       }
     });

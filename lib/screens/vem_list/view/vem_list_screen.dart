@@ -73,65 +73,47 @@ class VemList extends StatelessWidget {
                             currentResponse: response,
                           ),
                         );
-                      },
-                      onLongPress: () async {
-                        // Load vem responses
-                        // if it isn't full
-                        if (vem.numParticipants < vem.maxParticipants) {
-                          // If the lock date has not passed
-                          if (Timestamp.now().compareTo(vem.lockDate) <= 0) {
-                            // open vem response widget
-                            showDialog(
-                              context: context,
-                              builder: (context) => VemResponder(
-                                vemId: vem.id,
-                                vemName: vem.name,
-                                currentResponse: response,
-                              ),
-                            );
-                          } else {
-                            showDialog(
-                              context: context,
-                              builder: (context) => RequestResponseChange(
-                                currentResponse: response,
-                              ),
-                            );
-                          }
-                        } else {
-                          // else popup saying it's full
-                          final snackBar = SnackBar(
-                            content: Text(
-                                'Maximum attendance for this VEM has been reached.'),
-                          );
-                          Scaffold.of(context).showSnackBar(snackBar);
-                        }
-                      },
-                    );
+                      } else {
+                        showDialog(
+                          context: context,
+                          builder: (context) => RequestResponseChange(
+                            currentResponse: response,
+                          ),
+                        );
+                      }
+                    } else {
+                      // else popup saying it's full
+                      final snackBar = SnackBar(
+                        content: Text(
+                            'Maximum attendance for this VEM has been reached.'),
+                      );
+                      Scaffold.of(context).showSnackBar(snackBar);
+                    }
                   },
                 );
-              } else if (vems.length == 0) {
-                return Center(
-                  child: Container(
-                    child: Text(
-                      'PAS DE VEMS DISPONIBLES',
-                      style: TextStyle(fontSize: 20),
-                    ),
-                  ),
-                );
-              } else {
-                assert(true,
-                    'This should NEVER EVER happen... How the fuck are we in the negatives');
-                return _ErrorDialog();
-              }
-            } else {
-              //TODO: when clicking on the vem this happens for a fraction of second because the state is changing (thats my guess) so we can't display an error
-              //we need to figure something out
-              return Container(
-                child: Text(''),
-              );
-            }
-          },
-        );
+              },
+            );
+          } else if (vems.length == 0) {
+            return Center(
+              child: Container(
+                child: Text(
+                  'PAS DE VEMS DISPONIBLES',
+                  style: TextStyle(fontSize: 20),
+                ),
+              ),
+            );
+          } else {
+            assert(true,
+                'This should NEVER EVER happen... How the fuck are we in the negatives');
+            return _ErrorDialog();
+          }
+        } else {
+          //TODO: when clicking on the vem this happens for a fraction of second because the state is changing (thats my guess) so we can't display an error
+          //we need to figure something out
+          return Container(
+            child: Text(''),
+          );
+        }
       },
     );
   }
