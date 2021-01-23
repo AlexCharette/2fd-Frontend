@@ -6,18 +6,14 @@ import '../entities/entities.dart';
 class NormalMember extends User {
   NormalMember(
     String email,
-    String lastName,
-    int lastThree,
-    String rank,
+    String initials,
     String detId, {
     String phoneNumber = '',
     MemberStatus status = MemberStatus.active,
     String id,
   }) : super(
           email,
-          lastName,
-          lastThree,
-          rank,
+          initials,
           detId,
           phoneNumber: phoneNumber,
           status: status,
@@ -28,17 +24,13 @@ class NormalMember extends User {
     String id,
     String email,
     String phoneNumber,
-    String lastName,
-    int lastThree,
-    String rank,
+    String initials,
     String detId,
     MemberStatus status,
   }) {
     return NormalMember(
       email ?? this.email,
-      lastName ?? this.lastName,
-      lastThree ?? this.lastThree,
-      rank ?? this.rank,
+      initials ?? this.initials,
       detId ?? this.detId,
       phoneNumber: phoneNumber ?? this.phoneNumber,
       status: status ?? this.status,
@@ -51,9 +43,7 @@ class NormalMember extends User {
       id.hashCode ^
       email.hashCode ^
       phoneNumber.hashCode ^
-      lastName.hashCode ^
-      lastThree.hashCode ^
-      rank.hashCode ^
+      initials.hashCode ^
       status.hashCode;
 
   @override
@@ -66,9 +56,7 @@ class NormalMember extends User {
       id,
       email,
       phoneNumber,
-      lastName,
-      lastThree,
-      rank,
+      initials,
       detId,
       status,
       accountType: AccountType.normal,
@@ -78,9 +66,7 @@ class NormalMember extends User {
   static NormalMember fromEntity(UserEntity entity) {
     return NormalMember(
       entity.email,
-      entity.lastName,
-      entity.lastThree,
-      entity.rank,
+      entity.initials,
       entity.detId,
       phoneNumber: entity.phoneNumber,
       status: entity.status,

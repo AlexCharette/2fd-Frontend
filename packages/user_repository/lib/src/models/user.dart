@@ -9,17 +9,13 @@ abstract class User {
   final String id;
   final String email;
   final String phoneNumber;
-  final String lastName;
-  final int lastThree;
+  final String initials;
   final String detId;
-  final String rank;
   final MemberStatus status;
 
   User(
     this.email,
-    this.lastName,
-    this.lastThree,
-    this.rank,
+    this.initials,
     this.detId, {
     String phoneNumber = '',
     MemberStatus status = MemberStatus.active,
@@ -32,9 +28,7 @@ abstract class User {
     String id,
     String email,
     String phoneNumber,
-    String lastName,
-    int lastThree,
-    String rank,
+    String initials,
     String detId,
     MemberStatus status,
   });
@@ -44,9 +38,7 @@ abstract class User {
       id.hashCode ^
       email.hashCode ^
       phoneNumber.hashCode ^
-      lastName.hashCode ^
-      lastThree.hashCode ^
-      rank.hashCode ^
+      initials.hashCode ^
       detId.hashCode ^
       status.hashCode;
 
