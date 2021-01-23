@@ -75,12 +75,12 @@ class RequestResponseChange extends Dialog {
             ],
           );
         } else {
-          final snackBar = SnackBar(
-            content:
-                Text('Sorry, we can\'t process your request at the moment'),
-          );
-          Scaffold.of(context).showSnackBar(snackBar);
-          return null;
+          // final snackBar = SnackBar(
+          //   content:
+          //       Text('Sorry, we can\'t process your request at the moment'),
+          // );
+          // Scaffold.of(context).showSnackBar(snackBar);
+          return Container();
         }
       },
     );
