@@ -35,8 +35,9 @@ class VemsBloc extends Bloc<VemsEvent, VemsState> {
 
   Stream<VemsState> _mapLoadVemsToState() async* {
     _vemsSubscription?.cancel();
-    _vemsSubscription =
-        _vemRepository.vems().listen((vems) => add(VemsUpdated(vems)));
+    _vemsSubscription = _vemRepository.vems().listen(
+          (vems) => add(VemsUpdated(vems)),
+        );
   }
 
   Stream<VemsState> _mapAddVemToState(AddVem event) async* {

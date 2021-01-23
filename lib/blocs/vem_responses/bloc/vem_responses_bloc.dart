@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:http/http.dart';
 import 'package:meta/meta.dart';
 import 'package:vem_response_repository/vem_response_repository.dart';
 
