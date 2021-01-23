@@ -43,7 +43,7 @@ class RequestList extends StatelessWidget {
                         Navigator.pushNamed(
                           context,
                           VemDetailsScreen.routeName,
-                          arguments: VemDetailsScreenArguments(vem.id),
+                          arguments: VemDetailsScreenArguments(vemId: vem.id),
                         );
                       },
                       onLongPress: () async {

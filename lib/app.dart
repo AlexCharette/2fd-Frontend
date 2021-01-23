@@ -58,7 +58,7 @@ class _AppState extends State<App> {
           context,
           VemDetailsScreen.routeName,
           arguments: VemDetailsScreenArguments(
-            initialMessage?.data['vemId'],
+            vemId: initialMessage?.data['vemId'],
           ),
         );
       } else if (initialMessage?.data['type'] == 'response_change_status') {
@@ -75,7 +75,7 @@ class _AppState extends State<App> {
           context,
           VemDetailsScreen.routeName,
           arguments: VemDetailsScreenArguments(
-            initialMessage?.data['vemId'],
+            vemId: initialMessage?.data['vemId'],
           ),
         );
       } else if (message?.data['type'] == 'response_change_status') {

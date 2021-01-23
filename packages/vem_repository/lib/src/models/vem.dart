@@ -110,6 +110,14 @@ class Vem {
     );
   }
 
+  bool isFull() {
+    return (numParticipants >= maxParticipants);
+  }
+
+  bool isLocked() {
+    return !(Timestamp.now().compareTo(lockDate) <= 0);
+  }
+
   static Timestamp getDefaultStartDate() {
     DateTime now = DateTime.now();
     DateTime startDate = now.add(new Duration(days: 7));
