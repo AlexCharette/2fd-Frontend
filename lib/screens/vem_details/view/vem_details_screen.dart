@@ -21,7 +21,7 @@ class VemDetailsScreen extends StatefulWidget {
 }
 
 class _VemDetailsScreenState extends State<VemDetailsScreen> {
-  Vem vem;
+  Vem _vem;
 
   Future<bool> _onPop(BuildContext context) async {
     BlocProvider.of<VemResponsesBloc>(context)
@@ -41,11 +41,12 @@ class _VemDetailsScreenState extends State<VemDetailsScreen> {
     return WillPopScope(
       onWillPop: () async => _onPop(context),
       child: BlocBuilder<VemsBloc, VemsState>(builder: (context, state) {
-        vem = (state as VemsLoaded)
+        final vem = (state as VemsLoaded)
             .vems
             .firstWhere((vem) => vem.id == args.vemId, orElse: () => null);
+        setState(() => _vem = vem);
         return CustomScaffold(
-          appBarTitle: vem.name,
+          appBarTitle: _vem.name,
           body: ListView(
             children: <Widget>[
               Padding(
@@ -54,10 +55,10 @@ class _VemDetailsScreenState extends State<VemDetailsScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      vem.name,
+                      _vem.name,
                       style: theme.textTheme.headline6,
                     ),
-                    CompletionIcon(vem: vem),
+                    CompletionIcon(vem: _vem),
                   ],
                 ),
               ),
@@ -79,27 +80,28 @@ class _VemDetailsScreenState extends State<VemDetailsScreen> {
                       children: <Widget>[
                         DateDisplay(
                           icon: Icons.date_range_outlined,
-                          date: vem.startDate,
+                          date: _vem.startDate,
                         ),
-                        vem.endDate != null
+                        _vem.endDate != null
                             ? DateDisplay(
                                 icon: Icons.date_range_outlined,
-                                date: vem.endDate,
+                                date: _vem.endDate,
                               )
                             : null,
-                        DateDisplay(icon: Icons.lock_clock, date: vem.lockDate),
+                        DateDisplay(
+                            icon: Icons.lock_clock, date: _vem.lockDate),
                       ],
                     ),
                   ),
                 ),
               ),
-              vem.description != null
+              _vem.description != null
                   ? Padding(
                       padding: const EdgeInsets.fromLTRB(20.0, 5, 10, 10),
                       child: Row(
                         children: [
                           Text(
-                            vem.description,
+                            _vem.description,
                             softWrap: true,
                           ),
                         ],
@@ -129,7 +131,7 @@ class _VemDetailsScreenState extends State<VemDetailsScreen> {
                       context,
                       AddEditVemScreen.routeName,
                       arguments: AddEditVemScreenArguments(
-                        vem,
+                        _vem,
                         (
                           name,
                           startDate,

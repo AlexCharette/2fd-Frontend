@@ -67,23 +67,23 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
           .requestNotificationPermissions(IosNotificationSettings());
     }
 
-    try {
-      _token = await _firebaseMessaging.getToken();
+    // try {
+    //   _token = await _firebaseMessaging.getToken();
 
-      _firebaseMessaging.configure(
-        onMessage: (Map<String, dynamic> message) async {
-          print("onMessage: $message");
-        },
-        onLaunch: (Map<String, dynamic> message) async {
-          print("onLaunch: $message");
-        },
-        onResume: (Map<String, dynamic> message) async {
-          print("onResume: $message");
-        },
-      );
-    } catch (error) {
-      add(NotificationError(error.toString()));
-    }
+    //   _firebaseMessaging.configure(
+    //     onMessage: (Map<String, dynamic> message) async {
+    //       print("onMessage: $message");
+    //     },
+    //     onLaunch: (Map<String, dynamic> message) async {
+    //       print("onLaunch: $message");
+    //     },
+    //     onResume: (Map<String, dynamic> message) async {
+    //       print("onResume: $message");
+    //     },
+    //   );
+    // } catch (error) {
+    //   add(NotificationError(error.toString()));
+    // }
   }
 
   @override

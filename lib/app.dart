@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:provider/provider.dart';
 import 'package:regimental_app/blocs/blocs.dart';
 import 'package:regimental_app/config/theme.dart';
@@ -12,12 +13,14 @@ import 'package:user_repository/user_repository.dart';
 import 'package:vem_repository/vem_repository.dart';
 import 'package:vem_response_repository/vem_response_repository.dart';
 
-class App extends StatelessWidget {
-  static final FirebaseMessaging firebaseMessaging = FirebaseMessaging();
+class App extends StatefulWidget {
   final AuthenticationRepository authenticationRepository;
   final UserRepository userRepository;
   final VemRepository vemRepository;
   final VemResponseRepository vemResponseRepository;
+
+  @override
+  _AppState createState() => _AppState();
 
   const App(
       {Key key,
@@ -26,32 +29,84 @@ class App extends StatelessWidget {
       @required this.vemResponseRepository,
       @required this.userRepository})
       : super(key: key);
+}
+
+class _AppState extends State<App> {
+  final PushNotificationService pushNotificationService =
+      PushNotificationService();
+
+  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+      FlutterLocalNotificationsPlugin();
+
+  @override
+  void initState() {
+    super.initState();
+
+    handleNotifications();
+  }
+
+  Future<void> handleNotifications() async {
+    pushNotificationService.initialize();
+
+    RemoteMessage initialMessage =
+        await FirebaseMessaging.instance.getInitialMessage();
+
+    try {
+      if (initialMessage?.data['type'] == 'new_vem' ||
+          initialMessage?.data['type'] == 'vem_reminder') {
+        Navigator.pushNamed(
+          context,
+          VemDetailsScreen.routeName,
+          arguments: VemDetailsScreenArguments(
+            initialMessage?.data['vemId'],
+          ),
+        );
+      } else if (initialMessage?.data['type'] == 'response_change_status') {
+        Navigator.pushNamed(context, HomeScreen.routeName);
+      }
+    } catch (exception) {
+      print('no such methoOOOOOOOOOOd');
+    }
+
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      if (message.data['type'] == 'new_vem' ||
+          message.data['type'] == 'vem_reminder') {
+        Navigator.pushNamed(
+          context,
+          VemDetailsScreen.routeName,
+          arguments: VemDetailsScreenArguments(
+            initialMessage?.data['vemId'],
+          ),
+        );
+      } else if (message?.data['type'] == 'response_change_status') {
+        Navigator.pushNamed(context, HomeScreen.routeName);
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    final PushNotificationService pushNotificationService =
-        PushNotificationService(firebaseMessaging);
-    pushNotificationService.initialize();
     return RepositoryProvider.value(
-      value: authenticationRepository,
+      value: widget.authenticationRepository,
       child: MultiBlocProvider(
         providers: [
           BlocProvider<AuthenticationBloc>(
             create: (context) => AuthenticationBloc(
-              authenticationRepository: authenticationRepository,
+              authenticationRepository: widget.authenticationRepository,
             ),
           ),
           BlocProvider<VemsBloc>(
             create: (context) =>
-                VemsBloc(vemRepository: vemRepository)..add(LoadVems()),
+                VemsBloc(vemRepository: widget.vemRepository)..add(LoadVems()),
           ),
           BlocProvider<UsersBloc>(
-            create: (context) => UsersBloc(userRepository: userRepository)
-              ..add(LoadCurrentUser()),
+            create: (context) =>
+                UsersBloc(userRepository: widget.userRepository)
+                  ..add(LoadCurrentUser()),
           ),
           BlocProvider<VemResponsesBloc>(
             create: (context) => VemResponsesBloc(
-                vemResponseRepository: vemResponseRepository)
+                vemResponseRepository: widget.vemResponseRepository)
               ..add(
                   LoadResponsesForUser(FirebaseAuth.instance.currentUser.uid)),
           ),
@@ -116,35 +171,3 @@ class _AppViewState extends State<AppView> {
     });
   }
 }
-
-// TODO !!!!
-/* This code is for the add-edit screen so I don't forget it
-* Place in routes when ready
-AddEditVemScreen(
-                    onSave: (
-                      name,
-                      startDate,
-                      endDate,
-                      lockDate,
-                      responseType,
-                      description,
-                      minParticipants,
-                      maxParticipiants,
-                    ) {
-                      BlocProvider.of<VemsBloc>(context).add(
-                        AddVem(Vem(
-                          name,
-                          responseType,
-                          description: description,
-                          startDate: startDate,
-                          endDate: endDate,
-                          lockDate: lockDate,
-                          minParticipants: minParticipants,
-                          maxParticipants: maxParticipiants,
-                        )),
-                      );
-                    },
-                    isEditing: false,
-                    vem: widget.vem,
-                  ),
-*/

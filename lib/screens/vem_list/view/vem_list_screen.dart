@@ -74,7 +74,6 @@ class VemList extends StatelessWidget {
                             currentResponse: response,
                           ),
                         );
-
                         if (response == null && answer == null) {
                           answer = 'seen';
                         }
