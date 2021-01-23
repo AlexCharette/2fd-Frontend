@@ -116,7 +116,7 @@ class VemItem extends StatelessWidget {
                     Icons.check_circle,
                     color: AppColors.buttonGreen,
                   )
-                : null,
+                : Container(),
             SizedBox(
               width: 10,
             ),

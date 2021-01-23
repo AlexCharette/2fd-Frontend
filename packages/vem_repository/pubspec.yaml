@@ -8,8 +8,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  cloud_firestore: ^0.14.4
+  cloud_firestore: ^0.16.0
   equatable: ^1.0.0
-  firebase_core: ^0.5.3
+  firebase_core: ^0.7.0
   rxdart: ^0.23.0
   intl: ^0.16.1

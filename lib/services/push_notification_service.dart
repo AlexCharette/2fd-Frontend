@@ -1,50 +1,79 @@
 import 'dart:io' show Platform;
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class PushNotificationService {
-  final FirebaseMessaging _firebaseMessaging;
+  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+      FlutterLocalNotificationsPlugin();
 
-  PushNotificationService(this._firebaseMessaging);
+  Future<void> initialize() async {
+    const AndroidInitializationSettings initializationSettingsAndroid =
+        AndroidInitializationSettings('app_icon');
+    final IOSInitializationSettings initializationSettingsIOS =
+        IOSInitializationSettings();
+    final InitializationSettings initializationSettings =
+        InitializationSettings(
+            android: initializationSettingsAndroid,
+            iOS: initializationSettingsIOS);
+    flutterLocalNotificationsPlugin.initialize(initializationSettings);
 
-  Future initialize() async {
     if (Platform.isIOS) {
-      _firebaseMessaging.requestNotificationPermissions(
-        const IosNotificationSettings(
-          sound: true,
-          badge: true,
-          alert: true,
-          provisional: true,
-        ),
+      FirebaseMessaging.instance.requestPermission(
+        sound: true,
+        badge: true,
+        alert: true,
+        provisional: true,
       );
-      _firebaseMessaging.onIosSettingsRegistered
-          .listen((IosNotificationSettings settings) {
-        print('Settings registered: $settings');
-      });
     }
 
-    String token = await _firebaseMessaging.getToken();
+    String token = await FirebaseMessaging.instance.getToken();
 
-    _firebaseMessaging.configure(
-      onMessage: (Map<String, dynamic> message) async {
-        print('onMessage: $message');
-        // If it's a vem, open the vem item responder
-        // showDialog<bool>(
-        //   context: context,
-        //   builder: (context) => VemResponder(
-        //     vemId: vem.id,
-        //     vemName: vem.name,
-        //   ),
-        // );
-      },
-      onLaunch: (Map<String, dynamic> message) async {
-        print('onLaunch: $message');
-        // If it's a vem, go to home and open the vem item responder
-      },
-      onResume: (Map<String, dynamic> message) async {
-        print('onResume: $message');
-        // If it's a vem, go to home and open the vem item responder
-      },
+    await saveTokenToDatabase(token);
+
+    FirebaseMessaging.instance.onTokenRefresh.listen(saveTokenToDatabase);
+
+    await FirebaseMessaging.instance.subscribeToTopic('vems');
+
+    const AndroidNotificationChannel channel = AndroidNotificationChannel(
+      'high_importance_channel',
+      'High Importance Notifications',
+      'This channel is used for important notifications.',
+      importance: Importance.max,
     );
+
+    await flutterLocalNotificationsPlugin
+        .resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin>()
+        ?.createNotificationChannel(channel);
+
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      RemoteNotification notification = message.notification;
+      AndroidNotification android = message.notification?.android;
+
+      if (notification != null && android != null) {
+        flutterLocalNotificationsPlugin.show(
+            notification.hashCode,
+            notification.title,
+            notification.body,
+            NotificationDetails(
+              android: AndroidNotificationDetails(
+                channel.id,
+                channel.name,
+                channel.description,
+                icon: android?.smallIcon,
+              ),
+            ));
+      }
+    });
+  }
+
+  Future<void> saveTokenToDatabase(String token) async {
+    String userId = FirebaseAuth.instance.currentUser.uid;
+
+    await FirebaseFirestore.instance.collection('users').doc(userId).update({
+      'tokens': FieldValue.arrayUnion([token]),
+    });
   }
 }
