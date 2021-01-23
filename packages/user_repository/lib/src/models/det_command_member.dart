@@ -6,18 +6,14 @@ import '../entities/entities.dart';
 class DetCommandMember extends User {
   DetCommandMember(
     String email,
-    String lastName,
-    int lastThree,
-    String rank,
+    String initials,
     String detId, {
     String phoneNumber = '',
     MemberStatus status = MemberStatus.active,
     String id,
   }) : super(
           email,
-          lastName,
-          lastThree,
-          rank,
+          initials,
           detId,
           phoneNumber: phoneNumber,
           status: status,
@@ -29,16 +25,12 @@ class DetCommandMember extends User {
     String detId,
     String email,
     String phoneNumber,
-    String lastName,
-    int lastThree,
-    String rank,
+    String initials,
     MemberStatus status,
   }) {
     return DetCommandMember(
       email ?? this.email,
-      lastName ?? this.lastName,
-      lastThree ?? this.lastThree,
-      rank ?? this.rank,
+      initials ?? this.initials,
       detId ?? this.detId,
       phoneNumber: phoneNumber ?? this.phoneNumber,
       status: status ?? this.status,
@@ -52,9 +44,7 @@ class DetCommandMember extends User {
       detId.hashCode ^
       email.hashCode ^
       phoneNumber.hashCode ^
-      lastName.hashCode ^
-      lastThree.hashCode ^
-      rank.hashCode ^
+      initials.hashCode ^
       status.hashCode;
 
   @override
@@ -67,9 +57,7 @@ class DetCommandMember extends User {
       id,
       email,
       phoneNumber,
-      lastName,
-      lastThree,
-      rank,
+      initials,
       detId,
       status,
       accountType: AccountType.detCommand,
@@ -79,9 +67,7 @@ class DetCommandMember extends User {
   static DetCommandMember fromEntity(UserEntity entity) {
     return DetCommandMember(
       entity.email,
-      entity.lastName,
-      entity.lastThree,
-      entity.rank,
+      entity.initials,
       entity.detId,
       phoneNumber: entity.phoneNumber,
       status: entity.status,

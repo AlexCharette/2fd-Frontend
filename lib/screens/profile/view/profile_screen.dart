@@ -50,31 +50,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Text(
-                      "${currentUser.lastName} ${currentUser.lastThree}"
-                          .toUpperCase(),
+                      "${currentUser.initials}".toUpperCase(),
                       style: theme.textTheme.headline3,
                     ),
-                    Visibility(
-                      visible: editButtonVisible,
-                      child: TextButton(
-                          style: TextButton.styleFrom(
-                              backgroundColor: Colors.transparent,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                  side: BorderSide(color: Colors.white))),
-                          onPressed: () {
-                            setState(() {
-                              editButtonVisible = false;
-                              isReadOnly = false;
-                              cancelSaveButtonsAreVisible = true;
-                            });
-                          },
-                          child: Text(
-                            "DEMANDER UN CHANGEMENT",
-                            style: theme.textTheme.bodyText1
-                                .copyWith(color: Colors.white),
-                          )),
-                    )
                   ],
                 ),
                 Container(

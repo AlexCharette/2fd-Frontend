@@ -6,15 +6,13 @@ class UserEntity extends Equatable {
   final String id;
   final String email;
   final String phoneNumber;
-  final String rank;
-  final String lastName;
-  final int lastThree;
+  final String initials;
   final String detId;
   final MemberStatus status;
   final AccountType accountType;
 
-  const UserEntity(this.id, this.email, this.phoneNumber, this.lastName,
-      this.lastThree, this.rank, this.detId, this.status,
+  const UserEntity(this.id, this.email, this.phoneNumber, this.initials,
+      this.detId, this.status,
       {AccountType accountType})
       : assert(accountType is AccountType),
         this.accountType = accountType;
@@ -23,9 +21,7 @@ class UserEntity extends Equatable {
   List<Object> get props => [
         email,
         phoneNumber,
-        lastName,
-        lastThree,
-        rank,
+        initials,
         status,
         accountType,
         detId,
@@ -37,8 +33,8 @@ class UserEntity extends Equatable {
     return """
       User{
         email: $email, phoneNumber: $phoneNumber, 
-        lastName: $lastName, lastThree: $lastThree, rank: $rank, detId: $detId,
-        status: ${status.toString()}, accountType: ${accountType.toString()}
+        initials: $initials, detId: $detId, status: ${status.toString()}, 
+        accountType: ${accountType.toString()}
       }
     """;
   }
@@ -47,9 +43,7 @@ class UserEntity extends Equatable {
     return {
       "email": email,
       "phoneNumber": phoneNumber,
-      "lastName": lastName,
-      "lastThree": lastThree,
-      "rank": rank,
+      "initials": initials,
       "detId": detId,
       "status": status.toString(),
       "accountType": accountType.toString(),
@@ -62,9 +56,7 @@ class UserEntity extends Equatable {
       json["id"] as String,
       json["email"] as String,
       json["phoneNumber"] as String,
-      json["lastName"] as String,
-      json["lastThree"] as int,
-      json["rank"] as String,
+      json["initials"] as String,
       json["detId"] as String,
       MemberStatus.values.firstWhere(
           (element) => element.toString() == json["status"] as String,
@@ -80,9 +72,7 @@ class UserEntity extends Equatable {
       snap.id,
       snap.get('email'),
       snap.get('phoneNumber'),
-      snap.get('lastName'),
-      snap.get('lastThree'),
-      snap.get('rank'),
+      snap.get('initials'),
       snap.get('detId'),
       MemberStatus.values.firstWhere(
           (element) =>
@@ -99,9 +89,7 @@ class UserEntity extends Equatable {
     return {
       "email": email,
       "phoneNumber": phoneNumber,
-      "lastName": lastName,
-      "lastThree": lastThree,
-      "rank": rank,
+      "initials": initials,
       "detId": detId,
       "status": status.toString(),
       "accountType": accountType.toString(),
