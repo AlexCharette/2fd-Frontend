@@ -11,50 +11,67 @@ import 'package:vem_response_repository/vem_response_repository.dart'
     show VemResponse;
 
 class VemList extends StatelessWidget {
+  VemList({Key key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<VemsBloc, VemsState>(
-      builder: (context, vemsState) {
-        return BlocBuilder<VemResponsesBloc, VemResponsesState>(
-          builder: (context, responsesState) {
-            if (vemsState is VemsLoading &&
-                responsesState is UserResponsesLoading) {
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            } else if (vemsState is VemsLoaded &&
-                responsesState is UserResponsesLoaded) {
-              List<Vem> vems = vemsState.vems;
-              List<VemResponse> vemResponses = responsesState.vemResponses;
-              if (vems.length > 0) {
-                return ListView.separated(
-                  separatorBuilder: (context, index) => Divider(
-                    color: Theme.of(context).primaryColor,
-                  ),
-                  itemCount: vems.length,
-                  itemBuilder: (context, index) {
-                    Vem vem = vems[index];
-                    VemResponse response = vemResponses
-                            .where((response) => response.vemId == vem.id)
-                            .isNotEmpty
-                        ? vemResponses
-                            .where((response) => response.vemId == vem.id)
-                            .first
-                        : null;
-                    print('response for ${vem.name}: ${response?.id}');
-                    return VemItem(
-                      vem: vem,
-                      numParticipants: vem.numParticipants,
-                      isAttending:
-                          (response != null && response.answer == 'yes')
-                              ? true
-                              : false,
-                      onTap: () async {
-                        // go to vem details screen
-                        Navigator.pushNamed(
-                          context,
-                          VemDetailsScreen.routeName,
-                          arguments: VemDetailsScreenArguments(vem),
+    return Builder(
+      builder: (context) {
+        final vemsState = context.watch<VemsBloc>().state;
+        final responsesState = context.watch<VemResponsesBloc>().state;
+        if (vemsState is VemsLoading &&
+            responsesState is UserResponsesLoading) {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        } else if (vemsState is VemsLoaded &&
+            responsesState is UserResponsesLoaded) {
+          List<Vem> vems = vemsState.vems;
+          List<VemResponse> vemResponses = responsesState.vemResponses;
+          if (vems.length > 0) {
+            return ListView.separated(
+              separatorBuilder: (context, index) => Divider(
+                color: Theme.of(context).primaryColor,
+              ),
+              itemCount: vems.length,
+              itemBuilder: (context, index) {
+                Vem vem = vems[index];
+                VemResponse response = vemResponses
+                        .where((response) => response.vemId == vem.id)
+                        .isNotEmpty
+                    ? vemResponses
+                        .where((response) => response.vemId == vem.id)
+                        .first
+                    : null;
+                print('response for ${vem.name}: ${response?.id}');
+                return VemItem(
+                  vem: vem,
+                  numParticipants: vem.numParticipants,
+                  isAttending: (response != null && response.answer == 'yes')
+                      ? true
+                      : false,
+                  onTap: () async {
+                    // go to vem details screen
+                    Navigator.pushNamed(
+                      context,
+                      VemDetailsScreen.routeName,
+                      arguments: VemDetailsScreenArguments(vem.id),
+                    );
+                  },
+                  onLongPress: () async {
+                    // Load vem responses
+                    // if it isn't full
+                    if (vem.numParticipants < vem.maxParticipants) {
+                      // If the lock date has not passed
+                      if (Timestamp.now().compareTo(vem.lockDate) <= 0) {
+                        // open vem response widget
+                        String answer = await showDialog(
+                          context: context,
+                          builder: (context) => VemResponder(
+                            vemId: vem.id,
+                            vemName: vem.name,
+                            currentResponse: response,
+                          ),
                         );
                       },
                       onLongPress: () async {

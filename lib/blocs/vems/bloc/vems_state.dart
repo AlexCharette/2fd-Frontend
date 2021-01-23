@@ -12,7 +12,7 @@ class VemsLoading extends VemsState {}
 class VemsLoaded extends VemsState {
   final List<Vem> vems;
 
-  const VemsLoaded([this.vems = const []]);
+  const VemsLoaded(this.vems);
 
   @override
   List<Object> get props => [vems];

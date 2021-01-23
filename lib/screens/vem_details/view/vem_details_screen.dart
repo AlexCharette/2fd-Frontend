@@ -8,9 +8,9 @@ import 'package:regimental_app/widgets/widgets.dart';
 import 'package:vem_repository/vem_repository.dart';
 
 class VemDetailsScreenArguments {
-  final Vem vem;
+  final String vemId;
 
-  VemDetailsScreenArguments(this.vem);
+  VemDetailsScreenArguments(this.vemId);
 }
 
 class VemDetailsScreen extends StatefulWidget {
@@ -21,6 +21,8 @@ class VemDetailsScreen extends StatefulWidget {
 }
 
 class _VemDetailsScreenState extends State<VemDetailsScreen> {
+  Vem vem;
+
   Future<bool> _onPop(BuildContext context) async {
     BlocProvider.of<VemResponsesBloc>(context)
         .add(LoadResponsesForUser(FirebaseAuth.instance.currentUser.uid));
@@ -34,147 +36,134 @@ class _VemDetailsScreenState extends State<VemDetailsScreen> {
     final VemDetailsScreenArguments args =
         ModalRoute.of(context).settings.arguments as VemDetailsScreenArguments;
     BlocProvider.of<VemResponsesBloc>(context).add(
-      LoadResponsesForVem(args.vem.id),
+      LoadResponsesForVem(args.vemId),
     );
     return WillPopScope(
-      child: CustomScaffold(
-        appBarTitle: args.vem.name,
-        body: BlocBuilder<VemResponsesBloc, VemResponsesState>(
-          builder: (context, state) {
-            if (state is VemResponsesLoading) {
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            } else if (state is VemResponsesLoaded) {
-              return ListView(
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      onWillPop: () async => _onPop(context),
+      child: BlocBuilder<VemsBloc, VemsState>(builder: (context, state) {
+        vem = (state as VemsLoaded)
+            .vems
+            .firstWhere((vem) => vem.id == args.vemId, orElse: () => null);
+        return CustomScaffold(
+          appBarTitle: vem.name,
+          body: ListView(
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      vem.name,
+                      style: theme.textTheme.headline6,
+                    ),
+                    CompletionIcon(vem: vem),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  decoration: BoxDecoration(
+                    border: Border(
+                      top: BorderSide(width: 1.0, color: theme.primaryColor),
+                      right: BorderSide(width: 1.0, color: theme.primaryColor),
+                      bottom: BorderSide(width: 1.0, color: theme.primaryColor),
+                      left: BorderSide(width: 1.0, color: theme.primaryColor),
+                    ),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          args.vem.name,
-                          style: theme.textTheme.headline6,
+                      children: <Widget>[
+                        DateDisplay(
+                          icon: Icons.date_range_outlined,
+                          date: vem.startDate,
                         ),
-                        CompletionIcon(vem: args.vem),
+                        vem.endDate != null
+                            ? DateDisplay(
+                                icon: Icons.date_range_outlined,
+                                date: vem.endDate,
+                              )
+                            : null,
+                        DateDisplay(icon: Icons.lock_clock, date: vem.lockDate),
                       ],
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        border: Border(
-                          top:
-                              BorderSide(width: 1.0, color: theme.primaryColor),
-                          right:
-                              BorderSide(width: 1.0, color: theme.primaryColor),
-                          bottom:
-                              BorderSide(width: 1.0, color: theme.primaryColor),
-                          left:
-                              BorderSide(width: 1.0, color: theme.primaryColor),
-                        ),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            DateDisplay(
-                              icon: Icons.date_range_outlined,
-                              date: args.vem.startDate,
-                            ),
-                            args.vem.endDate != null
-                                ? DateDisplay(
-                                    icon: Icons.date_range_outlined,
-                                    date: args.vem.endDate,
-                                  )
-                                : null,
-                            DateDisplay(
-                                icon: Icons.lock_clock,
-                                date: args.vem.lockDate),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                  args.vem.description != null
-                      ? Padding(
-                          padding: const EdgeInsets.fromLTRB(20.0, 5, 10, 10),
-                          child: Row(
-                            children: [
-                              Text(
-                                args.vem.description,
-                                softWrap: true,
-                              ),
-                            ],
+                ),
+              ),
+              vem.description != null
+                  ? Padding(
+                      padding: const EdgeInsets.fromLTRB(20.0, 5, 10, 10),
+                      child: Row(
+                        children: [
+                          Text(
+                            vem.description,
+                            softWrap: true,
                           ),
-                        )
-                      : null,
-                  // TODO responses widget (only display if allowed)
-                ],
-              );
-            } else {
-              return Container();
-            }
-          },
-        ),
-        floatingActionButtons: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: <Widget>[
-            FloatingActionButton(
-              heroTag: 'moreActionButton__heroTag',
-              tooltip: 'More',
-              child: Icon(Icons.list),
-              onPressed: () {
-                // TODO display buttons to go to answer details or participation list
-              },
-            ),
-            FloatingActionButton(
-                heroTag: 'editActionButton__heroTag',
-                tooltip: 'Edit VEM',
-                child: Icon(Icons.edit),
+                        ],
+                      ),
+                    )
+                  : null,
+              // TODO responses widget (only display if allowed)
+            ],
+          ),
+          floatingActionButtons: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: <Widget>[
+              FloatingActionButton(
+                heroTag: 'moreActionButton__heroTag',
+                tooltip: 'More',
+                child: Icon(Icons.list),
                 onPressed: () {
-                  Navigator.pushNamed(
-                    context,
-                    AddEditVemScreen.routeName,
-                    arguments: AddEditVemScreenArguments(
-                      args.vem,
-                      (
-                        name,
-                        startDate,
-                        endDate,
-                        lockDate,
-                        responseType,
-                        description,
-                        minParticipants,
-                        maxParticipants,
-                      ) {
-                        print(
-                            '$name, $startDate, $endDate, $lockDate, $responseType, $description, $minParticipants, $maxParticipants');
-                        BlocProvider.of<VemsBloc>(context).add(
-                          UpdateVem(args.vem.copyWith(
-                            name: name,
-                            startDate: startDate,
-                            endDate: endDate,
-                            lockDate: lockDate,
-                            responseType: responseType,
-                            description: description,
-                            minParticipants: minParticipants,
-                            maxParticipants: maxParticipants,
-                          )),
-                        );
-                      },
-                      true,
-                    ),
-                  );
-                }),
-          ],
-        ),
-        displayBottomAppBar: false,
-      ),
-      onWillPop: () async => _onPop(context),
+                  // TODO display buttons to go to answer details or participation list
+                },
+              ),
+              FloatingActionButton(
+                  heroTag: 'editActionButton__heroTag',
+                  tooltip: 'Edit VEM',
+                  child: Icon(Icons.edit),
+                  onPressed: () {
+                    Navigator.pushNamed(
+                      context,
+                      AddEditVemScreen.routeName,
+                      arguments: AddEditVemScreenArguments(
+                        vem,
+                        (
+                          name,
+                          startDate,
+                          endDate,
+                          lockDate,
+                          responseType,
+                          description,
+                          minParticipants,
+                          maxParticipants,
+                        ) {
+                          print(
+                              '$name, $startDate, $endDate, $lockDate, $responseType, $description, $minParticipants, $maxParticipants');
+                          BlocProvider.of<VemsBloc>(context).add(
+                            UpdateVem(vem.copyWith(
+                              name: name,
+                              startDate: startDate,
+                              endDate: endDate,
+                              lockDate: lockDate,
+                              responseType: responseType,
+                              description: description,
+                              minParticipants: minParticipants,
+                              maxParticipants: maxParticipants,
+                            )),
+                          );
+                        },
+                        true,
+                      ),
+                    );
+                  }),
+            ],
+          ),
+          displayBottomAppBar: false,
+        );
+      }),
     );
   }
 }
