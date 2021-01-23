@@ -2,15 +2,16 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:regimental_app/blocs/blocs.dart';
-import 'package:regimental_app/config/routes.dart';
+import 'package:regimental_app/config/config.dart';
 import 'package:regimental_app/screens/add_edit_vem/add_edit_vem.dart';
 import 'package:regimental_app/widgets/widgets.dart';
 import 'package:vem_repository/vem_repository.dart';
+import 'package:vem_response_repository/vem_response_repository.dart';
 
 class VemDetailsScreenArguments {
   final String vemId;
-
-  VemDetailsScreenArguments(this.vemId);
+  final String currentResponseId;
+  VemDetailsScreenArguments({this.vemId, this.currentResponseId});
 }
 
 class VemDetailsScreen extends StatefulWidget {
@@ -22,12 +23,27 @@ class VemDetailsScreen extends StatefulWidget {
 
 class _VemDetailsScreenState extends State<VemDetailsScreen> {
   Vem _vem;
+  VemResponse _response;
 
   Future<bool> _onPop(BuildContext context) async {
     BlocProvider.of<VemResponsesBloc>(context)
         .add(LoadResponsesForUser(FirebaseAuth.instance.currentUser.uid));
     Navigator.of(context).pop(true);
     return true;
+  }
+
+  void _submitResponse(BuildContext context, String answer) {
+    BlocProvider.of<VemResponsesBloc>(context).add(
+      _response != null
+          ? UpdateVemResponse(_response.copyWith(answer: answer))
+          : AddVemResponse(
+              VemResponse(
+                FirebaseAuth.instance.currentUser?.uid,
+                _vem.id,
+                answer,
+              ),
+            ),
+    );
   }
 
   @override
@@ -40,11 +56,20 @@ class _VemDetailsScreenState extends State<VemDetailsScreen> {
     );
     return WillPopScope(
       onWillPop: () async => _onPop(context),
-      child: BlocBuilder<VemsBloc, VemsState>(builder: (context, state) {
-        final vem = (state as VemsLoaded)
+      child: Builder(builder: (context) {
+        final vemsState = context.watch<VemsBloc>().state;
+        final responsesState = context.watch<VemResponsesBloc>().state;
+        final vem = (vemsState as VemsLoaded)
             .vems
             .firstWhere((vem) => vem.id == args.vemId, orElse: () => null);
-        setState(() => _vem = vem);
+        final response = (responsesState as VemResponsesLoaded)
+            .vemResponses
+            .firstWhere((response) => response.id == args.currentResponseId,
+                orElse: () => null);
+        setState(() {
+          _vem = vem;
+          _response = response;
+        });
         return CustomScaffold(
           appBarTitle: _vem.name,
           body: ListView(
@@ -99,7 +124,7 @@ class _VemDetailsScreenState extends State<VemDetailsScreen> {
                   ? Padding(
                       padding: const EdgeInsets.fromLTRB(20.0, 5, 10, 10),
                       child: Row(
-                        children: [
+                        children: <Widget>[
                           Text(
                             _vem.description,
                             softWrap: true,
@@ -107,7 +132,35 @@ class _VemDetailsScreenState extends State<VemDetailsScreen> {
                         ],
                       ),
                     )
-                  : null,
+                  : Container(),
+              Padding(
+                padding: const EdgeInsets.all(8),
+                child: ButtonBar(
+                  children: <Widget>[
+                    RaisedButton(
+                      color: AppColors.buttonGreen,
+                      onPressed:
+                          (_response == null || _response.answer != 'yes')
+                              ? () {
+                                  Navigator.pop(context, 'yes');
+                                  _submitResponse(context, 'yes');
+                                }
+                              : null,
+                      child: Text('I\'ll be there'),
+                    ),
+                    RaisedButton(
+                      color: AppColors.buttonRed,
+                      onPressed: (_response == null || _response.answer != 'no')
+                          ? () {
+                              Navigator.pop(context, 'no');
+                              _submitResponse(context, 'no');
+                            }
+                          : null,
+                      child: Text('I won\'t be there'),
+                    ),
+                  ],
+                ),
+              ),
               // TODO responses widget (only display if allowed)
             ],
           ),
