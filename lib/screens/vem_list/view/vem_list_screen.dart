@@ -56,15 +56,19 @@ class VemList extends StatelessWidget {
                     Navigator.pushNamed(
                       context,
                       VemDetailsScreen.routeName,
-                      arguments: VemDetailsScreenArguments(vem.id),
+                      arguments: VemDetailsScreenArguments(
+                        vemId: vem.id,
+                        currentResponseId:
+                            (response != null) ? response.id : null,
+                      ),
                     );
                   },
                   onLongPress: () async {
                     // Load vem responses
                     // if it isn't full
-                    if (vem.numParticipants < vem.maxParticipants) {
+                    if (!vem.isFull()) {
                       // If the lock date has not passed
-                      if (Timestamp.now().compareTo(vem.lockDate) <= 0) {
+                      if (!vem.isLocked()) {
                         // open vem response widget
                         String answer = await showDialog(
                           context: context,
