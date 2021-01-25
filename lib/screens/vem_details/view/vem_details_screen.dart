@@ -5,6 +5,7 @@ import 'package:regimental_app/blocs/blocs.dart';
 import 'package:regimental_app/config/config.dart';
 import 'package:regimental_app/screens/add_edit_vem/add_edit_vem.dart';
 import 'package:regimental_app/widgets/widgets.dart';
+import 'package:user_repository/user_repository.dart' show NormalMember;
 import 'package:vem_repository/vem_repository.dart';
 import 'package:vem_response_repository/vem_response_repository.dart';
 
@@ -56,9 +57,13 @@ class _VemDetailsScreenState extends State<VemDetailsScreen> {
     return Builder(builder: (context) {
       final vemsState = context.watch<VemsBloc>().state;
       final responsesState = context.watch<VemResponsesBloc>().state;
+      final usersState = context.read<UsersBloc>().state;
+
       final VemDetailsScreenArguments args = ModalRoute.of(context)
           .settings
           .arguments as VemDetailsScreenArguments;
+
+      final currentUser = (usersState as CurrentUserLoaded).currentUser;
       final vem = (vemsState as VemsLoaded)
           .vems
           .firstWhere((vem) => vem.id == args.vemId, orElse: () => null);
@@ -178,59 +183,63 @@ class _VemDetailsScreenState extends State<VemDetailsScreen> {
                             ],
                           ),
               ),
-              // TODO responses widget (only display if allowed)
+              !(currentUser is NormalMember)
+                  ? VemResponses(vemId: vem.id)
+                  : Container(),
             ],
           ),
-          floatingActionButtons: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: <Widget>[
-              FloatingActionButton(
-                heroTag: 'moreActionButton__heroTag',
-                tooltip: 'More',
-                child: Icon(Icons.list),
-                onPressed: () {
-                  // TODO display buttons to go to answer details or participation list
-                },
-              ),
-              FloatingActionButton(
-                  heroTag: 'editActionButton__heroTag',
-                  tooltip: 'Edit VEM',
-                  child: Icon(Icons.edit),
-                  onPressed: () {
-                    Navigator.pushNamed(
-                      context,
-                      AddEditVemScreen.routeName,
-                      arguments: AddEditVemScreenArguments(
-                        _vem,
-                        (
-                          name,
-                          startDate,
-                          endDate,
-                          lockDate,
-                          responseType,
-                          description,
-                          minParticipants,
-                          maxParticipants,
-                        ) {
-                          BlocProvider.of<VemsBloc>(context).add(
-                            UpdateVem(_vem.copyWith(
-                              name: name,
-                              startDate: startDate,
-                              endDate: endDate,
-                              lockDate: lockDate,
-                              responseType: responseType,
-                              description: description,
-                              minParticipants: minParticipants,
-                              maxParticipants: maxParticipants,
-                            )),
+          floatingActionButtons: !(currentUser is NormalMember)
+              ? Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: <Widget>[
+                    FloatingActionButton(
+                      heroTag: 'moreActionButton__heroTag',
+                      tooltip: 'More',
+                      child: Icon(Icons.list),
+                      onPressed: () {
+                        // TODO display buttons to go to answer details or participation list
+                      },
+                    ),
+                    FloatingActionButton(
+                        heroTag: 'editActionButton__heroTag',
+                        tooltip: 'Edit VEM',
+                        child: Icon(Icons.edit),
+                        onPressed: () {
+                          Navigator.pushNamed(
+                            context,
+                            AddEditVemScreen.routeName,
+                            arguments: AddEditVemScreenArguments(
+                              _vem,
+                              (
+                                name,
+                                startDate,
+                                endDate,
+                                lockDate,
+                                responseType,
+                                description,
+                                minParticipants,
+                                maxParticipants,
+                              ) {
+                                BlocProvider.of<VemsBloc>(context).add(
+                                  UpdateVem(_vem.copyWith(
+                                    name: name,
+                                    startDate: startDate,
+                                    endDate: endDate,
+                                    lockDate: lockDate,
+                                    responseType: responseType,
+                                    description: description,
+                                    minParticipants: minParticipants,
+                                    maxParticipants: maxParticipants,
+                                  )),
+                                );
+                              },
+                              true,
+                            ),
                           );
-                        },
-                        true,
-                      ),
-                    );
-                  }),
-            ],
-          ),
+                        }),
+                  ],
+                )
+              : null,
           displayBottomAppBar: false,
         ),
       );
