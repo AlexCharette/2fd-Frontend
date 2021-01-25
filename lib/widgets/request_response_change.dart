@@ -19,6 +19,7 @@ class RequestResponseChange extends Dialog {
   Widget build(BuildContext context) {
     return BlocBuilder<UsersBloc, UsersState>(
       builder: (context, state) {
+        _reason = '';
         if (state is CurrentUserLoading) {
           return CircularProgressIndicator();
         } else if (state is CurrentUserLoaded) {

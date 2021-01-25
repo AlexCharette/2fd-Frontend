@@ -78,7 +78,18 @@ class Vem {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is Vem && runtimeType == other.runtimeType;
+      other is Vem &&
+          runtimeType == other.runtimeType &&
+          name == other.name &&
+          startDate == other.startDate &&
+          endDate == other.endDate &&
+          lockDate == other.lockDate &&
+          description == other.description &&
+          responseType == other.responseType &&
+          minParticipants == other.minParticipants &&
+          maxParticipants == other.maxParticipants &&
+          numParticipants == other.numParticipants &&
+          id == other.id;
 
   VemEntity toEntity() {
     return VemEntity(

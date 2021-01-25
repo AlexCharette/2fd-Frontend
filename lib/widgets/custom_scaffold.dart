@@ -16,15 +16,14 @@ class CustomScaffold extends StatefulWidget {
   final bool displayBGImage;
   final int selectedIndex;
 
-  CustomScaffold({
-    this.appBarTitle,
-    this.body,
-    this.pageController,
-    this.displayBottomAppBar = true,
-    this.selectedIndex = 0,
-    this.floatingActionButtons,
-    this.displayBGImage = true
-  });
+  CustomScaffold(
+      {this.appBarTitle,
+      this.body,
+      this.pageController,
+      this.displayBottomAppBar = true,
+      this.selectedIndex = 0,
+      this.floatingActionButtons,
+      this.displayBGImage = true});
 
   @override
   _CustomScaffoldState createState() => _CustomScaffoldState();
@@ -161,15 +160,13 @@ class _CustomScaffoldState extends State<CustomScaffold> {
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                       colors: [Colors.red, Colors.blue]),
-                  image: widget.displayBGImage ? DecorationImage(
-                      colorFilter: ColorFilter.mode(
-                          Colors.black.withOpacity(0.3), BlendMode.dstATop),
-                      // TODO change to local asset or data
-                      image: NetworkImage(
-                          'https://firebasestorage.googleapis.com/v0/b/second-fd-app.appspot.com/o/assets%2Fimages%2Ftradition.jpg?alt=media&token=cd2f7c47-e7c9-449b-83ee-75ae3faa7782'),
-                      fit: BoxFit.cover)
-              : null
-              ),
+                  image: widget.displayBGImage
+                      ? DecorationImage(
+                          colorFilter: ColorFilter.mode(
+                              Colors.black.withOpacity(0.3), BlendMode.dstATop),
+                          image: AssetImage('assets/images/tradition.jpg'),
+                          fit: BoxFit.cover)
+                      : null),
               child: SafeArea(child: widget.body)),
         ),
         floatingActionButton: widget.floatingActionButtons);
