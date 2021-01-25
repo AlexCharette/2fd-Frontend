@@ -7,7 +7,7 @@ abstract class VemsEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class LoadVems extends VemsEvent {}
+class LoadVemListData extends VemsEvent {}
 
 class AddVem extends VemsEvent {
   final Vem vem;
@@ -53,3 +53,5 @@ class VemsUpdated extends VemsEvent {
   @override
   List<Object> get props => [vems];
 }
+
+class VemsRefreshRequested extends VemsEvent {}

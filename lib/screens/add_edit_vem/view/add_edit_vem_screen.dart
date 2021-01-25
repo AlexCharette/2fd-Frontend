@@ -52,10 +52,6 @@ class _AddEditVemScreenState extends State<AddEditVemScreen> {
   int _minParticipants;
   int _maxParticipants;
 
-  Timestamp get startDate => _startDate;
-  Timestamp get endDate => _endDate;
-  Timestamp get lockDate => _lockDate;
-
   @override
   Widget build(BuildContext context) {
     ThemeData theme = Theme.of(context);
@@ -393,7 +389,6 @@ class _AddEditVemScreenState extends State<AddEditVemScreen> {
                   this._minParticipants,
                   this._maxParticipants,
                 );
-                BlocProvider.of<VemsBloc>(context).add(LoadVems());
                 Navigator.pop(context);
               }
             },

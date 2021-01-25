@@ -34,9 +34,11 @@ class App extends StatefulWidget {
 class _AppState extends State<App> {
   final PushNotificationService pushNotificationService =
       PushNotificationService();
-
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
+  final _navigatorKey = GlobalKey<NavigatorState>();
+
+  NavigatorState get _navigator => _navigatorKey.currentState;
 
   @override
   void initState() {
@@ -95,10 +97,6 @@ class _AppState extends State<App> {
               authenticationRepository: widget.authenticationRepository,
             ),
           ),
-          BlocProvider<VemsBloc>(
-            create: (context) =>
-                VemsBloc(vemRepository: widget.vemRepository)..add(LoadVems()),
-          ),
           BlocProvider<UsersBloc>(
             create: (context) =>
                 UsersBloc(userRepository: widget.userRepository)
@@ -108,66 +106,55 @@ class _AppState extends State<App> {
             create: (context) => VemResponsesBloc(
                 vemResponseRepository: widget.vemResponseRepository)
               ..add(
-                  LoadResponsesForUser(FirebaseAuth.instance.currentUser.uid)),
+                LoadResponsesForUser(FirebaseAuth.instance.currentUser.uid),
+              ),
+          ),
+          BlocProvider<VemsBloc>(
+            create: (context) => VemsBloc(vemRepository: widget.vemRepository)
+              ..add(LoadVemListData()),
           ),
         ],
-        child: AppView(),
+        child: Consumer<ThemeNotifier>(builder: (context, theme, _) {
+          return MaterialApp(
+            theme: theme.getTheme(),
+            navigatorKey: _navigatorKey,
+            routes: {
+              HomeScreen.routeName: (context) => HomeScreen(),
+              LoginScreen.routeName: (context) => LoginScreen(),
+              ResetPasswordScreen.routeName: (context) => ResetPasswordScreen(),
+              AddEditVemScreen.routeName: (context) => AddEditVemScreen(),
+              VemDetailsScreen.routeName: (context) => VemDetailsScreen(),
+              ProfileScreen.routeName: (context) => ProfileScreen(
+                    selectedIndex: 2,
+                  ),
+            },
+            builder: (context, child) {
+              return BlocListener<AuthenticationBloc, AuthenticationState>(
+                listener: (context, state) {
+                  switch (state.status) {
+                    case AuthenticationStatus.authenticated:
+                      _navigator.pushAndRemoveUntil<void>(
+                        HomeScreen.route(),
+                        (route) => false,
+                      );
+                      break;
+                    case AuthenticationStatus.unauthenticated:
+                      _navigator.pushAndRemoveUntil<void>(
+                        LoginScreen.route(),
+                        (route) => false,
+                      );
+                      break;
+                    default:
+                      break;
+                  }
+                },
+                child: child,
+              );
+            },
+            onGenerateRoute: (_) => SplashScreen.route(),
+          );
+        }),
       ),
     );
-  }
-}
-
-class AppView extends StatefulWidget {
-  @override
-  _AppViewState createState() => _AppViewState();
-}
-
-class _AppViewState extends State<AppView> {
-  final _navigatorKey = GlobalKey<NavigatorState>();
-
-  NavigatorState get _navigator => _navigatorKey.currentState;
-
-  @override
-  Widget build(BuildContext context) {
-    return Consumer<ThemeNotifier>(builder: (context, theme, _) {
-      return MaterialApp(
-        theme: theme.getTheme(),
-        navigatorKey: _navigatorKey,
-        routes: {
-          HomeScreen.routeName: (context) => HomeScreen(),
-          LoginScreen.routeName: (context) => LoginScreen(),
-          ResetPasswordScreen.routeName: (context) => ResetPasswordScreen(),
-          AddEditVemScreen.routeName: (context) => AddEditVemScreen(),
-          VemDetailsScreen.routeName: (context) => VemDetailsScreen(),
-          ProfileScreen.routeName: (context) => ProfileScreen(
-                selectedIndex: 2,
-              ),
-        },
-        builder: (context, child) {
-          return BlocListener<AuthenticationBloc, AuthenticationState>(
-            listener: (context, state) {
-              switch (state.status) {
-                case AuthenticationStatus.authenticated:
-                  _navigator.pushAndRemoveUntil<void>(
-                    HomeScreen.route(),
-                    (route) => false,
-                  );
-                  break;
-                case AuthenticationStatus.unauthenticated:
-                  _navigator.pushAndRemoveUntil<void>(
-                    LoginScreen.route(),
-                    (route) => false,
-                  );
-                  break;
-                default:
-                  break;
-              }
-            },
-            child: child,
-          );
-        },
-        onGenerateRoute: (_) => SplashScreen.route(),
-      );
-    });
   }
 }

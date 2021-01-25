@@ -28,7 +28,12 @@ class VemResponse {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is VemResponse && runtimeType == other.runtimeType;
+      other is VemResponse &&
+          runtimeType == other.runtimeType &&
+          userId == other.userId &&
+          vemId == other.vemId &&
+          answer == other.answer &&
+          id == other.id;
 
   VemResponseEntity toEntity() {
     return VemResponseEntity(id, userId, vemId, answer: answer);

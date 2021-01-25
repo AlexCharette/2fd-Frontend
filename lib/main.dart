@@ -14,11 +14,11 @@ import 'app.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  Bloc.observer = SimpleBlocObserver();
   await Firebase.initializeApp();
   // FirebaseMessaging.onBackgroundMessage(
   //   (message) => _firebaseMessagingBackgroundHandler(message),
   // );
+  Bloc.observer = SimpleBlocObserver();
   runApp(ChangeNotifierProvider<ThemeNotifier>(
     create: (_) => ThemeNotifier(),
     child: App(

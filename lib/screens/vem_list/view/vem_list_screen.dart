@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -27,17 +26,17 @@ class VemList extends StatelessWidget {
           );
         } else if (vemsState is VemsLoaded &&
             responsesState is UserResponsesLoaded) {
-          List<Vem> vems = vemsState.vems;
-          List<VemResponse> vemResponses = responsesState.vemResponses;
-          if (vems.length > 0) {
+          final vems = vemsState.vems;
+          final vemResponses = responsesState.vemResponses;
+          if (vems.isNotEmpty) {
             return ListView.separated(
               separatorBuilder: (context, index) => Divider(
                 color: Theme.of(context).primaryColor,
               ),
               itemCount: vems.length,
               itemBuilder: (context, index) {
-                Vem vem = vems[index];
-                VemResponse response = vemResponses
+                final vem = vems[index];
+                final response = vemResponses
                         .where((response) => response.vemId == vem.id)
                         .isNotEmpty
                     ? vemResponses
@@ -78,14 +77,15 @@ class VemList extends StatelessWidget {
                             currentResponse: response,
                           ),
                         );
-                        if (response == null && answer == null) {
+                        if (response == null || answer == null) {
                           answer = 'seen';
                         }
                         if (response.answer != answer) {
                           BlocProvider.of<VemResponsesBloc>(context).add(
                             response != null
                                 ? UpdateVemResponse(
-                                    response.copyWith(answer: answer))
+                                    response.copyWith(answer: answer),
+                                  )
                                 : AddVemResponse(
                                     VemResponse(
                                       FirebaseAuth.instance.currentUser?.uid,
@@ -107,7 +107,8 @@ class VemList extends StatelessWidget {
                       // else popup saying it's full
                       final snackBar = SnackBar(
                         content: Text(
-                            'Maximum attendance for this VEM has been reached.'),
+                          'Maximum attendance for this VEM has been reached.',
+                        ),
                       );
                       Scaffold.of(context).showSnackBar(snackBar);
                     }
@@ -125,8 +126,10 @@ class VemList extends StatelessWidget {
               ),
             );
           } else {
-            assert(true,
-                'This should NEVER EVER happen... How the fuck are we in the negatives');
+            assert(
+              true,
+              'This should NEVER EVER happen... How the fuck are we in the negatives',
+            );
             return _ErrorDialog();
           }
         } else {
