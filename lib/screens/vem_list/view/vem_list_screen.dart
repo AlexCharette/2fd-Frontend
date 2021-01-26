@@ -19,6 +19,7 @@ class VemList extends StatelessWidget {
       builder: (context) {
         final vemsState = context.watch<VemsBloc>().state;
         final responsesState = context.watch<VemResponsesBloc>().state;
+        final userState = context.read<UsersBloc>().state;
         if (vemsState is VemsLoading &&
             responsesState is UserResponsesLoading) {
           return Center(
@@ -28,6 +29,7 @@ class VemList extends StatelessWidget {
             responsesState is UserResponsesLoaded) {
           final vems = vemsState.vems;
           final vemResponses = responsesState.vemResponses;
+          final currentUser = (userState as CurrentUserLoaded).currentUser;
           if (vems.isNotEmpty) {
             return ListView.separated(
               separatorBuilder: (context, index) => Divider(
@@ -88,8 +90,10 @@ class VemList extends StatelessWidget {
                                   )
                                 : AddVemResponse(
                                     VemResponse(
-                                      FirebaseAuth.instance.currentUser?.uid,
+                                      currentUser.id,
+                                      currentUser.initials,
                                       vem.id,
+                                      currentUser.detId,
                                       answer,
                                     ),
                                   ),

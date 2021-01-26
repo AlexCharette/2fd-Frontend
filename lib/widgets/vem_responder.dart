@@ -22,13 +22,17 @@ class VemResponder extends Dialog {
   }
 
   void _submitResponse(BuildContext context, String answer) {
+    final userState = context.read<UsersBloc>().state;
+    final currentUser = (userState as CurrentUserLoaded).currentUser;
     BlocProvider.of<VemResponsesBloc>(context).add(
       currentResponse != null
           ? UpdateVemResponse(currentResponse.copyWith(answer: answer))
           : AddVemResponse(
               VemResponse(
-                FirebaseAuth.instance.currentUser?.uid,
+                currentUser.id,
+                currentUser.initials,
                 vemId,
+                currentUser.detId,
                 answer,
               ),
             ),

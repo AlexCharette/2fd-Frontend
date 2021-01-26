@@ -35,6 +35,8 @@ class UserResponsesLoaded extends VemResponsesState {
   String toString() => 'UserResponsesLoaded { vemResponses: $vemResponses }';
 }
 
+class ResponsesForVemLoading extends VemResponsesState {}
+
 class ResponsesForVemLoaded extends VemResponsesState {
   final List<VemResponse> vemResponses;
   final String vemId;

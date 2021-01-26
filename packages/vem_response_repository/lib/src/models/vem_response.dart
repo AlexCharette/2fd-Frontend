@@ -6,16 +6,28 @@ import '../entities/entities.dart';
 class VemResponse {
   final String id;
   final String userId;
+  final String userInitials;
   final String vemId;
+  final String detName;
   final String answer;
 
-  VemResponse(this.userId, this.vemId, this.answer, {String id}) : this.id = id;
+  VemResponse(
+      this.userId, this.userInitials, this.vemId, this.detName, this.answer,
+      {String id})
+      : this.id = id;
 
   VemResponse copyWith(
-      {String id, String userId, String vemId, String answer}) {
+      {String id,
+      String userId,
+      String userInitials,
+      String vemId,
+      String detName,
+      String answer}) {
     return VemResponse(
       userId ?? this.userId,
+      userInitials ?? this.userInitials,
       vemId ?? this.vemId,
+      detName ?? this.detName,
       answer ?? this.answer,
       id: id ?? this.id,
     );
@@ -23,7 +35,12 @@ class VemResponse {
 
   @override
   int get hashCode =>
-      id.hashCode ^ userId.hashCode ^ vemId.hashCode ^ answer.hashCode;
+      id.hashCode ^
+      userId.hashCode ^
+      userInitials.hashCode ^
+      vemId.hashCode ^
+      detName.hashCode ^
+      answer.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -31,18 +48,23 @@ class VemResponse {
       other is VemResponse &&
           runtimeType == other.runtimeType &&
           userId == other.userId &&
+          userInitials == other.userInitials &&
           vemId == other.vemId &&
+          detName == other.detName &&
           answer == other.answer &&
           id == other.id;
 
   VemResponseEntity toEntity() {
-    return VemResponseEntity(id, userId, vemId, answer: answer);
+    return VemResponseEntity(id, userId, userInitials, vemId, detName,
+        answer: answer);
   }
 
   static VemResponse fromEntity(VemResponseEntity entity) {
     return VemResponse(
       entity.userId,
+      entity.userInitials,
       entity.vemId,
+      entity.detName,
       entity.answer,
       id: entity.id,
     );

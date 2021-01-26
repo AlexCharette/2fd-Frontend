@@ -38,13 +38,17 @@ class _VemDetailsScreenState extends State<VemDetailsScreen> {
 
   void _submitResponse(BuildContext context, String answer) {
     setState(() => _answer = answer);
+    final userState = context.read<UsersBloc>().state;
+    final currentUser = (userState as CurrentUserLoaded).currentUser;
     BlocProvider.of<VemResponsesBloc>(context).add(
       _response != null
           ? UpdateVemResponse(_response.copyWith(answer: answer))
           : AddVemResponse(
               VemResponse(
-                FirebaseAuth.instance.currentUser?.uid,
+                currentUser.id,
+                currentUser.initials,
                 _vem.id,
+                currentUser.detId,
                 answer,
               ),
             ),
