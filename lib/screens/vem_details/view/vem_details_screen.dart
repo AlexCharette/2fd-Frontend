@@ -30,7 +30,7 @@ class _VemDetailsScreenState extends State<VemDetailsScreen> {
   String _answer;
 
   Future<bool> _onPop(BuildContext context) async {
-    BlocProvider.of<VemResponsesBloc>(context)
+    BlocProvider.of<UserResponsesBloc>(context)
         .add(LoadResponsesForUser(FirebaseAuth.instance.currentUser.uid));
     Navigator.of(context).pop(true);
     return true;
@@ -60,7 +60,7 @@ class _VemDetailsScreenState extends State<VemDetailsScreen> {
     ThemeData theme = Theme.of(context);
     return Builder(builder: (context) {
       final vemsState = context.watch<VemsBloc>().state;
-      final responsesState = context.watch<VemResponsesBloc>().state;
+      final userResponsesState = context.watch<UserResponsesBloc>().state;
       final usersState = context.read<UsersBloc>().state;
 
       final VemDetailsScreenArguments args = ModalRoute.of(context)
@@ -71,8 +71,8 @@ class _VemDetailsScreenState extends State<VemDetailsScreen> {
       final vem = (vemsState as VemsLoaded)
           .vems
           .firstWhere((vem) => vem.id == args.vemId, orElse: () => null);
-      final response = (responsesState as UserResponsesLoaded)
-          .vemResponses
+      final response = (userResponsesState as UserResponsesLoaded)
+          .responses
           .firstWhere((response) => response.id == args.currentResponseId,
               orElse: () => null);
       if (response != null) {

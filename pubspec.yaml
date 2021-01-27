@@ -30,6 +30,7 @@ dependencies:
   flutter_local_notifications: ^3.0.3
   cloud_firestore: ^0.16.0
   cupertino_icons: ^1.0.0
+  email_validator: ^1.0.6
   equatable: ^1.2.5
   firebase_auth: ^0.20.0+1
   firebase_core: ^0.7.0
@@ -40,10 +41,10 @@ dependencies:
   intl: ^0.16.1
   meta: ^1.1.6
   path_provider: ^1.6.5
-  streaming_shared_preferences: ^1.0.1
   provider: ^4.3.2+3
-  email_validator: ^1.0.6
+  rxdart: ^0.25.0
   shared_preferences: ^0.5.12+4
+  streaming_shared_preferences: ^1.0.1
   vem_repository:
     path: packages/vem_repository
   vem_response_repository:

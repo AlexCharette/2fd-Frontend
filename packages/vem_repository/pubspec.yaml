@@ -11,5 +11,5 @@ dependencies:
   cloud_firestore: ^0.16.0
   equatable: ^1.0.0
   firebase_core: ^0.7.0
-  rxdart: ^0.23.0
+  rxdart: ^0.25.0
   intl: ^0.16.1

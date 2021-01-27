@@ -37,7 +37,7 @@ class VemResponder extends Dialog {
               ),
             ),
     );
-    BlocProvider.of<VemResponsesBloc>(context).add(
+    BlocProvider.of<UserResponsesBloc>(context).add(
       LoadResponsesForUser(FirebaseAuth.instance.currentUser.uid),
     );
     Navigator.pop(context);

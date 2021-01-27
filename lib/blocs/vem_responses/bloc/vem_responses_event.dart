@@ -9,18 +9,6 @@ abstract class VemResponsesEvent extends Equatable {
 
 class LoadVemResponses extends VemResponsesEvent {}
 
-class LoadResponsesForUser extends VemResponsesEvent {
-  final String userId;
-
-  const LoadResponsesForUser(this.userId);
-
-  @override
-  List<Object> get props => [userId];
-
-  @override
-  String toString() => 'LoadResponsesForUser { responsesForUser: $userId }';
-}
-
 class LoadResponsesForVem extends VemResponsesEvent {
   final String vemId;
 
@@ -65,25 +53,22 @@ class VemResponsesUpdated extends VemResponsesEvent {
 
   @override
   List<Object> get props => [vemResponses];
+
+  @override
+  String toString() =>
+      'VemResponsesUpdated { updatedVemResponses: $vemResponses }';
 }
 
-class UserResponsesUpdated extends VemResponsesEvent {
+class ResponsesForVemUpdated extends VemResponsesEvent {
   final List<VemResponse> vemResponses;
+  final String vemId;
 
-  const UserResponsesUpdated(this.vemResponses);
-
-  @override
-  List<Object> get props => [vemResponses];
-}
-
-class AddResponseChange extends VemResponsesEvent {
-  final ResponseChange responseChange;
-
-  const AddResponseChange(this.responseChange);
+  const ResponsesForVemUpdated(this.vemResponses, this.vemId);
 
   @override
-  List<Object> get props => [responseChange];
+  List<Object> get props => [vemResponses, vemId];
 
   @override
-  String toString() => 'AddResponseChange { responseChange: $responseChange }';
+  String toString() =>
+      'ResponsesForVemUpdated { updatedVemResponses: $vemResponses, vemId: $vemId }';
 }

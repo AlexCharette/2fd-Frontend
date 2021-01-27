@@ -102,12 +102,17 @@ class _AppState extends State<App> {
                 UsersBloc(userRepository: widget.userRepository)
                   ..add(LoadCurrentUser()),
           ),
-          BlocProvider<VemResponsesBloc>(
-            create: (context) => VemResponsesBloc(
+          BlocProvider<UserResponsesBloc>(
+            create: (context) => UserResponsesBloc(
                 vemResponseRepository: widget.vemResponseRepository)
               ..add(
                 LoadResponsesForUser(FirebaseAuth.instance.currentUser.uid),
               ),
+          ),
+          BlocProvider<VemResponsesBloc>(
+            create: (context) => VemResponsesBloc(
+              vemResponseRepository: widget.vemResponseRepository,
+            ),
           ),
           BlocProvider<VemsBloc>(
             create: (context) => VemsBloc(vemRepository: widget.vemRepository)
