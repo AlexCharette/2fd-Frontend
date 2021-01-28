@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:regimental_app/blocs/blocs.dart';
+import 'package:regimental_app/config/theme.dart';
 import 'package:vem_response_repository/vem_response_repository.dart'
     show VemResponse;
 
@@ -56,23 +57,30 @@ class VemResponses extends StatelessWidget {
   }
 
   Widget _responseIcon(String answer) {
+    IconData icon;
     switch (answer) {
       case 'yes':
-        return Icon(Icons.check_circle);
+        icon = Icons.check_circle;
         break;
       case 'no':
-        return Icon(Icons.cancel);
+        icon = Icons.cancel;
         break;
       case 'seen':
-        return Icon(Icons.remove_red_eye_rounded);
+        icon = Icons.remove_red_eye_rounded;
         break;
       default:
+        icon = Icons.error;
         break;
     }
+    return Icon(
+      icon,
+      color: AppColors.white,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
+    ThemeData theme = Theme.of(context);
     return BlocBuilder<VemResponsesBloc, VemResponsesState>(
       builder: (context, state) {
         if (state is ResponsesForVemLoading) {
@@ -82,7 +90,7 @@ class VemResponses extends StatelessWidget {
 
           if (responses == null || responses.isEmpty) {
             return Container(
-              child: Text('there are no responses, yo'),
+              child: Text('There are no responses to this VEM at the moment.'),
             );
           }
 
@@ -94,29 +102,54 @@ class VemResponses extends StatelessWidget {
             shrinkWrap: true,
             itemBuilder: (context, detIndex) {
               final detName = groupedResponses.keys.elementAt(detIndex);
-              return Container(
-                child: ListView.separated(
-                  separatorBuilder: (context, answerIndex) => Divider(
-                    color: Theme.of(context).primaryColor,
-                  ),
-                  // For each answer type
-                  itemCount: groupedResponses[detNames[detIndex]].length,
-                  shrinkWrap: true,
-                  itemBuilder: (context, answerIndex) {
-                    final answer = groupedResponses[detNames[detIndex]]
-                        .keys
-                        .elementAt(answerIndex);
-                    final initials =
-                        groupedResponses[detNames[detIndex]][answer].toString();
-                    return ListTile(
-                      key: Key('__det_answer_${detName}_$answer'),
-                      leading: _responseIcon(answer),
-                      subtitle: Text(
-                        '$answer : ${initials.substring(1, initials.length - 1)}',
+              return Stack(
+                overflow: Overflow.visible,
+                children: <Widget>[
+                  Positioned.fill(
+                    // top: 0,
+                    // left: MediaQuery.of(context).size.width / 2 -
+                    //     (22 * groupedResponses[detNames[detIndex]].length),
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: Text(
+                        detName.substring(0, 1).toUpperCase(),
+                        style: TextStyle(
+                          color: AppColors.white,
+                          fontSize: (50 +
+                                  (15 *
+                                      groupedResponses[detNames[detIndex]]
+                                          .length))
+                              .toDouble(),
+                          fontFamily: 'Cast Iron',
+                        ),
                       ),
-                    );
-                  },
-                ),
+                    ),
+                  ),
+                  ListView.separated(
+                    separatorBuilder: (context, answerIndex) => Divider(
+                      color: Theme.of(context).primaryColor,
+                    ),
+                    // For each answer type
+                    itemCount: groupedResponses[detNames[detIndex]].length,
+                    shrinkWrap: true,
+                    itemBuilder: (context, answerIndex) {
+                      final answer = groupedResponses[detNames[detIndex]]
+                          .keys
+                          .elementAt(answerIndex);
+                      final initials = groupedResponses[detNames[detIndex]]
+                              [answer]
+                          .toString();
+                      return ListTile(
+                        key: Key('__det_answer_${detName}_$answer'),
+                        leading: _responseIcon(answer),
+                        title: Text(
+                          '${initials.substring(1, initials.length - 1)}',
+                          style: TextStyle(color: AppColors.white),
+                        ),
+                      );
+                    },
+                  ),
+                ],
               );
             },
           );

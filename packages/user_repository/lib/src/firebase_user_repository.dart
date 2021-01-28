@@ -32,27 +32,31 @@ class FirebaseUserRepository implements UserRepository {
 
   @override
   Future<String> getUserId() async {
-    return _firebaseAuth.currentUser.uid;
+    return _firebaseAuth.currentUser?.uid;
   }
 
   @override
   Stream<User> currentUser() {
-    return userCollection
-        .doc(_firebaseAuth.currentUser.uid)
-        .snapshots()
-        .map((snapshot) {
-      UserEntity userEntity = UserEntity.fromSnapshot(snapshot);
-      switch (userEntity.accountType) {
-        case AccountType.normal:
-          return NormalMember.fromEntity(userEntity);
-        case AccountType.command:
-          return CommandMember.fromEntity(userEntity);
-        case AccountType.detCommand:
-          return DetCommandMember.fromEntity(userEntity);
-        default:
-          throw 'Invalid account type: ${userEntity.accountType}';
-      }
-    });
+    try {
+      return userCollection
+          .doc(_firebaseAuth.currentUser?.uid)
+          .snapshots()
+          .map((snapshot) {
+        UserEntity userEntity = UserEntity.fromSnapshot(snapshot);
+        switch (userEntity.accountType) {
+          case AccountType.normal:
+            return NormalMember.fromEntity(userEntity);
+          case AccountType.command:
+            return CommandMember.fromEntity(userEntity);
+          case AccountType.detCommand:
+            return DetCommandMember.fromEntity(userEntity);
+          default:
+            throw 'Invalid account type: ${userEntity.accountType}';
+        }
+      });
+    } catch (exception) {
+      print('Could not load current user: $exception');
+    }
   }
 
   @override

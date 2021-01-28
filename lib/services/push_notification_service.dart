@@ -70,10 +70,13 @@ class PushNotificationService {
   }
 
   Future<void> saveTokenToDatabase(String token) async {
-    String userId = FirebaseAuth.instance.currentUser.uid;
-
-    await FirebaseFirestore.instance.collection('users').doc(userId).update({
-      'tokens': FieldValue.arrayUnion([token]),
-    });
+    String userId = FirebaseAuth.instance.currentUser?.uid;
+    try {
+      await FirebaseFirestore.instance.collection('users').doc(userId).update({
+        'tokens': FieldValue.arrayUnion([token]),
+      });
+    } catch (exception) {
+      print('Could not save token: $exception');
+    }
   }
 }

@@ -1,5 +1,3 @@
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:regimental_app/config/routes.dart';
 

@@ -27,10 +27,11 @@ class VemList extends StatelessWidget {
             child: CircularProgressIndicator(),
           );
         } else if (vemsState is VemsLoaded &&
-            userResponsesState is UserResponsesLoaded) {
+            userResponsesState is UserResponsesLoaded &&
+            userState is CurrentUserLoaded) {
           final vems = vemsState.vems;
           final vemResponses = userResponsesState.responses;
-          final currentUser = (userState as CurrentUserLoaded).currentUser;
+          final currentUser = userState.currentUser;
           if (vems.isNotEmpty) {
             return ListView.separated(
               separatorBuilder: (context, index) => Divider(
