@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -6,7 +5,7 @@ import 'package:regimental_app/blocs/blocs.dart';
 import 'package:regimental_app/screens/vem_details/view/view.dart';
 import 'package:regimental_app/widgets/widgets.dart';
 import 'package:regimental_app/screens/screens.dart';
-import 'package:vem_repository/vem_repository.dart' show Vem;
+import 'package:user_repository/user_repository.dart';
 import 'package:vem_response_repository/vem_response_repository.dart'
     show VemResponse;
 
@@ -18,16 +17,19 @@ class VemList extends StatelessWidget {
     return Builder(
       builder: (context) {
         final vemsState = context.watch<VemsBloc>().state;
-        final responsesState = context.watch<VemResponsesBloc>().state;
+        final userResponsesState = context.watch<UserResponsesBloc>().state;
+        final userState = context.read<UsersBloc>().state;
         if (vemsState is VemsLoading &&
-            responsesState is UserResponsesLoading) {
+            userResponsesState is UserResponsesLoading) {
           return Center(
             child: CircularProgressIndicator(),
           );
         } else if (vemsState is VemsLoaded &&
-            responsesState is UserResponsesLoaded) {
+            userResponsesState is UserResponsesLoaded &&
+            userState is CurrentUserLoaded) {
           final vems = vemsState.vems;
-          final vemResponses = responsesState.vemResponses;
+          final vemResponses = userResponsesState.responses;
+          final currentUser = userState.currentUser;
           if (vems.isNotEmpty) {
             return ListView.separated(
               separatorBuilder: (context, index) => Divider(
@@ -51,6 +53,11 @@ class VemList extends StatelessWidget {
                       ? true
                       : false,
                   onTap: () async {
+                    if (!(currentUser is NormalMember)) {
+                      BlocProvider.of<VemResponsesBloc>(context).add(
+                        LoadResponsesForVem(vem.id),
+                      );
+                    }
                     // go to vem details screen
                     Navigator.pushNamed(
                       context,
@@ -77,10 +84,11 @@ class VemList extends StatelessWidget {
                             currentResponse: response,
                           ),
                         );
+                        // TODO FIX ALL OF THIS
                         if (response == null || answer == null) {
                           answer = 'seen';
                         }
-                        if (response.answer != answer) {
+                        if (response != null && response.answer != answer) {
                           BlocProvider.of<VemResponsesBloc>(context).add(
                             response != null
                                 ? UpdateVemResponse(
@@ -88,8 +96,10 @@ class VemList extends StatelessWidget {
                                   )
                                 : AddVemResponse(
                                     VemResponse(
-                                      FirebaseAuth.instance.currentUser?.uid,
+                                      currentUser.id,
+                                      currentUser.initials,
                                       vem.id,
+                                      currentUser.detId,
                                       answer,
                                     ),
                                   ),

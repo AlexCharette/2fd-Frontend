@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:regimental_app/blocs/blocs.dart';
 import 'package:regimental_app/config/routes.dart';
 import 'package:regimental_app/screens/profile/profile.dart';
 import 'package:regimental_app/screens/request_list/request_list.dart';
+import 'package:regimental_app/screens/screens.dart';
 import 'package:regimental_app/screens/vem_list/vem_list.dart';
 import 'package:regimental_app/widgets/widgets.dart';
+import 'package:user_repository/user_repository.dart';
+import 'package:vem_repository/vem_repository.dart' show Vem;
 
 class HomeScreen extends StatefulWidget {
   static String routeName = Routes.home;
@@ -41,32 +46,70 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return CustomScaffold(
-      appBarTitle: _appBarTitle,
-      pageController: _pageController,
-      body: PageView(
-        onPageChanged: (index) =>
-            setState(() => _appBarTitle = _getAppBarTitle()),
-        controller: _pageController,
-        children: <Widget>[
-          VemList(),
-          RequestList(),
-          ProfileScreen(),
-        ],
-      ),
-      floatingActionButtons: (_pageController.positions.isNotEmpty &&
-              _pageController.page.round() != 2)
-          ? FloatingActionButton(
-              child: Icon(
-                Icons.add,
-                color: Theme.of(context).primaryColor,
-                size: 40,
-              ),
-              onPressed: () {
-                //TODO: display other floating action buttons
-              },
-            )
-          : null,
+    return Builder(
+      builder: (context) {
+        final userState = context.read<UsersBloc>().state;
+        final canAddVems =
+            !((userState as CurrentUserLoaded).currentUser is NormalMember);
+        return CustomScaffold(
+          appBarTitle: _appBarTitle,
+          pageController: _pageController,
+          body: PageView(
+            onPageChanged: (index) =>
+                setState(() => _appBarTitle = _getAppBarTitle()),
+            controller: _pageController,
+            children: <Widget>[
+              VemList(),
+              RequestList(),
+              ProfileScreen(),
+            ],
+          ),
+          floatingActionButtons: (_pageController.positions.isNotEmpty &&
+                  _pageController.page.round() != 2 &&
+                  canAddVems)
+              ? FloatingActionButton(
+                  child: Icon(
+                    Icons.add,
+                    color: Theme.of(context).primaryColor,
+                    size: 40,
+                  ),
+                  onPressed: () {
+                    Navigator.pushNamed(
+                      context,
+                      AddEditVemScreen.routeName,
+                      arguments: AddEditVemScreenArguments(
+                        null,
+                        (
+                          name,
+                          startDate,
+                          endDate,
+                          lockDate,
+                          responseType,
+                          description,
+                          minParticipants,
+                          maxParticipants,
+                        ) {
+                          BlocProvider.of<VemsBloc>(context).add(AddVem(
+                            Vem(
+                              name,
+                              responseType,
+                              startDate: startDate,
+                              endDate: endDate,
+                              lockDate: lockDate,
+                              description: description,
+                              minParticipants: minParticipants,
+                              maxParticipants: maxParticipants,
+                            ),
+                          ));
+                        },
+                        false,
+                      ),
+                    );
+                  },
+                )
+              : null,
+        );
+      },
     );
   }
 }

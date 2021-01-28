@@ -9,8 +9,6 @@ abstract class VemResponsesState extends Equatable {
 
 class VemResponsesLoading extends VemResponsesState {}
 
-class UserResponsesLoading extends VemResponsesState {}
-
 class VemResponsesLoaded extends VemResponsesState {
   final List<VemResponse> vemResponses;
 
@@ -23,17 +21,7 @@ class VemResponsesLoaded extends VemResponsesState {
   String toString() => 'VemResponsesLoaded { vemResponses: $vemResponses }';
 }
 
-class UserResponsesLoaded extends VemResponsesState {
-  final List<VemResponse> vemResponses;
-
-  const UserResponsesLoaded(this.vemResponses);
-
-  @override
-  List<Object> get props => [vemResponses];
-
-  @override
-  String toString() => 'UserResponsesLoaded { vemResponses: $vemResponses }';
-}
+class ResponsesForVemLoading extends VemResponsesState {}
 
 class ResponsesForVemLoaded extends VemResponsesState {
   final List<VemResponse> vemResponses;

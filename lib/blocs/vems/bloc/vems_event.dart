@@ -53,5 +53,3 @@ class VemsUpdated extends VemsEvent {
   @override
   List<Object> get props => [vems];
 }
-
-class VemsRefreshRequested extends VemsEvent {}

@@ -102,12 +102,17 @@ class _AppState extends State<App> {
                 UsersBloc(userRepository: widget.userRepository)
                   ..add(LoadCurrentUser()),
           ),
+          BlocProvider<UserResponsesBloc>(
+              create: (context) => UserResponsesBloc(
+                  vemResponseRepository: widget.vemResponseRepository)
+              // ..add(
+              //   LoadResponsesForUser(FirebaseAuth.instance.currentUser.uid),
+              // ),
+              ),
           BlocProvider<VemResponsesBloc>(
             create: (context) => VemResponsesBloc(
-                vemResponseRepository: widget.vemResponseRepository)
-              ..add(
-                LoadResponsesForUser(FirebaseAuth.instance.currentUser.uid),
-              ),
+              vemResponseRepository: widget.vemResponseRepository,
+            ),
           ),
           BlocProvider<VemsBloc>(
             create: (context) => VemsBloc(vemRepository: widget.vemRepository)
@@ -133,6 +138,11 @@ class _AppState extends State<App> {
                 listener: (context, state) {
                   switch (state.status) {
                     case AuthenticationStatus.authenticated:
+                      BlocProvider.of<UserResponsesBloc>(context).add(
+                        LoadResponsesForUser(
+                          FirebaseAuth.instance.currentUser?.uid,
+                        ),
+                      );
                       _navigator.pushAndRemoveUntil<void>(
                         HomeScreen.route(),
                         (route) => false,

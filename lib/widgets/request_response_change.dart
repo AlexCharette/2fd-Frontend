@@ -31,7 +31,7 @@ class RequestResponseChange extends Dialog {
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
                     Hero(
-                      tag: '${currentResponse.id}__heroTag',
+                      tag: '${currentResponse.id}__heroTag', // TODO fix
                       child: Container(
                         width: MediaQuery.of(context).size.width,
                         child: Text(
@@ -52,7 +52,7 @@ class RequestResponseChange extends Dialog {
 
                       onPressed: (_reason.isNotEmpty)
                           ? () {
-                              BlocProvider.of<VemResponsesBloc>(context).add(
+                              BlocProvider.of<UserResponsesBloc>(context).add(
                                 AddResponseChange(
                                   ResponseChange(
                                     detId,
