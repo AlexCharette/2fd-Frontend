@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,7 +6,6 @@ import 'package:regimental_app/screens/vem_details/view/view.dart';
 import 'package:regimental_app/widgets/widgets.dart';
 import 'package:regimental_app/screens/screens.dart';
 import 'package:user_repository/user_repository.dart';
-import 'package:vem_repository/vem_repository.dart' show Vem;
 import 'package:vem_response_repository/vem_response_repository.dart'
     show VemResponse;
 
