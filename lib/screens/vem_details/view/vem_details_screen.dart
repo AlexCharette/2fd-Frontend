@@ -150,42 +150,7 @@ class _VemDetailsScreenState extends State<VemDetailsScreen> {
                   : Container(),
               Padding(
                 padding: const EdgeInsets.all(8),
-                child: _vem.isFull()
-                    ? Container()
-                    : _vem.isLocked()
-                        ? OutlinedButton(
-                            onPressed: () {
-                              showDialog(
-                                context: context,
-                                builder: (context) => RequestResponseChange(
-                                  currentResponse: _response,
-                                ),
-                              );
-                            },
-                            child: Text('I want to change my answer'),
-                          )
-                        : // request response
-                        ButtonBar(
-                            alignment: MainAxisAlignment.spaceEvenly,
-                            children: <Widget>[
-                              RaisedButton(
-                                color: AppColors.buttonGreen,
-                                onPressed:
-                                    (_response == null || _answer != 'yes')
-                                        ? () => _submitResponse(context, 'yes')
-                                        : null,
-                                child: Text('I\'ll be there'),
-                              ),
-                              RaisedButton(
-                                color: AppColors.buttonRed,
-                                onPressed:
-                                    (_response == null || _answer != 'no')
-                                        ? () => _submitResponse(context, 'no')
-                                        : null,
-                                child: Text('I won\'t be there'),
-                              ),
-                            ],
-                          ),
+                child: _responseButtons(),
               ),
               !(currentUser is NormalMember)
                   ? VemResponses(vemId: vem.id)
@@ -248,5 +213,91 @@ class _VemDetailsScreenState extends State<VemDetailsScreen> {
         ),
       );
     });
+  }
+
+  Widget _responseButtons() {
+    final snackbar = SnackBar(
+      content: Text(
+        'Maximum attendance for this VEM has been reached.',
+      ),
+    );
+    switch (_response.answer) {
+      case 'seen': // no answer
+        if (_vem.isFull()) {
+          Scaffold.of(context).showSnackBar(snackbar);
+          return Text('This VEM is full');
+        } else {
+          if (_vem.isLocked()) {
+            // TODO return request change buttons
+            return _requestChangeButton();
+          } else {
+            // TODO return choice buttons
+            return _answerButtons();
+          }
+        }
+        break;
+      case 'yes':
+        if (_vem.isLocked()) {
+          // TODO return request change button
+          return _requestChangeButton();
+        } else {
+          // TODO return choice buttons
+          return _answerButtons();
+        }
+        break;
+      case 'no':
+        if (_vem.isFull()) {
+          Scaffold.of(context).showSnackBar(snackbar);
+          return Text('This VEM is full');
+        } else {
+          if (_vem.isLocked()) {
+            // TODO return request change button
+            return _requestChangeButton();
+          } else {
+            // TODO return choice buttons
+            return _answerButtons();
+          }
+        }
+        break;
+      default:
+        return Text('An error occured');
+        break;
+    }
+  }
+
+  Widget _answerButtons() {
+    return ButtonBar(
+      alignment: MainAxisAlignment.spaceEvenly,
+      children: <Widget>[
+        RaisedButton(
+          color: AppColors.buttonGreen,
+          onPressed: (_response == null || _answer != 'yes')
+              ? () => _submitResponse(context, 'yes')
+              : null,
+          child: Text('I\'ll be there'),
+        ),
+        RaisedButton(
+          color: AppColors.buttonRed,
+          onPressed: (_response == null || _answer != 'no')
+              ? () => _submitResponse(context, 'no')
+              : null,
+          child: Text('I won\'t be there'),
+        ),
+      ],
+    );
+  }
+
+  Widget _requestChangeButton() {
+    return OutlinedButton(
+      onPressed: () {
+        showDialog(
+          context: context,
+          builder: (context) => RequestResponseChange(
+            currentResponse: _response,
+          ),
+        );
+      },
+      child: Text('I want to change my answer'),
+    );
   }
 }

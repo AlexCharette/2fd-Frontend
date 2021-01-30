@@ -14,6 +14,11 @@ class VemList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final snackbar = SnackBar(
+      content: Text(
+        'Maximum attendance for this VEM has been reached.',
+      ),
+    );
     return Builder(
       builder: (context) {
         final vemsState = context.watch<VemsBloc>().state;
@@ -38,7 +43,7 @@ class VemList extends StatelessWidget {
               itemCount: vems.length,
               itemBuilder: (context, index) {
                 final vem = vems[index];
-                final response = vemResponses
+                VemResponse response = vemResponses
                         .where((response) => response.vemId == vem.id)
                         .isNotEmpty
                     ? vemResponses
@@ -53,6 +58,18 @@ class VemList extends StatelessWidget {
                       ? true
                       : false,
                   onTap: () async {
+                    if (response == null) {
+                      response = VemResponse(
+                        currentUser.id,
+                        currentUser.initials,
+                        vem.id,
+                        currentUser.detId,
+                        'seen',
+                      );
+                      BlocProvider.of<UserResponsesBloc>(context).add(
+                        AddUserResponse(response),
+                      );
+                    }
                     if (!(currentUser is NormalMember)) {
                       BlocProvider.of<VemResponsesBloc>(context).add(
                         LoadResponsesForVem(vem.id),
@@ -65,62 +82,100 @@ class VemList extends StatelessWidget {
                       arguments: VemDetailsScreenArguments(
                         vemId: vem.id,
                         currentResponseId:
-                            (response != null) ? response.id : null,
+                            (response.id != null) ? response.id : null,
                       ),
                     );
                   },
                   onLongPress: () async {
-                    // Load vem responses
-                    // if it isn't full
-                    if (!vem.isFull()) {
-                      // If the lock date has not passed
-                      if (!vem.isLocked()) {
-                        // open vem response widget
-                        String answer = await showDialog(
-                          context: context,
-                          builder: (context) => VemResponder(
-                            vemId: vem.id,
-                            vemName: vem.name,
-                            currentResponse: response,
-                          ),
-                        );
-                        // TODO FIX ALL OF THIS
-                        if (response == null || answer == null) {
-                          answer = 'seen';
+                    String newAnswer = '';
+                    if (response == null) {
+                      response = VemResponse(
+                        currentUser.id,
+                        currentUser.initials,
+                        vem.id,
+                        currentUser.detId,
+                        'seen',
+                      );
+                      BlocProvider.of<UserResponsesBloc>(context).add(
+                        AddUserResponse(response),
+                      );
+                    }
+                    switch (response.answer) {
+                      case 'seen': // no answer
+                        if (vem.isFull()) {
+                          Scaffold.of(context).showSnackBar(snackbar);
+                        } else {
+                          if (vem.isLocked()) {
+                            showDialog(
+                              context: context,
+                              builder: (context) => RequestResponseChange(
+                                currentResponse: response,
+                              ),
+                            );
+                          } else {
+                            newAnswer = await showDialog(
+                              context: context,
+                              builder: (context) => VemResponder(
+                                vemId: vem.id,
+                                vemName: vem.name,
+                                currentResponse: response,
+                              ),
+                            );
+                          }
                         }
-                        if (response != null && response.answer != answer) {
-                          BlocProvider.of<VemResponsesBloc>(context).add(
-                            response != null
-                                ? UpdateVemResponse(
-                                    response.copyWith(answer: answer),
-                                  )
-                                : AddVemResponse(
-                                    VemResponse(
-                                      currentUser.id,
-                                      currentUser.initials,
-                                      vem.id,
-                                      currentUser.detId,
-                                      answer,
-                                    ),
-                                  ),
+                        break;
+                      case 'yes':
+                        if (vem.isLocked()) {
+                          showDialog(
+                            context: context,
+                            builder: (context) => RequestResponseChange(
+                              currentResponse: response,
+                            ),
+                          );
+                        } else {
+                          newAnswer = await showDialog(
+                            context: context,
+                            builder: (context) => VemResponder(
+                              vemId: vem.id,
+                              vemName: vem.name,
+                              currentResponse: response,
+                            ),
                           );
                         }
-                      } else {
-                        showDialog(
-                          context: context,
-                          builder: (context) => RequestResponseChange(
-                            currentResponse: response,
-                          ),
-                        );
-                      }
-                    } else {
-                      // else popup saying it's full
-                      final snackBar = SnackBar(
-                        content: Text(
-                          'Maximum attendance for this VEM has been reached.',
+                        break;
+                      case 'no':
+                        if (vem.isFull()) {
+                          Scaffold.of(context).showSnackBar(snackbar);
+                        } else {
+                          if (vem.isLocked()) {
+                            showDialog(
+                              context: context,
+                              builder: (context) => RequestResponseChange(
+                                currentResponse: response,
+                              ),
+                            );
+                          } else {
+                            newAnswer = await showDialog(
+                              context: context,
+                              builder: (context) => VemResponder(
+                                vemId: vem.id,
+                                vemName: vem.name,
+                                currentResponse: response,
+                              ),
+                            );
+                          }
+                        }
+                        break;
+                      default:
+                        break;
+                    }
+                    // If the answer changed,
+                    if (newAnswer.isNotEmpty && response.answer != newAnswer) {
+                      BlocProvider.of<UserResponsesBloc>(context).add(
+                        UpdateUserResponse(
+                          response.copyWith(answer: newAnswer),
                         ),
                       );
-                      Scaffold.of(context).showSnackBar(snackBar);
                     }
                   },
                 );
