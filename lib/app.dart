@@ -3,10 +3,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:provider/provider.dart';
 import 'package:regimental_app/blocs/blocs.dart';
 import 'package:regimental_app/config/theme.dart';
+import 'package:regimental_app/generated/l10n.dart';
 import 'package:regimental_app/screens/screens.dart';
 import 'package:regimental_app/services/push_notification_service.dart';
 import 'package:user_repository/user_repository.dart';
@@ -37,6 +39,13 @@ class _AppState extends State<App> {
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
   final _navigatorKey = GlobalKey<NavigatorState>();
+  final _localizationsDelegates = [
+    S.delegate,
+    GlobalMaterialLocalizations.delegate,
+    GlobalWidgetsLocalizations.delegate,
+    GlobalCupertinoLocalizations.delegate,
+  ];
+  final _supportedLocales = S.delegate.supportedLocales;
 
   NavigatorState get _navigator => _navigatorKey.currentState;
 
