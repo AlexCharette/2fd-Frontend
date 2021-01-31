@@ -2,6 +2,7 @@
   "@@locale": "en_CA",
   "buttonAnswerNo": "I won't be there",
   "buttonAnswerYes": "I'll be there",
+  "buttonCancelChanges": "Cancel changes",
   "buttonForgotPassword": "I forgot my password",
   "buttonSubmit": "Submit",
   "errorAuthenticationSubmission": "Authentication failure",
@@ -13,7 +14,10 @@
   "textFieldLabelVemStartDate": "Start",
   "textFieldValidatorVemName": "Please enter a name for this VEM",
   "titleLogin": "Regimental Portal",
+  "titleLogout": "Log me out",
   "titleNewVem": "New VEM",
+  "titleProfile": "My Profile",
   "titleRegimentName": "2FD",
-  "titleRequestResponseChange": "I want to change my response"
+  "titleRequestResponseChange": "I want to change my response",
+  "titleVemList": "VEMs"
 }

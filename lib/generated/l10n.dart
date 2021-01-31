@@ -55,6 +55,16 @@ class S {
     );
   }
 
+  /// `Annuler les changements`
+  String get buttonCancelChanges {
+    return Intl.message(
+      'Annuler les changements',
+      name: 'buttonCancelChanges',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `J'ai oublié mon mot de passe`
   String get buttonForgotPassword {
     return Intl.message(
@@ -165,11 +175,31 @@ class S {
     );
   }
 
+  /// `Me déconnecter`
+  String get titleLogout {
+    return Intl.message(
+      'Me déconnecter',
+      name: 'titleLogout',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Nouvelle VEM`
   String get titleNewVem {
     return Intl.message(
       'Nouvelle VEM',
       name: 'titleNewVem',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Mon Profile`
+  String get titleProfile {
+    return Intl.message(
+      'Mon Profile',
+      name: 'titleProfile',
       desc: '',
       args: [],
     );
@@ -190,6 +220,16 @@ class S {
     return Intl.message(
       'Je désire changer ma réponse',
       name: 'titleRequestResponseChange',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `VEMs`
+  String get titleVemList {
+    return Intl.message(
+      'VEMs',
+      name: 'titleVemList',
       desc: '',
       args: [],
     );

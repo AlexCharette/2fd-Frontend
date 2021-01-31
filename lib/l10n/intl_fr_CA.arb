@@ -2,6 +2,7 @@
   "@@locale": "fr_CA",
   "buttonAnswerNo": "Confirmer mon absence",
   "buttonAnswerYes": "Confirmer ma présence",
+  "buttonCancelChanges": "Annuler les changements",
   "buttonForgotPassword": "J'ai oublié mon mot de passe",
   "buttonSubmit": "Soumettre",
   "errorAuthenticationSubmission": "Erreure d'authentification",
@@ -13,7 +14,10 @@
   "textFieldLabelVemStartDate": "Début",
   "textFieldValidatorVemName": "Veuillez donner un nom à cette VEM",
   "titleLogin": "Portail Régimentaire",
+  "titleLogout": "Me déconnecter",
   "titleNewVem": "Nouvelle VEM",
+  "titleProfile": "Mon Profile",
   "titleRegimentName": "2RAC",
-  "titleRequestResponseChange": "Je désire changer ma réponse"
+  "titleRequestResponseChange": "Je désire changer ma réponse",
+  "titleVemList": "VEMs"
 }

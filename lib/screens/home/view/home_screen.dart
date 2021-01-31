@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:regimental_app/blocs/blocs.dart';
 import 'package:regimental_app/config/routes.dart';
+import 'package:regimental_app/generated/l10n.dart';
 import 'package:regimental_app/screens/profile/profile.dart';
 import 'package:regimental_app/screens/request_list/request_list.dart';
 import 'package:regimental_app/screens/screens.dart';
@@ -28,16 +29,16 @@ class _HomeScreenState extends State<HomeScreen> {
     if (_pageController.hasClients) {
       switch (_pageController.page.round()) {
         case 0:
-          return 'VEMS';
+          return 'VEMs';
           break;
         case 1:
           return 'Profile';
           break;
         default:
-          return '2FD';
+          return S.of(context).titleRegimentName;
       }
     } else {
-      return '2FD';
+      return S.of(context).titleRegimentName;
     }
   }
 

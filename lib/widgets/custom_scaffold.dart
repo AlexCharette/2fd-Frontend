@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:regimental_app/blocs/blocs.dart';
+import 'package:regimental_app/generated/l10n.dart';
 import 'package:regimental_app/screens/screens.dart';
 import 'package:vem_repository/vem_repository.dart' show Vem;
 
@@ -65,7 +66,7 @@ class _CustomScaffoldState extends State<CustomScaffold> {
                 ),
                 ListTile(
                   trailing: Text(
-                    'VEMS',
+                    S.of(context).titleVemList,
                     style: Theme.of(context).textTheme.headline4,
                   ),
                   onTap: () => Navigator.of(context)
@@ -73,7 +74,7 @@ class _CustomScaffoldState extends State<CustomScaffold> {
                 ),
                 ListTile(
                   trailing: Text(
-                    'NOUVELLE VEM',
+                    S.of(context).titleNewVem,
                     style: Theme.of(context).textTheme.headline4,
                   ),
                   onTap: () => Navigator.pushNamed(
@@ -110,7 +111,7 @@ class _CustomScaffoldState extends State<CustomScaffold> {
                 ),
                 ListTile(
                     trailing: Text(
-                      'MON PROFILE',
+                      S.of(context).titleProfile,
                       style: Theme.of(context).textTheme.headline4,
                     ),
                     onTap: () {
@@ -126,7 +127,7 @@ class _CustomScaffoldState extends State<CustomScaffold> {
                     }),
                 ListTile(
                   trailing: Text(
-                    'ME DÉCONNECTER',
+                    S.of(context).titleLogout,
                     style: Theme.of(context).textTheme.headline4,
                   ),
                   onTap: () => context

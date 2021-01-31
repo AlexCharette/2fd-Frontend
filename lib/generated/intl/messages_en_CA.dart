@@ -23,6 +23,7 @@ class MessageLookup extends MessageLookupByLibrary {
   static _notInlinedMessages(_) => <String, Function> {
     "buttonAnswerNo" : MessageLookupByLibrary.simpleMessage("I won\'t be there"),
     "buttonAnswerYes" : MessageLookupByLibrary.simpleMessage("I\'ll be there"),
+    "buttonCancelChanges" : MessageLookupByLibrary.simpleMessage("Cancel changes"),
     "buttonForgotPassword" : MessageLookupByLibrary.simpleMessage("I forgot my password"),
     "buttonSubmit" : MessageLookupByLibrary.simpleMessage("Submit"),
     "errorAuthenticationSubmission" : MessageLookupByLibrary.simpleMessage("Authentication failure"),
@@ -34,8 +35,11 @@ class MessageLookup extends MessageLookupByLibrary {
     "textFieldLabelVemStartDate" : MessageLookupByLibrary.simpleMessage("Start"),
     "textFieldValidatorVemName" : MessageLookupByLibrary.simpleMessage("Please enter a name for this VEM"),
     "titleLogin" : MessageLookupByLibrary.simpleMessage("Regimental Portal"),
+    "titleLogout" : MessageLookupByLibrary.simpleMessage("Log me out"),
     "titleNewVem" : MessageLookupByLibrary.simpleMessage("New VEM"),
+    "titleProfile" : MessageLookupByLibrary.simpleMessage("My Profile"),
     "titleRegimentName" : MessageLookupByLibrary.simpleMessage("2FD"),
-    "titleRequestResponseChange" : MessageLookupByLibrary.simpleMessage("I want to change my response")
+    "titleRequestResponseChange" : MessageLookupByLibrary.simpleMessage("I want to change my response"),
+    "titleVemList" : MessageLookupByLibrary.simpleMessage("VEMs")
   };
 }
