@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:regimental_app/blocs/blocs.dart';
+import 'package:regimental_app/generated/l10n.dart';
 import 'package:regimental_app/screens/vem_details/view/view.dart';
 import 'package:regimental_app/widgets/widgets.dart';
 import 'package:regimental_app/screens/screens.dart';
@@ -14,9 +15,9 @@ class VemList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final snackbar = SnackBar(
+    final snackBar = SnackBar(
       content: Text(
-        'Maximum attendance for this VEM has been reached.',
+        S.of(context).snackBarVemFull,
       ),
     );
     return Builder(
@@ -112,7 +113,7 @@ class VemList extends StatelessWidget {
                     switch (response.answer) {
                       case 'seen': // no answer
                         if (vem.isFull()) {
-                          Scaffold.of(context).showSnackBar(snackbar);
+                          Scaffold.of(context).showSnackBar(snackBar);
                         } else {
                           if (vem.isLocked()) {
                             showDialog(
@@ -154,7 +155,7 @@ class VemList extends StatelessWidget {
                         break;
                       case 'no':
                         if (vem.isFull()) {
-                          Scaffold.of(context).showSnackBar(snackbar);
+                          Scaffold.of(context).showSnackBar(snackBar);
                         } else {
                           if (vem.isLocked()) {
                             showDialog(

@@ -65,11 +65,31 @@ class S {
     );
   }
 
+  /// `Modifier la VEM`
+  String get buttonEditVem {
+    return Intl.message(
+      'Modifier la VEM',
+      name: 'buttonEditVem',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `J'ai oublié mon mot de passe`
   String get buttonForgotPassword {
     return Intl.message(
       'J\'ai oublié mon mot de passe',
       name: 'buttonForgotPassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Je veux changer ma réponse`
+  String get buttonRequestResponseChange {
+    return Intl.message(
+      'Je veux changer ma réponse',
+      name: 'buttonRequestResponseChange',
       desc: '',
       args: [],
     );
@@ -90,6 +110,26 @@ class S {
     return Intl.message(
       'Erreure d\'authentification',
       name: 'errorAuthenticationSubmission',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Un erreure s'est produite`
+  String get errorGeneric {
+    return Intl.message(
+      'Un erreure s\'est produite',
+      name: 'errorGeneric',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `La participation maximale pour cette VEM a été atteinte.`
+  String get snackBarVemFull {
+    return Intl.message(
+      'La participation maximale pour cette VEM a été atteinte.',
+      name: 'snackBarVemFull',
       desc: '',
       args: [],
     );

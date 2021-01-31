@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:regimental_app/blocs/blocs.dart';
 import 'package:regimental_app/config/config.dart';
+import 'package:regimental_app/generated/l10n.dart';
 import 'package:regimental_app/screens/add_edit_vem/add_edit_vem.dart';
 import 'package:regimental_app/widgets/widgets.dart';
 import 'package:user_repository/user_repository.dart' show NormalMember;
@@ -171,7 +172,7 @@ class _VemDetailsScreenState extends State<VemDetailsScreen> {
                     ),
                     FloatingActionButton(
                         heroTag: 'editActionButton__heroTag',
-                        tooltip: 'Edit VEM',
+                        tooltip: S.of(context).buttonEditVem,
                         child: Icon(Icons.edit),
                         onPressed: () {
                           Navigator.pushNamed(
@@ -216,15 +217,15 @@ class _VemDetailsScreenState extends State<VemDetailsScreen> {
   }
 
   Widget _responseButtons() {
-    final snackbar = SnackBar(
+    final snackBar = SnackBar(
       content: Text(
-        'Maximum attendance for this VEM has been reached.',
+        S.of(context).snackBarVemFull,
       ),
     );
     switch (_response.answer) {
       case 'seen': // no answer
         if (_vem.isFull()) {
-          Scaffold.of(context).showSnackBar(snackbar);
+          Scaffold.of(context).showSnackBar(snackBar);
           return Text('This VEM is full');
         } else {
           if (_vem.isLocked()) {
@@ -243,7 +244,7 @@ class _VemDetailsScreenState extends State<VemDetailsScreen> {
         break;
       case 'no':
         if (_vem.isFull()) {
-          Scaffold.of(context).showSnackBar(snackbar);
+          Scaffold.of(context).showSnackBar(snackBar);
           return Text('This VEM is full');
         } else {
           if (_vem.isLocked()) {
@@ -254,7 +255,7 @@ class _VemDetailsScreenState extends State<VemDetailsScreen> {
         }
         break;
       default:
-        return Text('An error occured');
+        return Text(S.of(context).errorGeneric);
         break;
     }
   }
@@ -268,14 +269,14 @@ class _VemDetailsScreenState extends State<VemDetailsScreen> {
           onPressed: (_response == null || _answer != 'yes')
               ? () => _submitResponse(context, 'yes')
               : null,
-          child: Text('I\'ll be there'),
+          child: Text(S.of(context).buttonAnswerYes),
         ),
         RaisedButton(
           color: AppColors.buttonRed,
           onPressed: (_response == null || _answer != 'no')
               ? () => _submitResponse(context, 'no')
               : null,
-          child: Text('I won\'t be there'),
+          child: Text(S.of(context).buttonAnswerNo),
         ),
       ],
     );
@@ -291,7 +292,7 @@ class _VemDetailsScreenState extends State<VemDetailsScreen> {
           ),
         );
       },
-      child: Text('I want to change my answer'),
+      child: Text(S.of(context).buttonRequestResponseChange),
     );
   }
 }
