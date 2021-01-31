@@ -23,16 +23,16 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final _pageController = PageController();
-  String _appBarTitle = '2FD';
+  String _appBarTitle;
 
   String _getAppBarTitle() {
     if (_pageController.hasClients) {
       switch (_pageController.page.round()) {
         case 0:
-          return 'VEMs';
+          return S.of(context).titleVemList;
           break;
         case 1:
-          return 'Profile';
+          return S.of(context).titleProfile;
           break;
         default:
           return S.of(context).titleRegimentName;
@@ -40,6 +40,12 @@ class _HomeScreenState extends State<HomeScreen> {
     } else {
       return S.of(context).titleRegimentName;
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _appBarTitle = S.of(context).titleRegimentName;
   }
 
   @override
