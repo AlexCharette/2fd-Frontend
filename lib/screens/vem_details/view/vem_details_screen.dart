@@ -228,20 +228,16 @@ class _VemDetailsScreenState extends State<VemDetailsScreen> {
           return Text('This VEM is full');
         } else {
           if (_vem.isLocked()) {
-            // TODO return request change buttons
             return _requestChangeButton();
           } else {
-            // TODO return choice buttons
             return _answerButtons();
           }
         }
         break;
       case 'yes':
         if (_vem.isLocked()) {
-          // TODO return request change button
           return _requestChangeButton();
         } else {
-          // TODO return choice buttons
           return _answerButtons();
         }
         break;
@@ -251,10 +247,8 @@ class _VemDetailsScreenState extends State<VemDetailsScreen> {
           return Text('This VEM is full');
         } else {
           if (_vem.isLocked()) {
-            // TODO return request change button
             return _requestChangeButton();
           } else {
-            // TODO return choice buttons
             return _answerButtons();
           }
         }

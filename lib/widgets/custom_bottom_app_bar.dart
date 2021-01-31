@@ -26,10 +26,6 @@ class _CustomBottomAppBarState extends State<CustomBottomAppBar> {
           label: 'VEMs',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.mail_outline),
-          label: 'Demandes',
-        ),
-        BottomNavigationBarItem(
           icon: Icon(Icons.person),
           label: 'Profile',
         ),

@@ -41,15 +41,14 @@ class _CustomScaffoldState extends State<CustomScaffold> {
           child: Drawer(
             child: ListView(
               children: [
-                //TODO: adjust to the real routes for now they all route to home
                 ListTile(
                   leading: TextButton(
                     child: Text(
-                      'EN',
+                      'EN', // TODO replace with opposite of current locale
                       style: Theme.of(context).textTheme.headline5,
                     ),
                     onPressed: () {
-                      //TODO: actually change the language to english or french accordingly
+                      //TODO actually change the language
                       print('english');
                     },
                   ),
@@ -68,14 +67,6 @@ class _CustomScaffoldState extends State<CustomScaffold> {
                 ListTile(
                   trailing: Text(
                     'VEMS',
-                    style: Theme.of(context).textTheme.headline4,
-                  ),
-                  onTap: () => Navigator.of(context)
-                      .pushAndRemoveUntil(HomeScreen.route(), (route) => false),
-                ),
-                ListTile(
-                  trailing: Text(
-                    'DEMANDES',
                     style: Theme.of(context).textTheme.headline4,
                   ),
                   onTap: () => Navigator.of(context)
@@ -127,7 +118,7 @@ class _CustomScaffoldState extends State<CustomScaffold> {
                       Navigator.of(context).pop();
                       if (widget.selectedIndex != 2) {
                         widget.pageController.animateToPage(
-                          2,
+                          1, // TODO make this not hardcoded (index of profile screen)
                           duration: new Duration(milliseconds: 250),
                           curve: Curves.bounceInOut,
                         );
@@ -136,7 +127,7 @@ class _CustomScaffoldState extends State<CustomScaffold> {
                     }),
                 ListTile(
                   trailing: Text(
-                    'DÉCONNECTION',
+                    'ME DÉCONNECTER',
                     style: Theme.of(context).textTheme.headline4,
                   ),
                   onTap: () => context

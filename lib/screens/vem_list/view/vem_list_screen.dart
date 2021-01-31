@@ -99,7 +99,6 @@ class VemList extends StatelessWidget {
                       BlocProvider.of<UserResponsesBloc>(context).add(
                         AddUserResponse(tempResponse),
                       );
-                      // TODO retrieve response from firebase and store it in variable
                       var query = await FirebaseFirestore.instance
                           .collection('responses')
                           .where('vemId', isEqualTo: vem.id)
@@ -183,8 +182,7 @@ class VemList extends StatelessWidget {
                     if (newAnswer != null && response.answer != newAnswer) {
                       BlocProvider.of<UserResponsesBloc>(context).add(
                         UpdateUserResponse(
-                          response.copyWith(
-                              answer: newAnswer), // TODO fix this error
+                          response.copyWith(answer: newAnswer),
                         ),
                       );
                     }
