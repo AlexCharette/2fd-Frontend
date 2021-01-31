@@ -67,6 +67,7 @@ class _AddEditVemScreenState extends State<AddEditVemScreen> {
 
     return CustomScaffold(
       appBarTitle: isEditing ? args.vem.name : S.of(context).titleNewVem,
+      displayBGImage: false,
       body: Padding(
         padding: EdgeInsets.all(15.0),
         child: FormBuilder(

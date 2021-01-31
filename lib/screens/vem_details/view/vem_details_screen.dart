@@ -88,6 +88,7 @@ class _VemDetailsScreenState extends State<VemDetailsScreen> {
         onWillPop: () async => _onPop(context),
         child: CustomScaffold(
           appBarTitle: _vem.name,
+          displayBGImage: false,
           body: ListView(
             children: <Widget>[
               Padding(
