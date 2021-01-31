@@ -52,7 +52,7 @@ class UserResponsesBloc extends Bloc<UserResponsesEvent, UserResponsesState> {
 
   Stream<UserResponsesState> _mapUserResponsesUpdatedToState(
       UserResponsesUpdated event) async* {
-    yield UserResponsesLoaded(event.UserResponses);
+    yield UserResponsesLoaded(event.userResponses);
   }
 
   Stream<UserResponsesState> _mapAddResponseChangeToState(
