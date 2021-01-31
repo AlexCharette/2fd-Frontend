@@ -47,12 +47,12 @@ class UpdateUserResponse extends UserResponsesEvent {
 }
 
 class UserResponsesUpdated extends UserResponsesEvent {
-  final List<VemResponse> UserResponses;
+  final List<VemResponse> userResponses;
 
-  const UserResponsesUpdated(this.UserResponses);
+  const UserResponsesUpdated(this.userResponses);
 
   @override
-  List<Object> get props => [UserResponses];
+  List<Object> get props => [userResponses];
 }
 
 class AddResponseChange extends UserResponsesEvent {

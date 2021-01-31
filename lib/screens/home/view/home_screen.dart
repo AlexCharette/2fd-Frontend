@@ -4,7 +4,6 @@ import 'package:regimental_app/blocs/blocs.dart';
 import 'package:regimental_app/config/routes.dart';
 import 'package:regimental_app/generated/l10n.dart';
 import 'package:regimental_app/screens/profile/profile.dart';
-import 'package:regimental_app/screens/request_list/request_list.dart';
 import 'package:regimental_app/screens/screens.dart';
 import 'package:regimental_app/screens/vem_list/vem_list.dart';
 import 'package:regimental_app/widgets/widgets.dart';

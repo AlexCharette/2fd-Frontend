@@ -10,7 +10,7 @@ part 'user_responses_state.dart';
 
 class UserResponsesBloc extends Bloc<UserResponsesEvent, UserResponsesState> {
   final VemResponseRepository _vemResponseRepository;
-  StreamSubscription _UserResponsesSubscription;
+  StreamSubscription _userResponsesSubscription;
 
   UserResponsesBloc({@required VemResponseRepository vemResponseRepository})
       : assert(vemResponseRepository != null),
@@ -34,10 +34,10 @@ class UserResponsesBloc extends Bloc<UserResponsesEvent, UserResponsesState> {
 
   Stream<UserResponsesState> _mapLoadUserResponsesToState(
       LoadResponsesForUser event) async* {
-    _UserResponsesSubscription?.cancel();
-    _UserResponsesSubscription = _vemResponseRepository
+    _userResponsesSubscription?.cancel();
+    _userResponsesSubscription = _vemResponseRepository
         .responsesForUser(event.userId)
-        .listen((UserResponses) => add(UserResponsesUpdated(UserResponses)));
+        .listen((userResponses) => add(UserResponsesUpdated(userResponses)));
   }
 
   Stream<UserResponsesState> _mapAddVemResponseToState(
@@ -62,7 +62,7 @@ class UserResponsesBloc extends Bloc<UserResponsesEvent, UserResponsesState> {
 
   @override
   Future<void> close() {
-    _UserResponsesSubscription?.cancel();
+    _userResponsesSubscription?.cancel();
     return super.close();
   }
 }
