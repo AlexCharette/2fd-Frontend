@@ -234,6 +234,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Répondre à`
+  String get titleVemResponder {
+    return Intl.message(
+      'Répondre à',
+      name: 'titleVemResponder',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

@@ -40,6 +40,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "titleProfile" : MessageLookupByLibrary.simpleMessage("Mon Profile"),
     "titleRegimentName" : MessageLookupByLibrary.simpleMessage("2RAC"),
     "titleRequestResponseChange" : MessageLookupByLibrary.simpleMessage("Je désire changer ma réponse"),
-    "titleVemList" : MessageLookupByLibrary.simpleMessage("VEMs")
+    "titleVemList" : MessageLookupByLibrary.simpleMessage("VEMs"),
+    "titleVemResponder" : MessageLookupByLibrary.simpleMessage("Répondre à")
   };
 }

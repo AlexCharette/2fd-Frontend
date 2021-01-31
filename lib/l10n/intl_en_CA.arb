@@ -19,5 +19,6 @@
   "titleProfile": "My Profile",
   "titleRegimentName": "2FD",
   "titleRequestResponseChange": "I want to change my response",
-  "titleVemList": "VEMs"
+  "titleVemList": "VEMs",
+  "titleVemResponder": "Answer"
 }

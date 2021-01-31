@@ -20,25 +20,6 @@ class VemResponder extends Dialog {
     print('Current response: ${this.currentResponse}');
   }
 
-  void _submitResponse(BuildContext context, String answer) {
-    final userState = context.read<UsersBloc>().state;
-    final currentUser = (userState as CurrentUserLoaded).currentUser;
-    BlocProvider.of<VemResponsesBloc>(context).add(
-      currentResponse != null
-          ? UpdateVemResponse(currentResponse.copyWith(answer: answer))
-          : AddVemResponse(
-              VemResponse(
-                currentUser.id,
-                currentUser.initials,
-                vemId,
-                currentUser.detId,
-                answer,
-              ),
-            ),
-    );
-    Navigator.pop(context);
-  }
-
   @override
   Widget build(BuildContext context) {
     ThemeData theme = Theme.of(context);
@@ -54,7 +35,7 @@ class VemResponder extends Dialog {
                 child: Container(
                   width: MediaQuery.of(context).size.width,
                   child: Text(
-                    'Respond to $vemName',
+                    S.of(context).titleVemResponder + ' $vemName',
                     style: TextStyle(color: theme.accentColor),
                   ),
                 ),
@@ -65,7 +46,6 @@ class VemResponder extends Dialog {
                     (currentResponse == null || currentResponse.answer != 'yes')
                         ? () {
                             Navigator.pop(context, 'yes');
-                            // _submitResponse(context, 'yes');
                           }
                         : null,
                 child: Text(S.of(context).buttonAnswerYes),
@@ -76,7 +56,6 @@ class VemResponder extends Dialog {
                     (currentResponse == null || currentResponse.answer != 'no')
                         ? () {
                             Navigator.pop(context, 'no');
-                            // _submitResponse(context, 'no');
                           }
                         : null,
                 child: Text(S.of(context).buttonAnswerNo),
