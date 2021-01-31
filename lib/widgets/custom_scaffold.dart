@@ -63,7 +63,6 @@ class _CustomScaffoldState extends State<CustomScaffold> {
                     },
                   ),
                 ),
-                //TODO: set the appropriate routes
                 ListTile(
                   trailing: Text(
                     'VEMS',
