@@ -31,9 +31,6 @@ class _HomeScreenState extends State<HomeScreen> {
           return 'VEMS';
           break;
         case 1:
-          return 'Requests';
-          break;
-        case 2:
           return 'Profile';
           break;
         default:
@@ -62,12 +59,11 @@ class _HomeScreenState extends State<HomeScreen> {
               controller: _pageController,
               children: <Widget>[
                 VemList(),
-                RequestList(),
                 ProfileScreen(),
               ],
             ),
             floatingActionButtons: (_pageController.positions.isNotEmpty &&
-                    _pageController.page.round() != 2 &&
+                    _pageController.page.round() != 1 &&
                     canAddVems)
                 ? FloatingActionButton(
                     child: Icon(

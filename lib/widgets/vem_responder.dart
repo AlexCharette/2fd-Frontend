@@ -7,7 +7,6 @@ import 'package:regimental_app/config/theme.dart';
 import 'package:regimental_app/generated/l10n.dart';
 import 'package:vem_response_repository/vem_response_repository.dart';
 
-// TODO render based on current response
 class VemResponder extends Dialog {
   final String vemName;
   final String vemId;

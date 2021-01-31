@@ -47,9 +47,7 @@ class RequestResponseChange extends Dialog {
                       onChanged: (value) => _reason = value,
                     ),
                     RaisedButton(
-                      color: AppColors
-                          .buttonGreen, // TODO if no reason, appear disabled
-
+                      color: AppColors.buttonGreen,
                       onPressed: (_reason.isNotEmpty)
                           ? () {
                               BlocProvider.of<UserResponsesBloc>(context).add(
