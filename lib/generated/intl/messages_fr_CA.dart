@@ -31,7 +31,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "textFieldHintEmail" : MessageLookupByLibrary.simpleMessage("Adresse Courriel"),
     "textFieldHintPassword" : MessageLookupByLibrary.simpleMessage("Mot de Passe"),
     "textFieldHintReason" : MessageLookupByLibrary.simpleMessage("Pourquoi désirez-vous changer votre réponse?"),
+    "textFieldLabelVemStartDate" : MessageLookupByLibrary.simpleMessage("Début"),
+    "textFieldValidatorVemName" : MessageLookupByLibrary.simpleMessage("Veuillez donner un nom à cette VEM"),
     "titleLogin" : MessageLookupByLibrary.simpleMessage("Portail Régimentaire"),
+    "titleNewVem" : MessageLookupByLibrary.simpleMessage("Nouvelle VEM"),
     "titleRegimentName" : MessageLookupByLibrary.simpleMessage("2RAC"),
     "titleRequestResponseChange" : MessageLookupByLibrary.simpleMessage("Je désire changer ma réponse")
   };

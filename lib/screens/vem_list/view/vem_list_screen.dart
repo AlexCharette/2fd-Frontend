@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -6,8 +7,7 @@ import 'package:regimental_app/screens/vem_details/view/view.dart';
 import 'package:regimental_app/widgets/widgets.dart';
 import 'package:regimental_app/screens/screens.dart';
 import 'package:user_repository/user_repository.dart';
-import 'package:vem_response_repository/vem_response_repository.dart'
-    show VemResponse;
+import 'package:vem_response_repository/vem_response_repository.dart';
 
 class VemList extends StatelessWidget {
   VemList({Key key}) : super(key: key);
@@ -33,7 +33,7 @@ class VemList extends StatelessWidget {
             userResponsesState is UserResponsesLoaded &&
             userState is CurrentUserLoaded) {
           final vems = vemsState.vems;
-          final vemResponses = userResponsesState.responses;
+          List<VemResponse> vemResponses = userResponsesState.responses;
           final currentUser = userState.currentUser;
           if (vems.isNotEmpty) {
             return ListView.separated(
@@ -89,7 +89,7 @@ class VemList extends StatelessWidget {
                   onLongPress: () async {
                     String newAnswer = '';
                     if (response == null) {
-                      response = VemResponse(
+                      VemResponse tempResponse = VemResponse(
                         currentUser.id,
                         currentUser.initials,
                         vem.id,
@@ -97,8 +97,18 @@ class VemList extends StatelessWidget {
                         'seen',
                       );
                       BlocProvider.of<UserResponsesBloc>(context).add(
-                        AddUserResponse(response),
+                        AddUserResponse(tempResponse),
                       );
+                      // TODO retrieve response from firebase and store it in variable
+                      var query = await FirebaseFirestore.instance
+                          .collection('responses')
+                          .where('vemId', isEqualTo: vem.id)
+                          .where('userId', isEqualTo: currentUser.id)
+                          .limit(1)
+                          .get();
+                      response = VemResponse.fromEntity(
+                          VemResponseEntity.fromSnapshot(query.docs.first));
+                      print('BESPOKE RESPONSE: $response');
                     }
                     switch (response.answer) {
                       case 'seen': // no answer
@@ -170,10 +180,11 @@ class VemList extends StatelessWidget {
                         break;
                     }
                     // If the answer changed,
-                    if (newAnswer.isNotEmpty && response.answer != newAnswer) {
+                    if (newAnswer != null && response.answer != newAnswer) {
                       BlocProvider.of<UserResponsesBloc>(context).add(
                         UpdateUserResponse(
-                          response.copyWith(answer: newAnswer),
+                          response.copyWith(
+                              answer: newAnswer), // TODO fix this error
                         ),
                       );
                     }

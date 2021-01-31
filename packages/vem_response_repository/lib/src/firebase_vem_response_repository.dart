@@ -23,6 +23,17 @@ class FirebaseVemResponseRepository implements VemResponseRepository {
   }
 
   @override
+  Future<VemResponse> userResponseForVem(String userId, String vemId) async {
+    var query = await vemResponseCollection
+        .where('vemId', isEqualTo: vemId)
+        .where('userId', isEqualTo: userId)
+        .limit(1)
+        .get();
+    return VemResponse.fromEntity(
+        VemResponseEntity.fromSnapshot(query.docs.first));
+  }
+
+  @override
   Stream<List<VemResponse>> vemResponses() {
     return vemResponseCollection.snapshots().map((snapshot) => snapshot.docs
         .map((doc) =>

@@ -1,16 +1,19 @@
 {
   "@@locale": "en_CA",
-  "buttonAnswerYes": "I'll be there",
   "buttonAnswerNo": "I won't be there",
-  "buttonSubmit": "Submit",
+  "buttonAnswerYes": "I'll be there",
   "buttonForgotPassword": "I forgot my password",
+  "buttonSubmit": "Submit",
   "errorAuthenticationSubmission": "Authentication failure",
   "textFieldErrorEmail": "Invalid email address",
   "textFieldErrorPassword": "Invalid password",
   "textFieldHintReason": "Why do you want to change your response?",
   "textFieldHintEmail": "Email",
   "textFieldHintPassword": "Password",
+  "textFieldLabelVemStartDate": "Start",
+  "textFieldValidatorVemName": "Please enter a name for this VEM",
   "titleLogin": "Regimental Portal",
+  "titleNewVem": "New VEM",
   "titleRegimentName": "2FD",
   "titleRequestResponseChange": "I want to change my response"
 }

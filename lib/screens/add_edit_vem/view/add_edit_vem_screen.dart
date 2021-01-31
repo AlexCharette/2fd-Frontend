@@ -1,11 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:intl/intl.dart';
-import 'package:regimental_app/blocs/blocs.dart';
 import 'package:regimental_app/config/routes.dart';
+import 'package:regimental_app/generated/l10n.dart';
 import 'package:regimental_app/widgets/widgets.dart';
 import 'package:vem_repository/vem_repository.dart';
 
@@ -67,7 +66,7 @@ class _AddEditVemScreenState extends State<AddEditVemScreen> {
     _maxParticipants = isEditing ? args.vem.maxParticipants : null;
 
     return CustomScaffold(
-      appBarTitle: isEditing ? args.vem.name : 'New VEM',
+      appBarTitle: isEditing ? args.vem.name : S.of(context).titleNewVem,
       body: Padding(
         padding: EdgeInsets.all(15.0),
         child: FormBuilder(
@@ -93,7 +92,9 @@ class _AddEditVemScreenState extends State<AddEditVemScreen> {
                         errorBorder: OutlineInputBorder(
                             borderSide: BorderSide(color: Colors.red))),
                     validator: (val) {
-                      return val.trim().isEmpty ? 'The VEM needs a name' : null;
+                      return val.trim().isEmpty
+                          ? S.of(context).textFieldValidatorVemName
+                          : null;
                     },
                     onSaved: (val) => setState(() => _name = val),
                   ),
@@ -113,7 +114,7 @@ class _AddEditVemScreenState extends State<AddEditVemScreen> {
                       FormBuilderDateTimePicker(
                         name: 'start_date',
                         decoration: InputDecoration(
-                            labelText: 'Start',
+                            labelText: S.of(context).textFieldLabelVemStartDate,
                             icon: Icon(Icons.calendar_today),
                             fillColor: theme.primaryColor),
                         inputType: InputType.both,

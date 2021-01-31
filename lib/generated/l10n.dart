@@ -35,16 +35,6 @@ class S {
     return Localizations.of<S>(context, S);
   }
 
-  /// `Confirmer ma présence`
-  String get buttonAnswerYes {
-    return Intl.message(
-      'Confirmer ma présence',
-      name: 'buttonAnswerYes',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `Confirmer mon absence`
   String get buttonAnswerNo {
     return Intl.message(
@@ -55,11 +45,11 @@ class S {
     );
   }
 
-  /// `Soumettre`
-  String get buttonSubmit {
+  /// `Confirmer ma présence`
+  String get buttonAnswerYes {
     return Intl.message(
-      'Soumettre',
-      name: 'buttonSubmit',
+      'Confirmer ma présence',
+      name: 'buttonAnswerYes',
       desc: '',
       args: [],
     );
@@ -70,6 +60,16 @@ class S {
     return Intl.message(
       'J\'ai oublié mon mot de passe',
       name: 'buttonForgotPassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Soumettre`
+  String get buttonSubmit {
+    return Intl.message(
+      'Soumettre',
+      name: 'buttonSubmit',
       desc: '',
       args: [],
     );
@@ -105,21 +105,21 @@ class S {
     );
   }
 
-  /// `Pourquoi désirez-vous changer votre réponse?`
-  String get textFieldHintReason {
-    return Intl.message(
-      'Pourquoi désirez-vous changer votre réponse?',
-      name: 'textFieldHintReason',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `Adresse Courriel`
   String get textFieldHintEmail {
     return Intl.message(
       'Adresse Courriel',
       name: 'textFieldHintEmail',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Pourquoi désirez-vous changer votre réponse?`
+  String get textFieldHintReason {
+    return Intl.message(
+      'Pourquoi désirez-vous changer votre réponse?',
+      name: 'textFieldHintReason',
       desc: '',
       args: [],
     );
@@ -135,11 +135,41 @@ class S {
     );
   }
 
+  /// `Début`
+  String get textFieldLabelVemStartDate {
+    return Intl.message(
+      'Début',
+      name: 'textFieldLabelVemStartDate',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Veuillez donner un nom à cette VEM`
+  String get textFieldValidatorVemName {
+    return Intl.message(
+      'Veuillez donner un nom à cette VEM',
+      name: 'textFieldValidatorVemName',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Portail Régimentaire`
   String get titleLogin {
     return Intl.message(
       'Portail Régimentaire',
       name: 'titleLogin',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Nouvelle VEM`
+  String get titleNewVem {
+    return Intl.message(
+      'Nouvelle VEM',
+      name: 'titleNewVem',
       desc: '',
       args: [],
     );
