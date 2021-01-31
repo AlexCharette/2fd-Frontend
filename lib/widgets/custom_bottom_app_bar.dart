@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:regimental_app/generated/l10n.dart';
 
 class CustomBottomAppBar extends StatefulWidget {
   final PageController pageController;
@@ -23,11 +24,11 @@ class _CustomBottomAppBarState extends State<CustomBottomAppBar> {
       items: <BottomNavigationBarItem>[
         BottomNavigationBarItem(
           icon: Icon(Icons.notification_important),
-          label: 'VEMs',
+          label: S.of(context).titleVemList,
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.person),
-          label: 'Profile',
+          label: S.of(context).titleProfile,
         ),
       ],
       onTap: (int index) {
@@ -38,22 +39,6 @@ class _CustomBottomAppBarState extends State<CustomBottomAppBar> {
           duration: new Duration(milliseconds: 250),
           curve: Curves.bounceInOut,
         );
-        //TODO: implement the routes to the selected tab
-        // switch (index) {
-        //   case 0:
-        //     if (selectedIndex != index)
-        //       Navigator.of(context)
-        //           .pushAndRemoveUntil(HomeScreen.route(), (route) => false);
-        //     break;
-        //   case 1:
-        //     if (selectedIndex != index)
-        //       Navigator.of(context).pushNamed(ProfileScreen.routeName);
-        //     break;
-        //   case 2:
-        //     if (selectedIndex != index)
-        //       Navigator.of(context).pushNamed(ProfileScreen.routeName);
-        //     break;
-        // }
       },
     );
   }
