@@ -31,17 +31,11 @@ class ResetPasswordForm extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Center(
-                  child: Text('Mot de Passe',
+                  child: Text(S.of(context).titleForgotPassword,
+                      textAlign: TextAlign.center,
                       style: theme.textTheme.headline2
                           .copyWith(color: Colors.black)),
                 ),
-                Center(
-                  child: Text(
-                    'Oublié',
-                    style:
-                        theme.textTheme.headline2.copyWith(color: Colors.black),
-                  ),
-                )
               ],
             ),
             SizedBox(
@@ -51,16 +45,11 @@ class ResetPasswordForm extends StatelessWidget {
               children: <Widget>[
                 Center(
                   child: Text(
-                    'Entrez l\'adresse courriel associée',
+                    S.of(context).resetPasswordEmailInputDirections,
+                    textAlign: TextAlign.center,
                     style: theme.textTheme.bodyText1,
                   ),
                 ),
-                Center(
-                  child: Text(
-                    'à votre compte',
-                    style: theme.textTheme.bodyText1,
-                  ),
-                )
               ],
             ),
             SizedBox(height: 12.0),

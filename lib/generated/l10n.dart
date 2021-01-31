@@ -245,20 +245,20 @@ class S {
     );
   }
 
-  /// `Maximum de participants`
+  /// `Maximum`
   String get inputLabelVemMaxParticipants {
     return Intl.message(
-      'Maximum de participants',
+      'Maximum',
       name: 'inputLabelVemMaxParticipants',
       desc: '',
       args: [],
     );
   }
 
-  /// `Minimum de participants`
+  /// `Minimum`
   String get inputLabelVemMinParticipants {
     return Intl.message(
-      'Minimum de participants',
+      'Minimum',
       name: 'inputLabelVemMinParticipants',
       desc: '',
       args: [],
@@ -305,11 +305,31 @@ class S {
     );
   }
 
+  /// `Entrez l'adresse courriel associée à votre compte`
+  String get resetPasswordEmailInputDirections {
+    return Intl.message(
+      'Entrez l\'adresse courriel associée à votre compte',
+      name: 'resetPasswordEmailInputDirections',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `La participation maximale pour cette VEM a été atteinte.`
   String get snackBarVemFull {
     return Intl.message(
       'La participation maximale pour cette VEM a été atteinte.',
       name: 'snackBarVemFull',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Mot de Passe Oublié`
+  String get titleForgotPassword {
+    return Intl.message(
+      'Mot de Passe Oublié',
+      name: 'titleForgotPassword',
       desc: '',
       args: [],
     );
