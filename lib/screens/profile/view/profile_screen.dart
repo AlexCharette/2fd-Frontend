@@ -228,7 +228,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             color: AppColors.buttonGreen,
                           ),
                           onPressed: () {
-                            //TODO: perform the changes on the database
+                            BlocProvider.of<UsersBloc>(context).add(
+                              UpdateCurrentUser(
+                                currentUser.copyWith(
+                                  email: email,
+                                  phoneNumber: phone,
+                                ),
+                              ),
+                            );
                             setState(() {
                               editButtonVisible = true;
                               isReadOnly = true;
