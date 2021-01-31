@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:regimental_app/blocs/LogIn/bloc/login_bloc.dart';
 import 'package:regimental_app/config/theme.dart';
+import 'package:regimental_app/generated/l10n.dart';
 import 'package:regimental_app/screens/reset_password/reset_password.dart';
 
 class LoginForm extends StatelessWidget {
@@ -14,7 +15,8 @@ class LoginForm extends StatelessWidget {
           Scaffold.of(context)
             ..hideCurrentSnackBar()
             ..showSnackBar(
-              const SnackBar(content: Text('Authentication Failure')),
+              SnackBar(
+                  content: Text(S.of(context).errorAuthenticationSubmission)),
             );
         }
       },
@@ -39,7 +41,7 @@ class LoginForm extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Text(
-                      '2RAC',
+                      S.of(context).titleRegimentName,
                       style: TextStyle(
                         fontFamily: 'CastIron',
                         color: AppColors.white,
@@ -48,7 +50,7 @@ class LoginForm extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      'PORTAIL RÉGIMENTAIRE',
+                      S.of(context).titleLogin,
                       style: TextStyle(
                           fontFamily: 'CastIron',
                           color: AppColors.white,
@@ -104,14 +106,15 @@ class _UsernameInput extends StatelessWidget {
             onChanged: (username) =>
                 context.read<LoginBloc>().add(LoginUsernameChanged(username)),
             decoration: InputDecoration(
-              hintText: 'Adresse Courriel',
+              hintText: S.of(context).textFieldHintEmail,
               hintStyle: TextStyle(
                 fontSize: 16,
                 letterSpacing: 1.5,
               ),
               border: const OutlineInputBorder(),
-              errorText:
-                  state.username.invalid ? 'Adresse Courriel invalide' : null,
+              errorText: state.username.invalid
+                  ? S.of(context).textFieldErrorEmail
+                  : null,
             ),
           ),
         );
@@ -134,10 +137,12 @@ class _PasswordInput extends StatelessWidget {
                 context.read<LoginBloc>().add(LoginPasswordChanged(password)),
             obscureText: true,
             decoration: InputDecoration(
-              hintText: 'Mot de Passe',
+              hintText: S.of(context).textFieldHintPassword,
               hintStyle: TextStyle(fontSize: 16, letterSpacing: 1.5),
               border: const OutlineInputBorder(),
-              errorText: state.password.invalid ? 'Mot de pass invalide' : null,
+              errorText: state.password.invalid
+                  ? S.of(context).textFieldErrorPassword
+                  : null,
             ),
           ),
         );
@@ -158,7 +163,7 @@ class _ForgotPasswordButton extends StatelessWidget {
           side: MaterialStateProperty.all(
               BorderSide(color: AppColors.buttonOrange, width: 1.8))),
       child: Text(
-        'J\'ai oublié mon mot de passe',
+        S.of(context).buttonForgotPassword,
         style: TextStyle(
             letterSpacing: 0.5, fontSize: 12, color: AppColors.buttonOrange),
       ),
@@ -187,7 +192,7 @@ class _LoginButton extends StatelessWidget {
                         RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10)))),
                 child: Text(
-                  'SOUMETTRE',
+                  S.of(context).buttonSubmit,
                   style: TextStyle(
                       color: Colors.white, fontSize: 20, letterSpacing: 1.5),
                 ),

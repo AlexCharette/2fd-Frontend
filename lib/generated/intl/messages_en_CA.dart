@@ -21,6 +21,18 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
-    "actionNewVem" : MessageLookupByLibrary.simpleMessage("New VEM")
+    "buttonAnswerNo" : MessageLookupByLibrary.simpleMessage("I won\'t be there"),
+    "buttonAnswerYes" : MessageLookupByLibrary.simpleMessage("I\'ll be there"),
+    "buttonForgotPassword" : MessageLookupByLibrary.simpleMessage("I forgot my password"),
+    "buttonSubmit" : MessageLookupByLibrary.simpleMessage("Submit"),
+    "errorAuthenticationSubmission" : MessageLookupByLibrary.simpleMessage("Authentication failure"),
+    "textFieldErrorEmail" : MessageLookupByLibrary.simpleMessage("Invalid email address"),
+    "textFieldErrorPassword" : MessageLookupByLibrary.simpleMessage("Invalid password"),
+    "textFieldHintEmail" : MessageLookupByLibrary.simpleMessage("Email"),
+    "textFieldHintPassword" : MessageLookupByLibrary.simpleMessage("Password"),
+    "textFieldHintReason" : MessageLookupByLibrary.simpleMessage("Why do you want to change your response?"),
+    "titleLogin" : MessageLookupByLibrary.simpleMessage("Regimental Portal"),
+    "titleRegimentName" : MessageLookupByLibrary.simpleMessage("2FD"),
+    "titleRequestResponseChange" : MessageLookupByLibrary.simpleMessage("I want to change my response")
   };
 }

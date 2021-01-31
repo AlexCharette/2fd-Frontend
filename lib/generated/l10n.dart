@@ -35,11 +35,131 @@ class S {
     return Localizations.of<S>(context, S);
   }
 
-  /// `Nouvelle VEM`
-  String get actionNewVem {
+  /// `Confirmer ma présence`
+  String get buttonAnswerYes {
     return Intl.message(
-      'Nouvelle VEM',
-      name: 'actionNewVem',
+      'Confirmer ma présence',
+      name: 'buttonAnswerYes',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Confirmer mon absence`
+  String get buttonAnswerNo {
+    return Intl.message(
+      'Confirmer mon absence',
+      name: 'buttonAnswerNo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Soumettre`
+  String get buttonSubmit {
+    return Intl.message(
+      'Soumettre',
+      name: 'buttonSubmit',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `J'ai oublié mon mot de passe`
+  String get buttonForgotPassword {
+    return Intl.message(
+      'J\'ai oublié mon mot de passe',
+      name: 'buttonForgotPassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Erreure d'authentification`
+  String get errorAuthenticationSubmission {
+    return Intl.message(
+      'Erreure d\'authentification',
+      name: 'errorAuthenticationSubmission',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Adresse courriel invalide`
+  String get textFieldErrorEmail {
+    return Intl.message(
+      'Adresse courriel invalide',
+      name: 'textFieldErrorEmail',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Mot de passe invalide`
+  String get textFieldErrorPassword {
+    return Intl.message(
+      'Mot de passe invalide',
+      name: 'textFieldErrorPassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Pourquoi désirez-vous changer votre réponse?`
+  String get textFieldHintReason {
+    return Intl.message(
+      'Pourquoi désirez-vous changer votre réponse?',
+      name: 'textFieldHintReason',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Adresse Courriel`
+  String get textFieldHintEmail {
+    return Intl.message(
+      'Adresse Courriel',
+      name: 'textFieldHintEmail',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Mot de Passe`
+  String get textFieldHintPassword {
+    return Intl.message(
+      'Mot de Passe',
+      name: 'textFieldHintPassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Portail Régimentaire`
+  String get titleLogin {
+    return Intl.message(
+      'Portail Régimentaire',
+      name: 'titleLogin',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `2RAC`
+  String get titleRegimentName {
+    return Intl.message(
+      '2RAC',
+      name: 'titleRegimentName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Je désire changer ma réponse`
+  String get titleRequestResponseChange {
+    return Intl.message(
+      'Je désire changer ma réponse',
+      name: 'titleRequestResponseChange',
       desc: '',
       args: [],
     );
@@ -53,7 +173,6 @@ class AppLocalizationDelegate extends LocalizationsDelegate<S> {
     return const <Locale>[
       Locale.fromSubtags(languageCode: 'fr', countryCode: 'CA'),
       Locale.fromSubtags(languageCode: 'en', countryCode: 'CA'),
-      Locale.fromSubtags(languageCode: 'messages'),
     ];
   }
 

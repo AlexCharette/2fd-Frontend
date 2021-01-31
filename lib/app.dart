@@ -39,12 +39,6 @@ class _AppState extends State<App> {
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
   final _navigatorKey = GlobalKey<NavigatorState>();
-  final _localizationsDelegates = [
-    S.delegate,
-    GlobalMaterialLocalizations.delegate,
-    GlobalWidgetsLocalizations.delegate,
-    GlobalCupertinoLocalizations.delegate,
-  ];
   final _supportedLocales = S.delegate.supportedLocales;
 
   NavigatorState get _navigator => _navigatorKey.currentState;
@@ -131,6 +125,13 @@ class _AppState extends State<App> {
         child: Consumer<ThemeNotifier>(builder: (context, theme, _) {
           return MaterialApp(
             theme: theme.getTheme(),
+            localizationsDelegates: [
+              S.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            supportedLocales: _supportedLocales,
             navigatorKey: _navigatorKey,
             routes: {
               HomeScreen.routeName: (context) => HomeScreen(),

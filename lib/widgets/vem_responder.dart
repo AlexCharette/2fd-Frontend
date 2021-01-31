@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:regimental_app/blocs/blocs.dart';
 import 'package:regimental_app/config/theme.dart';
+import 'package:regimental_app/generated/l10n.dart';
 import 'package:vem_response_repository/vem_response_repository.dart';
 
 // TODO render based on current response
@@ -37,9 +38,6 @@ class VemResponder extends Dialog {
               ),
             ),
     );
-    BlocProvider.of<UserResponsesBloc>(context).add(
-      LoadResponsesForUser(FirebaseAuth.instance.currentUser.uid),
-    );
     Navigator.pop(context);
   }
 
@@ -72,7 +70,7 @@ class VemResponder extends Dialog {
                             // _submitResponse(context, 'yes');
                           }
                         : null,
-                child: Text('I\'ll be there'),
+                child: Text(S.of(context).buttonAnswerYes),
               ),
               RaisedButton(
                 color: AppColors.buttonRed,
@@ -83,7 +81,7 @@ class VemResponder extends Dialog {
                             // _submitResponse(context, 'no');
                           }
                         : null,
-                child: Text('I won\'t be there'),
+                child: Text(S.of(context).buttonAnswerNo),
               ),
             ],
           ),

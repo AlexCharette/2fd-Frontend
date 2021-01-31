@@ -48,67 +48,72 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Builder(
       builder: (context) {
-        final userState = context.read<UsersBloc>().state;
-        final canAddVems =
-            !((userState as CurrentUserLoaded).currentUser is NormalMember);
-        return CustomScaffold(
-          appBarTitle: _appBarTitle,
-          pageController: _pageController,
-          body: PageView(
-            onPageChanged: (index) =>
-                setState(() => _appBarTitle = _getAppBarTitle()),
-            controller: _pageController,
-            children: <Widget>[
-              VemList(),
-              RequestList(),
-              ProfileScreen(),
-            ],
-          ),
-          floatingActionButtons: (_pageController.positions.isNotEmpty &&
-                  _pageController.page.round() != 2 &&
-                  canAddVems)
-              ? FloatingActionButton(
-                  child: Icon(
-                    Icons.add,
-                    color: Theme.of(context).primaryColor,
-                    size: 40,
-                  ),
-                  onPressed: () {
-                    Navigator.pushNamed(
-                      context,
-                      AddEditVemScreen.routeName,
-                      arguments: AddEditVemScreenArguments(
-                        null,
-                        (
-                          name,
-                          startDate,
-                          endDate,
-                          lockDate,
-                          responseType,
-                          description,
-                          minParticipants,
-                          maxParticipants,
-                        ) {
-                          BlocProvider.of<VemsBloc>(context).add(AddVem(
-                            Vem(
-                              name,
-                              responseType,
-                              startDate: startDate,
-                              endDate: endDate,
-                              lockDate: lockDate,
-                              description: description,
-                              minParticipants: minParticipants,
-                              maxParticipants: maxParticipants,
-                            ),
-                          ));
-                        },
-                        false,
-                      ),
-                    );
-                  },
-                )
-              : null,
-        );
+        final userState = context.watch<UsersBloc>().state;
+        if (userState is CurrentUserLoading) {
+          return CircularProgressIndicator();
+        } else if (userState is CurrentUserLoaded) {
+          final canAddVems = !(userState.currentUser is NormalMember);
+          return CustomScaffold(
+            appBarTitle: _appBarTitle,
+            pageController: _pageController,
+            body: PageView(
+              onPageChanged: (index) =>
+                  setState(() => _appBarTitle = _getAppBarTitle()),
+              controller: _pageController,
+              children: <Widget>[
+                VemList(),
+                RequestList(),
+                ProfileScreen(),
+              ],
+            ),
+            floatingActionButtons: (_pageController.positions.isNotEmpty &&
+                    _pageController.page.round() != 2 &&
+                    canAddVems)
+                ? FloatingActionButton(
+                    child: Icon(
+                      Icons.add,
+                      color: Theme.of(context).primaryColor,
+                      size: 40,
+                    ),
+                    onPressed: () {
+                      Navigator.pushNamed(
+                        context,
+                        AddEditVemScreen.routeName,
+                        arguments: AddEditVemScreenArguments(
+                          null,
+                          (
+                            name,
+                            startDate,
+                            endDate,
+                            lockDate,
+                            responseType,
+                            description,
+                            minParticipants,
+                            maxParticipants,
+                          ) {
+                            BlocProvider.of<VemsBloc>(context).add(AddVem(
+                              Vem(
+                                name,
+                                responseType,
+                                startDate: startDate,
+                                endDate: endDate,
+                                lockDate: lockDate,
+                                description: description,
+                                minParticipants: minParticipants,
+                                maxParticipants: maxParticipants,
+                              ),
+                            ));
+                          },
+                          false,
+                        ),
+                      );
+                    },
+                  )
+                : null,
+          );
+        } else {
+          return Container();
+        }
       },
     );
   }

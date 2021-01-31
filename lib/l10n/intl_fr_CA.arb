@@ -1,4 +1,16 @@
 {
   "@@locale": "fr_CA",
-  "actionNewVem": "Nouvelle VEM" 
+  "buttonAnswerYes": "Confirmer ma présence",
+  "buttonAnswerNo": "Confirmer mon absence",
+  "buttonSubmit": "Soumettre",
+  "buttonForgotPassword": "J'ai oublié mon mot de passe",
+  "errorAuthenticationSubmission": "Erreure d'authentification",
+  "textFieldErrorEmail": "Adresse courriel invalide",
+  "textFieldErrorPassword": "Mot de passe invalide",
+  "textFieldHintReason": "Pourquoi désirez-vous changer votre réponse?",
+  "textFieldHintEmail": "Adresse Courriel",
+  "textFieldHintPassword": "Mot de Passe",
+  "titleLogin": "Portail Régimentaire",
+  "titleRegimentName": "2RAC",
+  "titleRequestResponseChange": "Je désire changer ma réponse"
 }

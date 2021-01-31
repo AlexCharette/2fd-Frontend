@@ -1,4 +1,16 @@
 {
   "@@locale": "en_CA",
-  "actionNewVem": "New VEM" 
+  "buttonAnswerYes": "I'll be there",
+  "buttonAnswerNo": "I won't be there",
+  "buttonSubmit": "Submit",
+  "buttonForgotPassword": "I forgot my password",
+  "errorAuthenticationSubmission": "Authentication failure",
+  "textFieldErrorEmail": "Invalid email address",
+  "textFieldErrorPassword": "Invalid password",
+  "textFieldHintReason": "Why do you want to change your response?",
+  "textFieldHintEmail": "Email",
+  "textFieldHintPassword": "Password",
+  "titleLogin": "Regimental Portal",
+  "titleRegimentName": "2FD",
+  "titleRequestResponseChange": "I want to change my response"
 }

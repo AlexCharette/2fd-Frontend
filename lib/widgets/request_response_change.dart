@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:regimental_app/blocs/blocs.dart';
 import 'package:regimental_app/config/theme.dart';
+import 'package:regimental_app/generated/l10n.dart';
 import 'package:vem_response_repository/vem_response_repository.dart';
 
 class RequestResponseChange extends Dialog {
@@ -35,15 +36,14 @@ class RequestResponseChange extends Dialog {
                       child: Container(
                         width: MediaQuery.of(context).size.width,
                         child: Text(
-                          'I want to change my response',
+                          S.of(context).titleRequestResponseChange,
                         ),
                       ),
                     ),
                     TextField(
                       decoration: InputDecoration(
                           border: InputBorder.none,
-                          hintText:
-                              'Why are you requesting a change at this time?'),
+                          hintText: S.of(context).textFieldHintReason),
                       onChanged: (value) => _reason = value,
                     ),
                     RaisedButton(
@@ -68,7 +68,7 @@ class RequestResponseChange extends Dialog {
                               Navigator.pop(context);
                             }
                           : null,
-                      child: Text('Submit my request'),
+                      child: Text(S.of(context).buttonSubmit),
                     ),
                   ],
                 ),
@@ -76,11 +76,6 @@ class RequestResponseChange extends Dialog {
             ],
           );
         } else {
-          // final snackBar = SnackBar(
-          //   content:
-          //       Text('Sorry, we can\'t process your request at the moment'),
-          // );
-          // Scaffold.of(context).showSnackBar(snackBar);
           return Container();
         }
       },

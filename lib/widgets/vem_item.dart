@@ -25,52 +25,6 @@ class VemItem extends StatelessWidget {
   //   if (vemResponses == null) return false;
   //   return (vemResponses.length == vem.maxParticipants);
   // }
-  // Widget completionIcon() {
-  //   Widget completionStatus;
-
-  //   if (numParticipants == null || numParticipants < vem.minParticipants) {
-  //     print(numParticipants);
-  //     completionStatus = Row(
-  //       mainAxisSize: MainAxisSize.min,
-  //       children: [
-  //         Text(
-  //           "${numParticipants == null ? 0 : numParticipants}/${vem.maxParticipants}",
-  //           style: TextStyle(color: Colors.red[900]),
-  //         ),
-  //         Icon(
-  //           Icons.people,
-  //           color: Colors.red[900],
-  //           size: 35,
-  //         ),
-  //       ],
-  //     );
-  //   } else if (numParticipants >= vem.minParticipants &&
-  //       numParticipants < vem.maxParticipants) {
-  //     completionStatus = Row(
-  //       mainAxisSize: MainAxisSize.min,
-  //       children: [
-  //         Text(
-  //           "${numParticipants}/${vem.maxParticipants}",
-  //           style: TextStyle(color: Colors.green[700]),
-  //         ),
-  //         Icon(
-  //           Icons.check_circle_outline,
-  //           color: Colors.white54,
-  //           size: 35,
-  //         ),
-  //       ],
-  //     );
-  //   } else if (numParticipants == vem.minParticipants) {
-  //     completionStatus = Icon(
-  //       Icons.check_circle,
-  //       color: AppColors.white,
-  //       size: 35,
-  //     );
-  //   } else {
-  //     return null;
-  //   }
-  //   return completionStatus;
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -126,11 +80,4 @@ class VemItem extends StatelessWidget {
       ),
     );
   }
-
-  // @override
-  // void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-  //   super.debugFillProperties(properties);
-  //   properties
-  //       .add(IterableProperty<VemResponse>('vemResponses', numParticipants));
-  // }
 }
