@@ -43,7 +43,7 @@ class RequestResponseChange extends Dialog {
                     TextField(
                       decoration: InputDecoration(
                           border: InputBorder.none,
-                          hintText: S.of(context).textFieldHintReason),
+                          hintText: S.of(context).inputHintReason),
                       onChanged: (value) => _reason = value,
                     ),
                     RaisedButton(

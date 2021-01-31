@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:regimental_app/blocs/resetPassword/bloc/reset_password_bloc.dart';
 import 'package:regimental_app/config/theme.dart';
+import 'package:regimental_app/generated/l10n.dart';
 
 class ResetPasswordForm extends StatelessWidget {
   @override
@@ -14,7 +15,7 @@ class ResetPasswordForm extends StatelessWidget {
           Scaffold.of(context)
             ..hideCurrentSnackBar()
             ..showSnackBar(
-              const SnackBar(content: Text('Reset Password Failure')),
+              SnackBar(content: Text(S.of(context).errorResetPassword)),
             );
         }
       },
@@ -74,7 +75,7 @@ class ResetPasswordForm extends StatelessWidget {
             )),
             ElevatedButton(
               onPressed: () => Navigator.pop(context),
-              child: Text('Cancel'),
+              child: Text(S.of(context).buttonCancel),
               style: ButtonStyle(
                   backgroundColor:
                       MaterialStateProperty.all<Color>(AppColors.charcoal)),
@@ -100,14 +101,14 @@ class _UsernameInput extends StatelessWidget {
                 .read<ResetPasswordBloc>()
                 .add(ResetPasswordEmailChanged(username)),
             decoration: InputDecoration(
-              hintText: 'Adresse Courriel',
+              hintText: S.of(context).inputHintEmail,
               hintStyle: TextStyle(
                 fontSize: 16,
                 letterSpacing: 1.5,
               ),
               border: const OutlineInputBorder(),
               errorText:
-                  state.email.invalid ? 'Adresse Courriel invalide' : null,
+                  state.email.invalid ? S.of(context).inputErrorEmail : null,
             ),
           ),
         );
@@ -134,7 +135,7 @@ class _ResetPassword extends StatelessWidget {
                         RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10)))),
                 child: Text(
-                  'ENVOYER',
+                  S.of(context).buttonSend,
                   style: TextStyle(
                       color: Colors.white, fontSize: 20, letterSpacing: 1.5),
                 ),

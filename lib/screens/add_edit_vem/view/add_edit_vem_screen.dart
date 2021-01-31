@@ -93,7 +93,7 @@ class _AddEditVemScreenState extends State<AddEditVemScreen> {
                             borderSide: BorderSide(color: Colors.red))),
                     validator: (val) {
                       return val.trim().isEmpty
-                          ? S.of(context).textFieldValidatorVemName
+                          ? S.of(context).inputValidatorVemName
                           : null;
                     },
                     onSaved: (val) => setState(() => _name = val),
@@ -114,7 +114,7 @@ class _AddEditVemScreenState extends State<AddEditVemScreen> {
                       FormBuilderDateTimePicker(
                         name: 'start_date',
                         decoration: InputDecoration(
-                            labelText: S.of(context).textFieldLabelVemStartDate,
+                            labelText: S.of(context).inputLabelVemStartDate,
                             icon: Icon(Icons.calendar_today),
                             fillColor: theme.primaryColor),
                         inputType: InputType.both,
@@ -141,7 +141,7 @@ class _AddEditVemScreenState extends State<AddEditVemScreen> {
                       FormBuilderDateTimePicker(
                         name: 'end_date',
                         decoration: InputDecoration(
-                            labelText: 'End',
+                            labelText: S.of(context).inputLabelVemEndDate,
                             icon: Icon(Icons.calendar_today),
                             fillColor: theme.primaryColor),
                         inputType: InputType.both,
@@ -168,7 +168,7 @@ class _AddEditVemScreenState extends State<AddEditVemScreen> {
                       FormBuilderDateTimePicker(
                         name: 'lock_date',
                         decoration: InputDecoration(
-                            labelText: 'Lock',
+                            labelText: S.of(context).inputLabelVemLockDate,
                             icon: Icon(Icons.lock_clock),
                             fillColor: theme.primaryColor),
                         inputType: InputType.both,
@@ -212,7 +212,7 @@ class _AddEditVemScreenState extends State<AddEditVemScreen> {
                           name: 'minParticipants',
                           decoration: InputDecoration(
                             labelText:
-                                'The minimum number of participants who could respond to this VEM.',
+                                S.of(context).inputLabelVemMinParticipants,
                             prefixIcon:
                                 Icon(Icons.people, color: theme.primaryColor),
                           ),
@@ -222,7 +222,7 @@ class _AddEditVemScreenState extends State<AddEditVemScreen> {
                           ],
                           initialValue: isEditing
                               ? args.vem.minParticipants.toString()
-                              : '0',
+                              : '0', // TODO zero should mean no minimum required
                           onChanged: (val) {
                             int temp = int.tryParse(val);
                             setState(() {
@@ -237,12 +237,12 @@ class _AddEditVemScreenState extends State<AddEditVemScreen> {
                             (val) {
                               try {
                                 return _minParticipants > _maxParticipants
-                                    ? 'Minimum plus grand que max'
+                                    ? S.of(context).inputValidatorParticipants
                                     : null;
                               } catch (e) {
                                 return null;
                               }
-                            } as String Function(String)
+                            },
                           ]),
                           onSaved: (val) {
                             int temp = int.tryParse(val);
@@ -259,7 +259,7 @@ class _AddEditVemScreenState extends State<AddEditVemScreen> {
                           name: 'maxParticipants',
                           decoration: InputDecoration(
                             labelText:
-                                'The maximum number of participants who could respond to this VEM.',
+                                S.of(context).inputLabelVemMaxParticipants,
                             prefixIcon:
                                 Icon(Icons.people, color: theme.primaryColor),
                           ),
@@ -269,7 +269,7 @@ class _AddEditVemScreenState extends State<AddEditVemScreen> {
                           ],
                           initialValue: isEditing
                               ? args.vem.maxParticipants.toString()
-                              : '0',
+                              : '0', // TODO zero should mean no minimum required
                           onChanged: (val) {
                             int temp = int.tryParse(val);
                             setState(() {
@@ -284,12 +284,12 @@ class _AddEditVemScreenState extends State<AddEditVemScreen> {
                             (val) {
                               try {
                                 return _minParticipants > _maxParticipants
-                                    ? 'Minimum plus grand que max'
+                                    ? S.of(context).inputValidatorParticipants
                                     : null;
                               } catch (e) {
                                 return null;
                               }
-                            } as String Function(String)
+                            },
                           ]),
                           onSaved: (val) {
                             int temp = int.tryParse(val);
@@ -309,7 +309,8 @@ class _AddEditVemScreenState extends State<AddEditVemScreen> {
               Center(
                 child: FormBuilderRadioGroup(
                   name: 'response_type',
-                  decoration: InputDecoration(labelText: 'Response Type'),
+                  decoration: InputDecoration(
+                      labelText: S.of(context).inputLabelVemResponseType),
                   initialValue: isEditing
                       ? _responseType
                       : ResponseTypes.Battery.toString().split('.').last,
@@ -364,7 +365,7 @@ class _AddEditVemScreenState extends State<AddEditVemScreen> {
           // TODO add confirmation args
           FloatingActionButton(
             heroTag: 'btnCancel',
-            tooltip: 'Cancel changes',
+            tooltip: S.of(context).buttonCancelChanges,
             backgroundColor: Colors.red,
             child: Icon(Icons.close),
             onPressed: () {
@@ -374,7 +375,9 @@ class _AddEditVemScreenState extends State<AddEditVemScreen> {
           // TODO add confirmation args
           FloatingActionButton(
             heroTag: 'btnConfirmChanges',
-            tooltip: isEditing ? 'Save changes' : 'Publish VEM',
+            tooltip: isEditing
+                ? S.of(context).buttonSaveChanges
+                : S.of(context).buttonPublishVem,
             backgroundColor: Colors.green[700],
             child: Icon(isEditing ? Icons.check : Icons.add),
             onPressed: () {

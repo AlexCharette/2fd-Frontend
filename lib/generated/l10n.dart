@@ -55,6 +55,16 @@ class S {
     );
   }
 
+  /// `Annuler`
+  String get buttonCancel {
+    return Intl.message(
+      'Annuler',
+      name: 'buttonCancel',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Annuler les changements`
   String get buttonCancelChanges {
     return Intl.message(
@@ -85,11 +95,41 @@ class S {
     );
   }
 
+  /// `Publier la VEM`
+  String get buttonPublishVem {
+    return Intl.message(
+      'Publier la VEM',
+      name: 'buttonPublishVem',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Je veux changer ma réponse`
   String get buttonRequestResponseChange {
     return Intl.message(
       'Je veux changer ma réponse',
       name: 'buttonRequestResponseChange',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sauvegarder les changements`
+  String get buttonSaveChanges {
+    return Intl.message(
+      'Sauvegarder les changements',
+      name: 'buttonSaveChanges',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Envoyer`
+  String get buttonSend {
+    return Intl.message(
+      'Envoyer',
+      name: 'buttonSend',
       desc: '',
       args: [],
     );
@@ -125,81 +165,151 @@ class S {
     );
   }
 
-  /// `La participation maximale pour cette VEM a été atteinte.`
-  String get snackBarVemFull {
+  /// `Votre mot de passe n'a pas pu être modifié`
+  String get errorResetPassword {
     return Intl.message(
-      'La participation maximale pour cette VEM a été atteinte.',
-      name: 'snackBarVemFull',
+      'Votre mot de passe n\'a pas pu être modifié',
+      name: 'errorResetPassword',
       desc: '',
       args: [],
     );
   }
 
   /// `Adresse courriel invalide`
-  String get textFieldErrorEmail {
+  String get inputErrorEmail {
     return Intl.message(
       'Adresse courriel invalide',
-      name: 'textFieldErrorEmail',
+      name: 'inputErrorEmail',
       desc: '',
       args: [],
     );
   }
 
   /// `Mot de passe invalide`
-  String get textFieldErrorPassword {
+  String get inputErrorPassword {
     return Intl.message(
       'Mot de passe invalide',
-      name: 'textFieldErrorPassword',
+      name: 'inputErrorPassword',
       desc: '',
       args: [],
     );
   }
 
   /// `Adresse Courriel`
-  String get textFieldHintEmail {
+  String get inputHintEmail {
     return Intl.message(
       'Adresse Courriel',
-      name: 'textFieldHintEmail',
+      name: 'inputHintEmail',
       desc: '',
       args: [],
     );
   }
 
   /// `Pourquoi désirez-vous changer votre réponse?`
-  String get textFieldHintReason {
+  String get inputHintReason {
     return Intl.message(
       'Pourquoi désirez-vous changer votre réponse?',
-      name: 'textFieldHintReason',
+      name: 'inputHintReason',
       desc: '',
       args: [],
     );
   }
 
   /// `Mot de Passe`
-  String get textFieldHintPassword {
+  String get inputHintPassword {
     return Intl.message(
       'Mot de Passe',
-      name: 'textFieldHintPassword',
+      name: 'inputHintPassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Fin`
+  String get inputLabelVemEndDate {
+    return Intl.message(
+      'Fin',
+      name: 'inputLabelVemEndDate',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Fermeture`
+  String get inputLabelVemLockDate {
+    return Intl.message(
+      'Fermeture',
+      name: 'inputLabelVemLockDate',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Maximum de participants`
+  String get inputLabelVemMaxParticipants {
+    return Intl.message(
+      'Maximum de participants',
+      name: 'inputLabelVemMaxParticipants',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Minimum de participants`
+  String get inputLabelVemMinParticipants {
+    return Intl.message(
+      'Minimum de participants',
+      name: 'inputLabelVemMinParticipants',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Type de Réponse`
+  String get inputLabelVemResponseType {
+    return Intl.message(
+      'Type de Réponse',
+      name: 'inputLabelVemResponseType',
       desc: '',
       args: [],
     );
   }
 
   /// `Début`
-  String get textFieldLabelVemStartDate {
+  String get inputLabelVemStartDate {
     return Intl.message(
       'Début',
-      name: 'textFieldLabelVemStartDate',
+      name: 'inputLabelVemStartDate',
       desc: '',
       args: [],
     );
   }
 
   /// `Veuillez donner un nom à cette VEM`
-  String get textFieldValidatorVemName {
+  String get inputValidatorVemName {
     return Intl.message(
       'Veuillez donner un nom à cette VEM',
-      name: 'textFieldValidatorVemName',
+      name: 'inputValidatorVemName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Le minimum de participants doit être moins que le maximum.`
+  String get inputValidatorParticipants {
+    return Intl.message(
+      'Le minimum de participants doit être moins que le maximum.',
+      name: 'inputValidatorParticipants',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `La participation maximale pour cette VEM a été atteinte.`
+  String get snackBarVemFull {
+    return Intl.message(
+      'La participation maximale pour cette VEM a été atteinte.',
+      name: 'snackBarVemFull',
       desc: '',
       args: [],
     );

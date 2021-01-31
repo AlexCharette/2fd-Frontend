@@ -106,15 +106,14 @@ class _UsernameInput extends StatelessWidget {
             onChanged: (username) =>
                 context.read<LoginBloc>().add(LoginUsernameChanged(username)),
             decoration: InputDecoration(
-              hintText: S.of(context).textFieldHintEmail,
+              hintText: S.of(context).inputHintEmail,
               hintStyle: TextStyle(
                 fontSize: 16,
                 letterSpacing: 1.5,
               ),
               border: const OutlineInputBorder(),
-              errorText: state.username.invalid
-                  ? S.of(context).textFieldErrorEmail
-                  : null,
+              errorText:
+                  state.username.invalid ? S.of(context).inputErrorEmail : null,
             ),
           ),
         );
@@ -137,11 +136,11 @@ class _PasswordInput extends StatelessWidget {
                 context.read<LoginBloc>().add(LoginPasswordChanged(password)),
             obscureText: true,
             decoration: InputDecoration(
-              hintText: S.of(context).textFieldHintPassword,
+              hintText: S.of(context).inputHintPassword,
               hintStyle: TextStyle(fontSize: 16, letterSpacing: 1.5),
               border: const OutlineInputBorder(),
               errorText: state.password.invalid
-                  ? S.of(context).textFieldErrorPassword
+                  ? S.of(context).inputErrorPassword
                   : null,
             ),
           ),
